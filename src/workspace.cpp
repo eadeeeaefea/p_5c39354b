@@ -226,8 +226,8 @@ void Workspace::imageProcessingFunc() {
                 continue;
             }
         } catch (SerialException &e1) {
-            cout << "Serial port error." << endl;
-            serial_port.close();
+            cout << "Serial port send error." << endl;
+            if (serial_port.isOpen())  serial_port.close();
             sleep(1);
             for (int i = 0; i < 10; ++i) {
                 try {
@@ -249,18 +249,19 @@ void Workspace::messageCommunicatingFunc() {
         try {
             serial_port.readData(read_pack_.enemy, read_pack_.mode);
         } catch (SerialException &e1) {
-            cout << "Serial port error." << endl;
-            serial_port.close();
-            sleep(1);
-            for (int i = 0; i < 10; ++i) {
-                try {
-                    openSerial();
-                    if (serial_port.isOpen()) break;
-                } catch (SerialException &e2) {
-                    cout << "Try to open serial port error." << endl;
-                    sleep(1);
-                }
-            }
+            cout << "Serial port read error." << endl;
+            // 因已在imageProcessing线程中作了串口重启，为防止重启冲突造成程序bug，这里只接异常而不处理
+            // if (serial_port.isOpen())  serial_port.close();
+            // sleep(1);
+            // for (int i = 0; i < 10; ++i) {
+            //     try {
+            //         openSerial();
+            //         if (serial_port.isOpen()) break;
+            //     } catch (SerialException &e2) {
+            //         cout << "Try to open serial port error." << endl;
+            //         sleep(1);
+            //     }
+            // }
         }
     }
 }
