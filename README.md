@@ -20,4 +20,7 @@ make
 
 ## update
 - 2019.10.11
-    - A plot program powered by qt stored in "folder" qtPlot
+    - A plot program powered by qt stored in folder *Plot*
+
+- 2019.10.20
+    - Pack up the program and encapsulate it into an app. For detailed usage, please see readme folder *app*
