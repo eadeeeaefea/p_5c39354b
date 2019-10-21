@@ -115,7 +115,7 @@ void AngleSolver::set_pitch_offset(double pitch_offset) {
 
 // 未加坐标旋转变换，稍微慢一些的两个算法，速度矢量三角计算快于二分法。
 //二分法算法原理同上
-  void AngleSolver::newDichotomy(double x, double y, double z, double v,
+  void AngleSolver::newdichotomy(double x, double y, double z, double v,
                       double& yaw, double& pitch, double ptz_pitch) {
       Timer timer;
       timer.start();
@@ -183,7 +183,7 @@ void AngleSolver::set_pitch_offset(double pitch_offset) {
       }
 
 
-    void AngleSolver::speedTriangle(double x, double y, double z, double v,
+    void AngleSolver::speedtriangle(double x, double y, double z, double v,
                                    double& yaw, double& pitch, double ptz_pitch) {
         Timer timer;
         timer.start();
