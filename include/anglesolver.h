@@ -26,6 +26,11 @@ public:
     AngleSolver();
     ~AngleSolver();
     void init();
+ 
+ void newrun(double x, double y, double z, double v, double &yaw, double &pitch);
+ void newdichotomy(double x, double y, double z, double v, double &yaw, double &pitch);
+ void speedtriangle(double x, double y, double z, double v, double &yaw, double &pitch);
+ 
     void run(double x, double y, double z, double v, double &yaw, double &pitch);
     double get_yaw_offset();
     double get_pitch_offset();
