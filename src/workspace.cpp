@@ -143,12 +143,12 @@ void Workspace::imageProcessingFunc() {
 
                 armor_detector.run(current_frame_, read_pack_.enemy, target_armor_);
                 target_solver.run(target_armor_, target_);
-                angle_solver.run(target_.x, target_.y, target_.z, 20, send_pack_.yaw, send_pack_.pitch);
+                angle_solver.newrun(target_.x, target_.y, target_.z, 20, send_pack_.yaw, send_pack_.pitch);
 
             } else if (read_pack_.mode == Mode::RUNE) {
 
                 rune_solver.run(current_frame_, target_.x, target_.y, target_.z);
-                angle_solver.run(target_.x, target_.y, target_.z, 28, send_pack_.yaw, send_pack_.pitch);
+                angle_solver.newrun(target_.x, target_.y, target_.z, 28, send_pack_.yaw, send_pack_.pitch);
 
             } else {
                 continue;
