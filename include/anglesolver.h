@@ -3,8 +3,8 @@
 
  Author: Ma Yuemeng & Song Haodi
 
- Update: Wang Xiaoyan on 2019.7.1
-
+ Update: Wang Xiaoyan on 2019.7.1.
+　　　　 Zeng Jing on 2019.10.21.
  Detail:
  *****************************************************************************/
 
@@ -18,19 +18,19 @@
 #include "timer.h"
 #endif
 
+
 class AngleSolver {
 private:
-    double yaw_offset_, pitch_offset_;
+    double yaw_offset_, pitch_offset_,g;
 
 public:
     AngleSolver();
     ~AngleSolver();
     void init();
- 
- void newrun(double x, double y, double z, double v, double &yaw, double &pitch);
- void newdichotomy(double x, double y, double z, double v, double &yaw, double &pitch);
- void speedtriangle(double x, double y, double z, double v, double &yaw, double &pitch);
- 
+
+    void newrun(double x, double y, double z, double v,double& yaw, double& pitch, double ptz_pitch);
+    void newdichotomy(double x, double y, double z, double v,double& yaw, double& pitch);
+    void speedtriangle(double x, double y, double z, double v,double& yaw, double& pitch);
     void run(double x, double y, double z, double v, double &yaw, double &pitch);
     double get_yaw_offset();
     double get_pitch_offset();
