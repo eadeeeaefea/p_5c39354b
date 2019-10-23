@@ -2,6 +2,7 @@
  Copyright© HITwh HERO-Robomaster2020 Group
 
  Author: Wang Xiaoyan on 2019.9.20
+ 　　　　Zeng Jing on 2019.10.23.
 
  Detail:
  *****************************************************************************/
@@ -21,7 +22,8 @@ AngleSolver::~AngleSolver() {
 
 void AngleSolver::init() {
     yaw_offset_ = 0.6;
-    pitch_offset_ = 1.2;//经测试得到的参数
+    pitch_offset_ = 1.2;
+    g = 9.7988;//经测试得到的参数
 }
 
 void AngleSolver::newrun(double x, double y, double z, double v,
@@ -42,7 +44,7 @@ void AngleSolver::newrun(double x, double y, double z, double v,
     y=y1*cos(ptz)+z1*sin(ptz);
     z=z1*cos(ptz)-y1*sin(ptz);//将坐标旋转回标准坐标系(ｙ轴竖直向下）
 
-    yaw = (atan(x / z) / PI) * 180 + yaw_offset;//计算ｙａｗ轴
+    yaw = (atan(x / z) / PI) * 180 + yaw_offset_;//计算ｙａｗ轴
 
     /*caculate pitch_max and pitch_min*/
     double pitch_min, pitch_max, mid;
@@ -89,7 +91,7 @@ void AngleSolver::newrun(double x, double y, double z, double v,
     }
 
 
-    pitch=(pitch/PI)*180+temp_pitch_offset-ptz_pitch;//计算得ｐｉｔｃｈ轴角度需减去云台绝对角度
+    pitch=(pitch/PI)*180+pitch_offset_-ptz_pitch;//计算得ｐｉｔｃｈ轴角度需减去云台绝对角度
 
     cout << "Anglesolver newrun:  yaw=" << yaw << "  pitch=" << pitch << endl;
     cout << "Anglesolver newrun: " << timer.getTime() << "ms" << endl;
@@ -116,18 +118,18 @@ void AngleSolver::set_pitch_offset(double pitch_offset) {
 // 未加坐标旋转变换，稍微慢一些的两个算法，速度矢量三角计算快于二分法。
 //二分法算法原理同上
   void AngleSolver::newdichotomy(double x, double y, double z, double v,
-                      double& yaw, double& pitch, double ptz_pitch) {
+                      double& yaw, double& pitch) {
       Timer timer;
       timer.start();
 
-      double temp_pitch_offset = pitch_offset;
+      double temp_pitch_offset = pitch_offset_;
 
 /*
   positive direction of axis Y in PNP
   and this part are converse
 */
       y = -y;
-      yaw = (atan(x / z) / PI) * 180 + yaw_offset;
+      yaw = (atan(x / z) / PI) * 180 + yaw_offset_;
 
       /*caculate pitch_max and pitch_min*/
       double pitch_min, pitch_max, mid;
@@ -184,11 +186,11 @@ void AngleSolver::set_pitch_offset(double pitch_offset) {
 
 
     void AngleSolver::speedtriangle(double x, double y, double z, double v,
-                                   double& yaw, double& pitch, double ptz_pitch) {
+                                   double& yaw, double& pitch) {
         Timer timer;
         timer.start();
 
-        double temp_pitch_offset = pitch_offset;
+        double temp_pitch_offset = pitch_offset_;
 
 /*
         positive direction of axis Y in PNP
@@ -197,9 +199,9 @@ void AngleSolver::set_pitch_offset(double pitch_offset) {
 
 
 
-        yaw = (atan(x / z) / PI )* 180 + yaw_offset;
+        yaw = (atan(x / z) / PI )* 180 + yaw_offset_;
 
-　　　　//由速度矢量三角形推导出的公式实现
+        //由速度矢量三角形推导出的公式实现
         double speed_angle,sin_speed_angle,pitch_tan_y,pitch_tan_x,mid_value;
         sin_speed_angle=g*sqrt(x*x+z*z)/(v*sqrt(v*v+2*g*y));
         speed_angle=asin(sin_speed_angle);
