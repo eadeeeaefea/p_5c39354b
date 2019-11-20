@@ -1,5 +1,5 @@
 /******************************************************************************
- Copyright© HITwh HERO-Robomaster2020 Group
+ Copyright© HITwh HERO-RoboMaster2020 Group
 
  Author: Wang Xiaoyan on 2019.10.12
 
@@ -65,12 +65,11 @@ public:
     void setFlowControl(int flow_control);
     int getFlowControl();
 
-    void sendData(double yaw, double pitch);
-    bool readData(int &enemy_color, int &mode);
+    void sendData(int mode, double yaw, double pitch);
+    bool readData(int &enemy_color, int &mode, double &pitch, double &yaw);
 
 private:
     void reconfigurePort();
-    bool isReadPackage(uint8_t *pack);
 
 };
 

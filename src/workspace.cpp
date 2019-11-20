@@ -1,5 +1,5 @@
 /******************************************************************************
- Copyright© HITwh HERO-Robomaster2020 Group
+ Copyright© HITwh HERO-RoboMaster2020 Group
 
  Author: Wang Xiaoyan on 2019.9.20
 
@@ -23,6 +23,7 @@ void Workspace::init(const FileStorage &file_storage) {
     armor_detector.init(file_storage);
     target_solver.init(file_storage);
     angle_solver.init();
+    predictor.init();
     rune_solver.init();
 #ifndef TEST
     mv_camera.open(FRAME_WIDTH, FRAME_HEIGHT, EXPOSURE_TIME);
@@ -72,7 +73,7 @@ void Workspace::imageReceivingFunc() {
             writer.write(image);
 #ifdef SAVE_VIDEO_ONLY
             imshow("current", image);
-            waitKey(30);
+            if (waitKey(30) == 27)  exit(0);
 #endif
 #ifdef SAVE_VIDEO
             if (image_buffer_.size() < max_image_buffer_size_) {
@@ -164,6 +165,7 @@ void Workspace::imageProcessingFunc() {
 
                     armor_detector.run(current_frame_, read_pack_.enemy, target_armor_);
                     target_solver.run(target_armor_, target_);
+                    predictor.run(target_.x, target_.y, target_.z, target_.x, target_.y, target_.z);
                     angle_solver.run(target_.x, target_.y, target_.z, 20, send_pack_.yaw, send_pack_.pitch);
 
                 } else if (read_pack_.mode == Mode::RUNE) {
@@ -176,7 +178,7 @@ void Workspace::imageProcessingFunc() {
                 }
 #ifndef CAMERA_ONLY
 #ifndef TEST
-                serial_port.sendData(send_pack_.yaw, send_pack_.pitch);
+                serial_port.sendData(0, send_pack_.yaw, send_pack_.pitch);
 #endif
 #endif
                 // cout << "x: " << target_.x << "\t"
@@ -187,13 +189,14 @@ void Workspace::imageProcessingFunc() {
 #ifdef TRACKBAR
                 namedWindow("current_frame", 1);
 
-                int yaw_offset = static_cast<int>(angle_solver.get_yaw_offset() * 100.0);
+                static int yaw_offset = static_cast<int>(angle_solver.get_yaw_offset() * 100.0);
                 createTrackbar("yaw_offset", "current_frame", &yaw_offset, 500, 0, 0);
                 angle_solver.set_yaw_offset(static_cast<double>(yaw_offset) / 100.0);
 
-                int pitch_offset = static_cast<int>(angle_solver.get_pitch_offset() * 100.0);
+                static int pitch_offset = static_cast<int>(angle_solver.get_pitch_offset() * 100.0);
                 createTrackbar("pitch_offset", "current_frame", &pitch_offset, 500, 0, 0);
                 angle_solver.set_pitch_offset(static_cast<double>(pitch_offset) / 100.0);
+
 #endif
 #ifdef SHOW_IMAGE
                 ostr << "yaw: " << send_pack_.yaw;
@@ -214,7 +217,7 @@ void Workspace::imageProcessingFunc() {
 
                 imshow("current_frame", src);
 #ifndef TEST
-                waitKey(1);
+                if (waitKey(1) == 27)  exit(0);
 #endif
 #if TEST == 1
                 if (waitKey(0) == 27)     exit(0);
@@ -247,9 +250,9 @@ void Workspace::imageProcessingFunc() {
 void Workspace::messageCommunicatingFunc() {
     while (1) {
         try {
-            serial_port.readData(read_pack_.enemy, read_pack_.mode);
+            serial_port.readData(read_pack_.enemy, read_pack_.mode, read_pack_.pitch, read_pack_.yaw);
         } catch (SerialException &e1) {
-            cout << "Serial port read error." << endl;
+            // cout << "Serial port read error." << endl;
             // 因已在imageProcessing线程中作了串口重启，为防止重启冲突造成程序bug，这里只接异常而不处理
             // if (serial_port.isOpen())  serial_port.close();
             // sleep(1);
@@ -270,7 +273,7 @@ void Workspace::openSerial() {
     int count = 0;
     string port_name;
 
-    while (count < 5) {
+    while (count < 3) {
         try {
             port_name = "/dev/ttyUSB" + to_string(count++);
             serial_port.open(port_name);
@@ -283,5 +286,5 @@ void Workspace::openSerial() {
         }
     }
 
-    throw SerialException("Open serial failed. Port is not in /dev/ttyUSB0-4");
+    throw SerialException("Open serial failed. Port is not in /dev/ttyUSB0-2");
 }

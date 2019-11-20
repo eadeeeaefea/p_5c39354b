@@ -1,5 +1,5 @@
 /******************************************************************************
- Copyright© HITwh HERO-Robomaster2020 Group
+ Copyright© HITwh HERO-RoboMaster2020 Group
 
  Author: Wang Xiaoyan on 2019.10.12
 
@@ -279,24 +279,28 @@ void SerialPort::reconfigurePort() {
     }
 }
 
-void SerialPort::sendData(double yaw, double pitch) {
+void SerialPort::sendData(int mode, double yaw, double pitch) {
     if (!is_open_) {
         throw SerialException("Send data failed. Port is not opened.");
     }
 
-    uint8_t send_bytes[] = {0x55, 0xAA,  // frame head
+    uint8_t send_bytes[] = {0x55,        // frame head
+                            0x00,        // mode
                             0x00, 0x00,  // yaw
                             0x00, 0x00,  // pitch
+                            0x00,        // distance
                             0x00,        // check sum
                             0xA5};       // frame tail
     int16_t *data_ptr = (int16_t *)(send_bytes + 2);
 
+    send_bytes[1] = static_cast<uint8_t>(mode);
     data_ptr[0] = static_cast<int16_t>(yaw * 100);
     data_ptr[1] = static_cast<int16_t>(pitch * 100);
-    send_bytes[6] = static_cast<uint8_t>(send_bytes[2] + send_bytes[3] +
-                                         send_bytes[4] + send_bytes[5]);
+    send_bytes[6] = 0x10;
+    send_bytes[7] = static_cast<uint8_t>(send_bytes[1] + send_bytes[2] + send_bytes[3] +
+                                         send_bytes[4] + send_bytes[5] + send_bytes[6]);
 
-    if (::write(fd_, send_bytes, 8) == 8) {
+    if (::write(fd_, send_bytes, 9) == 9) {
         // printf("Send successfully.\n");
         // for (int i = 0; i < 8; ++i)  printf("%x\n", send_bytes[i]);
     } else {
@@ -304,35 +308,39 @@ void SerialPort::sendData(double yaw, double pitch) {
     }
 }
 
-bool SerialPort::readData(int &enemy_color, int &mode) {
+bool SerialPort::readData(int &enemy_color, int &mode, double &pitch, double &yaw) {
     if (!is_open_) {
         throw SerialException("Read data failed. Port is not opened.");
     }
 
-    uint8_t last_package[5] = {0, };
+    uint8_t read_bytes[9] = {0, };
 
-    while (!isReadPackage(last_package)) {
-        for (int i = 0; i < 4; ++i)  last_package[i] = last_package[i+1];
-        if (::read(fd_, &last_package[4], 1) == 1) {
-            // printf("Not read package. New byte: %x\n", send_bytes[4]);
+    while (!(read_bytes[0] == 0x55) && !(read_bytes[8] == 0xA5)) {
+        for (int i = 0; i < 8; ++i)  read_bytes[i] = read_bytes[i+1];
+        if (::read(fd_, &read_bytes[8], 1) == 1) {
+            // printf("Not read package. New byte: %x\n", send_bytes[8]);
         } else {
             throw SerialException("Read data failed.");
         }
     }
 
-    enemy_color = 1;
-    mode = 1;
-    return true;
-}
+    uint8_t check_sum = static_cast<uint8_t>(read_bytes[1] + read_bytes[2] +
+                                             read_bytes[3] + read_bytes[4] +
+                                             read_bytes[5] + read_bytes[6]);
+    if (check_sum == read_bytes[7]) {
+        enemy_color = read_bytes[1] > 10;
+        mode = static_cast<int>(read_bytes[2]);
+        int16_t temp_pitch = (static_cast<int16_t>(read_bytes[3]) << 8) +
+                              static_cast<int16_t>(read_bytes[4]);
+        int16_t temp_yaw = (static_cast<int16_t>(read_bytes[5]) << 8) +
+                            static_cast<int16_t>(read_bytes[6]);
+        pitch = static_cast<double>(temp_pitch) * 0.01;
+        yaw = static_cast<double>(temp_yaw) * 0.01;
 
-bool SerialPort::isReadPackage(uint8_t *pack) {
-    static const uint8_t check_data[3] = {0x55, 0xAA, 0x0D};  // frame head and frame tail
-    bool result = true;
+        return true;
+    } else {
+        printf("check failed.\n");
 
-    result = result &&
-             (pack[0] == check_data[0]) &&
-             (pack[1] == check_data[1]) &&
-             (pack[4] == check_data[2]);
-
-    return result;
+        return false;
+    }
 }

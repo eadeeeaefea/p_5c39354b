@@ -25,24 +25,35 @@ void ArmorDetector::init(const FileStorage &file_storage) {
     file_storage["camera_matrix"] >> camera_matrix_;
     file_storage["distortion_coeff"] >> distortion_coeff_;
 #endif
-    gray_thres_ = 20;
-    subtract_thres_ = 20;
+#ifdef BGR
+    gray_thres_ = 30;
+    subtract_thres_ = 40;
     kernel_size_ = 3;
+#endif
+#ifdef HSV
+    minH_red_ = 0;    maxH_red_ = 180;
+    minS_red_ = 200;  maxS_red_ = 255;
+    minV_red_ = 40;   maxV_red_ = 180;
+    minH_blue_ = 60;  maxH_blue_ = 150;
+    minS_blue_ = 100; maxS_blue_ = 200;
+    minV_blue_ = 200; maxV_blue_ = 255;
+    kernel_size_ = 5;
+#endif
 #ifndef COMPILE_WITH_CUDA
     kernel_ = getStructuringElement(MORPH_RECT, Size(kernel_size_,kernel_size_));
 #else
-    kernel_ = cv::cuda::createMorphologyFilter(MORPH_OPEN, CV_8U,
+    kernel_ = cv::cuda::createMorphologyFilter(MORPH_CLOSE, CV_8U,
         getStructuringElement(MORPH_RECT, Size(kernel_size_,kernel_size_)));
 #endif
 
     // find armors
-    min_ratio_ = 1.4;
-    max_ratio_ = 5.6;
+    min_ratio_ = 1.8;
+    max_ratio_ = 6.0;
     min_len_ratio_ = 0.5;
     max_len_ratio_ = 2.0;
-    max_lightbar_angle_ = 20.0;  // 下面三个tracebar上为*10
-    max_armor_angle_ = 40.0;
-    max_armor_lightbar_delta_ = 20.0;
+    max_lightbar_angle_ = 15.0;  // 下面三个tracebar上为*10
+    max_armor_angle_ = 20.0;
+    max_armor_lightbar_delta_ = 15.0;
 }
 
 void ArmorDetector::run(const Mat &src,
@@ -50,8 +61,27 @@ void ArmorDetector::run(const Mat &src,
                         RotatedRect &target_armor) {
 #ifdef TRACKBAR
     namedWindow("processed", 1);
+#ifdef BGR
     createTrackbar("gray_thres", "processed", &gray_thres_, 60, 0, 0);
     createTrackbar("subtract_thres", "processed", &subtract_thres_, 60, 0, 0);
+#endif
+#ifdef HSV
+    if (enemy_color) {
+        createTrackbar("min_H", "processed", &minH_blue_, 255, 0, 0);
+        createTrackbar("min_S", "processed", &minS_blue_, 255, 0, 0);
+        createTrackbar("min_V", "processed", &minV_blue_, 255, 0, 0);
+        createTrackbar("max_H", "processed", &maxH_blue_, 255, 0, 0);
+        createTrackbar("max_S", "processed", &maxS_blue_, 255, 0, 0);
+        createTrackbar("max_V", "processed", &maxV_blue_, 255, 0, 0);
+    } else {
+        createTrackbar("min_H", "processed", &minH_red_, 255, 0, 0);
+        createTrackbar("min_S", "processed", &minS_red_, 255, 0, 0);
+        createTrackbar("min_V", "processed", &minV_red_, 255, 0, 0);
+        createTrackbar("max_H", "processed", &maxH_red_, 255, 0, 0);
+        createTrackbar("max_S", "processed", &maxS_red_, 255, 0, 0);
+        createTrackbar("max_V", "processed", &maxV_red_, 255, 0, 0);
+    }
+#endif
     createTrackbar("kernel_size", "processed", &kernel_size_, 15, 0, 0);
 #endif
 #ifdef SHOW_IMAGE
@@ -66,7 +96,7 @@ void ArmorDetector::run(const Mat &src,
     min_ratio_ = static_cast<double>(min_ratio) / 100;
 
     static int max_ratio = static_cast<int>(max_ratio_ * 100.0);
-    createTrackbar("max_ratio", "original", &max_ratio, 600, 0, 0);
+    createTrackbar("max_ratio", "original", &max_ratio, 900, 0, 0);
     max_ratio_ = static_cast<double>(max_ratio) / 100;
 
     static int min_len_ratio = static_cast<int>(min_len_ratio_ * 100.0);
@@ -91,8 +121,10 @@ void ArmorDetector::run(const Mat &src,
 #endif
     findTarget(processed_image_, target_armor);
 #ifdef SHOW_IMAGE
-    Rect rect = target_armor.boundingRect();
-    rectangle(original_image_, rect, Scalar(0,255,0), 2);
+    Point2f vertices[4];
+    target_armor.points(vertices);
+    for (int i = 0; i < 4; ++i)
+        line(original_image_, vertices[i], vertices[(i+1)%4], Scalar(0,255,0), 2, 8);
     imshow("original", original_image_);
 #ifdef TRACKBAR
     copyMakeBorder(processed_image_, processed_image_, 0, 480-processed_image_.rows,
@@ -130,6 +162,7 @@ void ArmorDetector::Preprocess(const Mat &src,
         roi_image_.size(), CV_16SC2, map1_, map2_);
     remap(roi_image_, roi_image_, map1_, map2_, INTER_LINEAR);
 #endif
+#ifdef BGR
     cvtColor(roi_image_, gray_image_, COLOR_BGR2GRAY);
     threshold(gray_image_, gray_image_, gray_thres_, 255, THRESH_BINARY);
 
@@ -142,10 +175,20 @@ void ArmorDetector::Preprocess(const Mat &src,
     threshold(subtract_image_, subtract_image_, subtract_thres_, 255, THRESH_BINARY);
 
     processed_image = gray_image_ & subtract_image_;
-#ifdef SHOW_IMAGE
+#endif
+#ifdef HSV
+    cvtColor(roi_image_, hsv_image_, COLOR_BGR2HSV);
+
+    if (enemy_color) {
+        inRange(hsv_image_, Scalar(minH_blue_, minS_blue_, minV_blue_), Scalar(maxH_blue_, maxS_blue_, maxV_blue_), processed_image);
+    } else {
+        inRange(hsv_image_, Scalar(minH_red_, minS_red_, minV_red_), Scalar(maxH_red_, maxS_red_, maxV_red_), processed_image);
+    }
+#endif
+#ifdef TRACKBAR
     kernel_ = getStructuringElement(MORPH_RECT, Size(kernel_size_,kernel_size_));
 #endif
-    morphologyEx(processed_image, processed_image, MORPH_OPEN, kernel_);
+    morphologyEx(processed_image, processed_image, MORPH_CLOSE, kernel_);
 
 #else  // use gpu
 #ifdef DISTORTION_CORRECT
@@ -157,7 +200,7 @@ void ArmorDetector::Preprocess(const Mat &src,
     cv::cuda::remap(roi_image_, roi_image_, gpu_map1_, gpu_map2_, INTER_LINEAR);
 #endif
     gpu_src_.upload(roi_image_);
-
+#ifdef BGR
     cv::cuda::cvtColor(gpu_src_, gray_image_, COLOR_BGR2GRAY);
     cv::cuda::threshold(gray_image_, gray_image_, gray_thres_, 255, THRESH_BINARY);
 
@@ -170,8 +213,18 @@ void ArmorDetector::Preprocess(const Mat &src,
     cv::cuda::threshold(subtract_image_, subtract_image_, subtract_thres_, 255, THRESH_BINARY);
 
     cv::cuda::bitwise_and(gray_image_, subtract_image_, gpu_dst_);
-#ifdef SHOW_IMAGE
-    kernel_ = cv::cuda::createMorphologyFilter(MORPH_OPEN, CV_8U,
+#endif
+#ifdef HSV
+    cv::cuda::cvtColor(gpu_src_, hsv_image_, COLOR_BGR2HSV);
+
+    if (enemy_color) {
+        cv::cuda::inRange(hsv_image_, Scalar(minH_blue_, minS_blue_, minV_blue_), Scalar(maxH_blue_, maxS_blue_, maxV_blue_), gpu_dst_);
+    } else {
+        cv::cuda::inRange(hsv_image_, Scalar(minH_red_, minS_red_, minV_red_), Scalar(maxH_red_, maxS_red_, maxV_red_), gpu_dst_);
+    }
+#endif
+#ifdef TRACKBAR
+    kernel_ = cv::cuda::createMorphologyFilter(MORPH_CLOSE, CV_8U,
         getStructuringElement(MORPH_RECT, Size(kernel_size_,kernel_size_)));
 #endif
     kernel_->apply(gpu_dst_, gpu_dst_);

@@ -1,5 +1,5 @@
 /******************************************************************************
- Copyright© HITwh HERO-Robomaster2020 Group
+ Copyright© HITwh HERO-RoboMaster2020 Group
 
  Author: Wang Xiaoyan on 2019.9.20
 
@@ -55,6 +55,7 @@ double AngleSolver::get_pitch_offset() {
 
 void AngleSolver::set_yaw_offset(double yaw_offset) {
     yaw_offset_ = yaw_offset;
+
 }
 
 void AngleSolver::set_pitch_offset(double pitch_offset) {

@@ -1,5 +1,5 @@
 /******************************************************************************
- Copyright© HITwh HERO-Robomaster2020 Group
+ Copyright© HITwh HERO-RoboMaster2020 Group
 
  Author: Wang Xiaoyan on 2019.9.20
 
@@ -24,6 +24,7 @@
 #include "runesolver.h"
 #include "mvcamera.h"
 #include "serialport.h"
+#include "predictor.h"
 #ifdef RUNNING_TIME
 #include "timer.h"
 #endif
@@ -33,6 +34,7 @@ using namespace cv;
 
 
 typedef struct SendPack_t {
+    int mode;
     double yaw;
     double pitch;
 }SendPack;
@@ -40,6 +42,8 @@ typedef struct SendPack_t {
 typedef struct ReadPack_t {
     int enemy;  // 0-red, 1-blue
     int mode;
+    double pitch;
+    double yaw;
 }ReadPack;
 
 class Workspace {
@@ -57,6 +61,7 @@ private:
     MVCamera mv_camera;
     SerialPort serial_port;
     RuneSolver rune_solver;
+    Predictor predictor;
 
     vector<Mat> image_buffer_;
     int max_image_buffer_size_;
