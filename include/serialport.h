@@ -1,7 +1,7 @@
 /******************************************************************************
- Copyright© HITwh HERO-Robomaster2020 Group
+ Copyright© HITwh HERO-RoboMaster2020 Group
 
- Author: Wang Xiaoyan on 2019.3.12
+ Author: Wang Xiaoyan on 2019.10.12
 
  Detail: 串口相关。实现串口相关参数的设定和初始化，并以协调好的通信协议进行数据的收发。
  *****************************************************************************/
@@ -9,86 +9,81 @@
 #ifndef HERORM2020_SERIALPORT_H
 #define HERORM2020_SERIALPORT_H
 
-#include <stdio.h>
 #include <stdint.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <termios.h>
-#include <errno.h>
+#include <string>
+#include <exception>
+
+using std::string;
+using std::exception;
 
 
 class SerialPort {
 private:
-    speed_t baud_;  // 波特率
-    int fd_port_;   // 串口的设备描述符
+    string port_name_;
+    long baud_rate_;
+    int byte_size_;
+    int parity_;
+    int stop_bit_;
+    int flow_control_;
+
+    int fd_;
+    bool is_open_;
 
 public:
-    /**
-     * @breif: 构造函数
-     * @param: None
-     * @return: None
-     */
     SerialPort();
+    SerialPort(const string &port_name,
+               long baud_rate = 115200,
+               int byte_size = 8,        // 5: 5bits, 6: 6bits, 7: 7bits, 8: 8bits
+               int parity = 0,           // 0: none, 1: odd, 2: even
+               int stop_bit = 1,         // 1: 1bit, 2: 2bits, 3: 1.5bits
+               int flow_control = 0);    // 0: none, 1: software, 2: hardware
 
-    /**
-     * @breif: 析构函数
-     * @param: None
-     * @return: None
-     */
     ~SerialPort();
 
-    /**
-     * @breif: 进行串口相关参数的设定和初始化
-     * @param: port_name 串口的设备号
-     *         baud_rate 波特率
-     * @return: None
-     */
-    void init(const char *port_name, int baud_rate = 115200);
+    void open();
+    void open(const string &port_name,
+              long baud_rate = 115200,
+              int byte_size = 8,        // 5: 5bits, 6: 6bits, 7: 7bits, 8: 8bits
+              int parity = 0,           // 0: none, 1: odd, 2: even
+              int stop_bit = 1,         // 1: 1bit, 2: 2bits, 3: 1.5bits
+              int flow_control = 0);    // 0: none, 1: software, 2: hardware
+    bool isOpen();
+    void close();
 
-    /**
-     * @breif: 发送数据。包括数据的打包
-     * @param:
-     * @return: 成功或失败
-     */
-    bool sendData(double yaw, double pitch);
+    void setBaudRate(long baud_rate);
+    long getBaudRate();
 
-    /**
-     * @breif: 读取数据。包括数据的解包
-     * @param:
-     * @return: 成功或失败
-     */
-    bool readData(int &enemy_color, int &mode);
+    void setByteSize(int byte_size);
+    int getByteSize();
+
+    void setParity(int parity);
+    int getParity();
+
+    void setStopBit(int stop_bit);
+    int getStopBit();
+
+    void setFlowControl(int flow_control);
+    int getFlowControl();
+
+    void sendData(int mode, double yaw, double pitch);
+    bool readData(int &enemy_color, int &mode, double &pitch, double &yaw);
 
 private:
-    /**
-    * @breif: 是否为正确数据包的判断函数
-    * @param: buf 读取到的数据
-    * @return: 是or否
-    */
-    bool isReadPackage(uint8_t *buf);
+    void reconfigurePort();
 
-    /**
-     * @breif: 打开串口，并设置为读写
-     * @param: port_name 串口的设备号
-     * @return: 通过read函数打开串口后的设备描述符
-     */
-    int openPort(const char *port_name);
+};
 
-    /**
-     * @breif: 使能串口，并设置基本参数
-     * @param: fd 串口的设备描述符
-     * @return: 串口的设备描述符
-     */
-    int configurePort(int fd);
+class SerialException : public exception {
+private:
+    string e_what_;
 
-    /**
-     * @breif: 关闭串口
-     * @param: fd 串口的设备描述符
-     * @return: None
-     */
-    void closePort(int fd);
+public:
+    SerialException() {}
+    SerialException(const string &error) : e_what_(error) {}
+    virtual ~SerialException() throw() {}
+    virtual const char *what() const throw() {
+        return e_what_.c_str();
+    }
 
 };
 

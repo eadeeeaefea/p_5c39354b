@@ -1,5 +1,5 @@
 /******************************************************************************
- Copyright© HITwh HERO-Robomaster2020 Group
+ Copyright© HITwh HERO-RoboMaster2020 Group
 
  Author: Zhou Yuxin on 2018.10.10
 
@@ -14,14 +14,9 @@
 
 class Timer {
 private:
-    enum {
-        STANDBY,
-        RUNNING
-    };
-
-    clock_t time_start_;
-    clock_t time_end_;
-    bool status_;
+    clock_t start_;
+    clock_t end_;
+    bool is_open_;
 
 public:
     Timer();

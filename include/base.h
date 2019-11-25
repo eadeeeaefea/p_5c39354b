@@ -16,23 +16,28 @@
 
 // #define COMPILE_WITH_CUDA
 // #define DISTORTION_CORRECT  // preprocess
+#define BGR    // 不可与HSV同时使用
+// #define HSV    // 不可与BGR同时使用
 
 #define ROI_ENABLE
 
-#define CAMERA_ONLY    // 调试时使用，不打开串口
-#define ENEMY_COLOR 0    // 调试时使用，比赛时必须将其注释
+// #define CAMERA_ONLY    // 调试时使用，不打开串口
+//#define ENEMY_COLOR 1    // 调试时使用，比赛时必须将其注释
 #define ARMOR_ONLY
 // #define RUNE_ONLY
 // #define TEST 1    // 1-image, 2-video
-// #define IMAGE_PATH "../../armature/dataset2/10.jpg"
-// #define VIDEO_PATH "../1.avi"
+// #define IMAGE_PATH "1.jpg"
+// #define VIDEO_PATH "1.avi"
 // #define SAVE_VIDEO
 // #define SAVE_VIDEO_ONLY    // without processing image
 // #define VIDEO_SAVED_PATH "1.avi"
 
 #define PI 3.141592654
 
-#define UART_NAME "/dev/ttyUSB0"
+#define FRAME_WIDTH   640
+#define FRAME_HEIGHT  480
+#define EXPOSURE_TIME 600
+#define PARAM_PATH "../param/param.xml"
 
 
 #endif  // HERORM2020_BASE_H

@@ -12,7 +12,7 @@
 #include <vector>
 #include <opencv2/opencv.hpp>
 #include "base.h"
-
+#include "imageprocess.h"
 #ifdef COMPILE_WITH_CUDA
 #include <opencv2/cudaarithm.hpp>
 #include <opencv2/cudaimgproc.hpp>
@@ -37,18 +37,37 @@ private:
 #endif
 #endif
 #ifndef COMPILE_WITH_CUDA  // cpu only
-    Mat gray_image_, subtract_image_, kernel_;
+    Mat kernel_;
+#ifdef BGR
+    Mat gray_image_, subtract_image_;
     vector<Mat> channels_;
+#endif
+#ifdef HSV
+    Mat hsv_image_;
+#endif
 #else  // use gpu
     cv::cuda::GpuMat gpu_src_, gpu_dst_;
-    cv::cuda::GpuMat gray_image_, subtract_image_, kernel_;
+    cv::Ptr<cv::cuda::Filter> kernel_;
+#ifdef BGR
+    cv::cuda::GpuMat gray_image_, subtract_image_;
     vector<cv::cuda::GpuMat> channels_;
 #endif
-    Mat roi_image_;
-    int gray_thres_, subtract_thres_, kernel_size_;
-    Mat original_image_, processed_image_;
-
+#ifdef HSV
+    cv::cuda::GpuMat hsv_image_;
+#endif
+#endif
+    Mat roi_image_, original_image_;
+    Mat processed_image_ = Mat(480, 640, CV_8U);
+    int kernel_size_;
+#ifdef BGR
+    int gray_thres_, subtract_thres_;
+#endif
+#ifdef HSV
+    int minH_red_,  maxH_red_,  minS_red_,  maxS_red_,  minV_red_,  maxV_red_;
+    int minH_blue_, maxH_blue_, minS_blue_, maxS_blue_, minV_blue_, maxV_blue_;
+#endif
     // contours
+    ImageProcess imageprocess;
     vector<Vec4i> hierarchy_;
     vector<vector<Point> > contours_;
     RotatedRect temp_rrect_;
@@ -97,7 +116,6 @@ private:
                       RotatedRect &target_armor);
     void adjustRotatedRect(RotatedRect &rect);
     void preventROIExceed(int &x, int &y, int &width, int &height);
-
 };
 
 
