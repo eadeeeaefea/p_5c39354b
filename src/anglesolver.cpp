@@ -1,7 +1,9 @@
 /******************************************************************************
- Copyright© HITwh HERO-Robomaster2020 Group
+ Copyright© HITwh HERO-RoboMaster2020 Group
 
  Author: Wang Xiaoyan on 2019.9.20
+
+ Update: Bruce Hou
 
  Detail:
  *****************************************************************************/
@@ -25,15 +27,20 @@ void AngleSolver::init() {
 }
 
 void AngleSolver::run(double x, double y, double z, double v,
-                      double &yaw, double &pitch) {
+                      double &yaw, double &pitch, double ptz_pitch) {
 #ifdef RUNNING_TIME
     Timer timer;
     timer.start();
 #endif
 
-    if (parabolaSolve(sqrt(x*x+z*z), y, v, pitch)) {
-        pitch = -pitch + pitch_offset_;
-        yaw = atan(x / z) / PI * 180 + yaw_offset_;
+    if (parabolaSolve(sqrt(x*x+z*z), y, v, pitch, ptz_pitch)) {
+        if(z > 2.5){
+            pitch = -pitch - 0.65;
+            yaw = atan(x / z) / PI * 180 - 0.6;
+        } else{
+            pitch = -pitch;
+            yaw = atan(x / z) / PI * 180;
+        }
     } else {
         pitch = 0.0;
         yaw = 0.0;
@@ -55,57 +62,55 @@ double AngleSolver::get_pitch_offset() {
 
 void AngleSolver::set_yaw_offset(double yaw_offset) {
     yaw_offset_ = yaw_offset;
+
 }
 
 void AngleSolver::set_pitch_offset(double pitch_offset) {
     pitch_offset_ = pitch_offset;
 }
 
-bool AngleSolver::parabolaSolve(double x, double y, double v, double &theta) {
-    double min_theta = atan(y / x) - 0.1;
-    double max_theta = min_theta + 0.5;
-
-    double flag1 = parabolaDeltaY(x, y, v, min_theta) * parabolaDeltaY(x, y, v, max_theta);
-    double flag2 = parabolaDeltaY(x, y, v, min_theta) - parabolaDeltaY(x, y, v, max_theta);
-    double mid;
-
+bool AngleSolver::parabolaSolve(double x, double y, double v, double &theta, double ptz_pitch) {
+    /**
+    double time;
+    double res, res_1;
+    double min_alpha = atan(y / x) - 0.1;
+    double max_alpha = min_alpha + 0.5;
+    double flag1 = parabolaYDelta(x, y, v, min_alpha) * parabolaYDelta(x, y, v, max_alpha);
     if (flag1 > 0) {
         return 0;
-    } else if (parabolaDeltaY(x, y, v, max_theta) == 0) {
-        theta = max_theta / PI * 180;
-        return 1;
-    } else {
-        if (flag2 < 0) {
-            while (max_theta - min_theta > 0.0001) {
-                mid = (max_theta + min_theta) / 2;
-                if (parabolaDeltaY(x, y, v, mid) < 0) {
-                    min_theta = mid;
-                } else if (parabolaDeltaY(x, y, v, mid) > 0) {
-                    max_theta = mid;
-                } else {
-                    break;
-                }
-            }
-            theta = max_theta / PI * 180;
-            return 1;
-        } else if (flag2 > 0) {
-            while (max_theta - min_theta > 0.0001) {
-                mid = (max_theta + min_theta) / 2;
-                if (parabolaDeltaY(x, y, v, mid) < 0) {
-                    max_theta = mid;
-                } else if (parabolaDeltaY(x, y, v, mid) > 0) {
-                    min_theta = mid;
-                } else {
-                    break;
-                }
-            }
-            theta = max_theta / PI * 180;
-            return 1;
-        } else {
-            theta = max_theta / PI * 180;
-            return 1;
-        }
     }
+    time = 2.0 * ((y * g + v * v) - sqrt(pow(g * y + v * v, 2.0)- (x * x + y * y) * g * g)) / (g * g);
+    time = sqrt(time);
+    res_1 = (y - 0.5 * g * time * time) / v / time;
+    res = asin(res_1);
+    alpha = res * 180 / PI;
+    return 1;
+    //cout << alpha << endl;
+    //cout << "(" << x << "," << y << ")" << endl;
+    **/
+    double time;
+    static const double g = 9.7988;
+    double res, res_1;
+    double min_alpha = atan(y / x) - 0.1;
+    double max_alpha = min_alpha + 0.5;
+    double delta_angle;
+    double x_bar;
+    double y_bar;
+    double flag1 = parabolaDeltaY(x, y, v, min_alpha) * parabolaDeltaY(x, y, v, max_alpha);
+    if (flag1 > 0) {
+        return 0;
+    }
+
+    delta_angle = ptz_pitch * PI / 180;
+    x_bar = x * cos(delta_angle) - y * sin(delta_angle);
+    y_bar = x * sin(delta_angle) + y * cos(delta_angle);
+    time = 2.0 * ((y_bar * g + v * v) - sqrt(pow(g * y_bar + v * v, 2.0)- (x_bar * x_bar + y_bar * y_bar) * g * g)) / (g * g);
+    time = sqrt(time);
+    res_1 = (y_bar - 0.5 * g * time * time) / v / time;
+    res = asin(res_1);
+    theta = res * 180 / PI;
+    theta = theta - ptz_pitch;
+    return 1;
 }
 
 double AngleSolver::parabolaDeltaY(double x, double y, double v, double theta) {
