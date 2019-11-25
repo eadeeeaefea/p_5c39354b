@@ -1,5 +1,5 @@
 /******************************************************************************
- Copyright© HITwh HERO-Robomaster2020 Group
+ Copyright© HITwh HERO-RoboMaster2020 Group
 
  Author: Zhou Yuxin on 2018.10.10
 
@@ -7,13 +7,13 @@
  *****************************************************************************/
 
 #include "timer.h"
-#include <assert.h>
+#include <stdio.h>
 
 
 Timer::Timer() {
-    time_start_ = 0.0;
-    time_end_ = 0.0;
-    status_ = STANDBY;
+    start_ = 0.0;
+    end_ = 0.0;
+    is_open_ = false;
 }
 
 Timer::~Timer() {
@@ -21,27 +21,29 @@ Timer::~Timer() {
 }
 
 void Timer::start() {
-    time_start_ = clock();
-    status_ = RUNNING;
+    start_ = clock();
+    is_open_ = true;
 }
 
 double Timer::restart() {
     double temp_time = getTime();
-    time_start_ = clock();
+    start_ = clock();
     return temp_time;
 }
 
 void Timer::stop() {
-    time_start_ = 0.0;
-    status_ = STANDBY;
+    start_ = 0.0;
+    is_open_ = false;
 }
 
 double Timer::getTime() {
-
-    assert(status_ == RUNNING);
+    if (!is_open_) {
+        printf("Get time failed. Timer is not opened.\n");
+        return 0.0;
+    }
 
     double delta_time;
-    time_end_ = clock();
-    delta_time = static_cast<double>(time_end_ - time_start_) * 1000.0 / CLOCKS_PER_SEC;
+    end_ = clock();
+    delta_time = static_cast<double>(end_ - start_) * 1000.0 / CLOCKS_PER_SEC;
     return delta_time;
 }

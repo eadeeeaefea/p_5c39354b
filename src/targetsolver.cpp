@@ -1,5 +1,5 @@
 /******************************************************************************
- Copyright© HITwh HERO-Robomaster2020 Group
+ Copyright© HITwh HERO-RoboMaster2020 Group
 
  Author: Wang Xiaoyan on 2019.9.20
 
@@ -41,7 +41,7 @@ void TargetSolver::run(const RotatedRect &armor, Target &target) {
     double ratio = (armor.size.width > armor.size.height) ?
                    (armor.size.width / armor.size.height) :
                    (armor.size.height / armor.size.width);
-    is_big_armor = fabs(ratio - 4.2) < 0.8;
+    is_big_armor = ratio > 4.8;
     solvePnP4Points(armor, is_big_armor, rotate_mat_, trans_mat_);
     camera2ptzTransform(trans_mat_, target);
 

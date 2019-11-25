@@ -1,9 +1,9 @@
 /******************************************************************************
- Copyright© HITwh HERO-Robomaster2020 Group
+ Copyright© HITwh HERO-RoboMaster2020 Group
 
  Author: Wang Xiaoyan on 2019.6.30
 
- Update: Wang Xiaoyan on 2019.10.8
+ Update: Wang Xiaoyan on 2019.10.14
 
  Detail: 实现对工业摄像头的基本参数设定和初始化，并将当前帧的数据转化为opencv的Mat类型。
          具体可参考MindVision的官方linux SDK，这里附上SDK的下载地址:
@@ -14,12 +14,11 @@
 
 
 MVCamera::MVCamera() {
-    status_ = Status::STOPPED;
+    is_open_ = false;
 }
 
 MVCamera::~MVCamera() {
-    CameraUnInit(hCamera);
-    free(g_pRgbBuffer);
+    close();
 }
 
 void MVCamera::open(int frame_width,
@@ -37,15 +36,13 @@ void MVCamera::open(int frame_width,
     // 枚举设备，并建立设备列表
     status = CameraEnumerateDevice(&tCameraEnumList, &cameraCounts);
     if (cameraCounts == 0) {
-        printf("Enumerate device failed.\n");
-        return;
+        throw MVCameraException("Enumerate camera failed.");
     }
 
     // 相机初始化。初始化成功后，才能调用任何其他相机相关的操作接口
     status = CameraInit(&tCameraEnumList, -1, -1, &hCamera);
     if (status != CAMERA_STATUS_SUCCESS) {
-        printf("Init camera failed.\n");
-        return;
+        throw MVCameraException("Init camera failed.");
     }
 
     // 获得相机的特性描述结构体。该结构体中包含了相机可设置的各种参数的范围信息。决定了相关函数的参数
@@ -74,20 +71,22 @@ void MVCamera::open(int frame_width,
         CameraSetIspOutFormat(hCamera, CAMERA_MEDIA_TYPE_BGR8);  // 三通道
     }
 
-    status_ = Status::RUNNING;
+    is_open_ = true;
+}
+
+bool MVCamera::isOpen() {
+    return is_open_;
 }
 
 void MVCamera::close() {
     CameraUnInit(hCamera);
     free(g_pRgbBuffer);
-    status_ = Status::STOPPED;
+    is_open_ = false;
 }
 
 void MVCamera::getImage(cv::Mat &image) {
-
-    if (status_ != Status::RUNNING) {
-        printf("Camera is not opened!!!\n");
-        exit(0);
+    if (!is_open_) {
+        throw MVCameraException("Get image error. Camera is not opened.");
     }
 
     if (CameraGetImageBuffer(hCamera, &sFrameInfo, &pbyBuffer, 500) == CAMERA_STATUS_SUCCESS) {
@@ -101,14 +100,14 @@ void MVCamera::getImage(cv::Mat &image) {
         // 在成功调用CameraGetImageBuffer后，必须调用CameraReleaseImageBuffer来释放获得的buffer
         // 否则再次调用CameraGetImageBuffer时，程序将被挂起一直阻塞，直到其他线程中调用CameraReleaseImageBuffer来释放了buffer
         CameraReleaseImageBuffer(hCamera, pbyBuffer);
+    } else {
+        throw MVCameraException("Get image failed. Camera is not opened.");
     }
 }
 
 cv::Mat MVCamera::getImage() {
-
-    if (status_ != Status::RUNNING) {
-        printf("Camera is not opened!!!\n");
-        exit(0);
+    if (!is_open_) {
+        throw MVCameraException("Get image error. Camera is not opened.");
     }
 
     cv::Mat image;
@@ -123,6 +122,8 @@ cv::Mat MVCamera::getImage() {
         // 在成功调用CameraGetImageBuffer后，必须调用CameraReleaseImageBuffer来释放获得的buffer
         // 否则再次调用CameraGetImageBuffer时，程序将被挂起一直阻塞，直到其他线程中调用CameraReleaseImageBuffer来释放了buffer
         CameraReleaseImageBuffer(hCamera, pbyBuffer);
+    } else {
+        throw MVCameraException("Get image failed. Camera is not opened.");
     }
 
     return image;
