@@ -29,6 +29,10 @@ add_executable(HERORM2020
     src/runesolver.cpp
     include/workspace.h
     src/workspace.cpp
+    src/predictor.cpp
+    include/predictor.h
+    src/imageprocess.cpp
+    include/imageprocess.h
 )
 
 target_link_libraries(HERORM2020
