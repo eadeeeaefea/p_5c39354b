@@ -47,7 +47,8 @@ void MVCamera::open(int frame_width,
 
     // 获得相机的特性描述结构体。该结构体中包含了相机可设置的各种参数的范围信息。决定了相关函数的参数
     CameraGetCapability(hCamera, &tCapability);
-    g_pRgbBuffer = (unsigned char*)malloc(tCapability.sResolutionRange.iWidthMax * tCapability.sResolutionRange.iHeightMax * 3);
+    g_pRgbBuffer = (unsigned char *) malloc(
+            tCapability.sResolutionRange.iWidthMax * tCapability.sResolutionRange.iHeightMax * 3);
     // 让SDK进入工作模式，开始接收来自相机发送的图像数据。如果当前相机是触发模式，则需要接收到触发帧以后才会更新图像
     CameraPlay(hCamera);
 

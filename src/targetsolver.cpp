@@ -59,22 +59,22 @@ void TargetSolver::solvePnP4Points(const RotatedRect &rect,
     Point2f left_up, left_down, right_up, right_down;
     rect.points(vertices);
     sort(vertices, vertices + 4, [](const Point2f &p1, const Point2f &p2) {
-           return p1.x < p2.x;
-       }
+             return p1.x < p2.x;
+         }
     );
     if (vertices[0].y < vertices[1].y) {
-       left_up = vertices[0];
-       left_down = vertices[1];
+        left_up = vertices[0];
+        left_down = vertices[1];
     } else {
-       left_up = vertices[1];
-       left_down = vertices[0];
+        left_up = vertices[1];
+        left_down = vertices[0];
     }
     if (vertices[2].y < vertices[3].y) {
-       right_up = vertices[2];
-       right_down = vertices[3];
+        right_up = vertices[2];
+        right_down = vertices[3];
     } else {
-       right_up = vertices[3];
-       right_down = vertices[2];
+        right_up = vertices[3];
+        right_down = vertices[2];
     }
 
     vector<Point2f> points2d;
@@ -105,7 +105,7 @@ void TargetSolver::solvePnP4Points(const RotatedRect &rect,
 
 void TargetSolver::camera2ptzTransform(const Mat &camera_position,
                                        Target &ptz_position) {
-    ptz_position.x = camera_position.at<double>(0,0) / 1000;
-    ptz_position.y = (camera_position.at<double>(1,0) - 49.19) / 1000;
-    ptz_position.z = (camera_position.at<double>(2,0) + 115.62) / 1000;
+    ptz_position.x = camera_position.at<double>(0, 0) / 1000;
+    ptz_position.y = (camera_position.at<double>(1, 0) - 49.19) / 1000;
+    ptz_position.z = (camera_position.at<double>(2, 0) + 115.62) / 1000;
 }

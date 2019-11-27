@@ -40,7 +40,7 @@ void ArmorDetector::init(const FileStorage &file_storage) {
     kernel_size_ = 5;
 #endif
 #ifndef COMPILE_WITH_CUDA
-    kernel_ = getStructuringElement(MORPH_RECT, Size(kernel_size_,kernel_size_));
+    kernel_ = getStructuringElement(MORPH_RECT, Size(kernel_size_, kernel_size_));
 #else
     kernel_ = cv::cuda::createMorphologyFilter(MORPH_CLOSE, CV_8U,
         getStructuringElement(MORPH_RECT, Size(kernel_size_,kernel_size_)));
@@ -124,11 +124,11 @@ void ArmorDetector::run(const Mat &src,
     Point2f vertices[4];
     target_armor.points(vertices);
     for (int i = 0; i < 4; ++i)
-        line(original_image_, vertices[i], vertices[(i+1)%4], Scalar(0,255,0), 2, 8);
+        line(original_image_, vertices[i], vertices[(i + 1) % 4], Scalar(0, 255, 0), 2, 8);
     imshow("original", original_image_);
 #ifdef TRACKBAR
-    copyMakeBorder(processed_image_, processed_image_, 0, 480-processed_image_.rows,
-                   0, 640-processed_image_.cols, BORDER_CONSTANT, Scalar(255,255,255));
+    copyMakeBorder(processed_image_, processed_image_, 0, 480 - processed_image_.rows,
+                   0, 640 - processed_image_.cols, BORDER_CONSTANT, Scalar(255, 255, 255));
 #endif
     imshow("processed", processed_image_);
 #ifdef ROI_ENABLE
@@ -178,10 +178,10 @@ void ArmorDetector::Preprocess(const Mat &src,
     processed_image = gray_image_ & subtract_image_;
 **/
 
-    if(enemy_color){
+    if (enemy_color) {
         imageprocess.find_blue_areas(roi_image_, processed_image, 0.16, 0.330);
         //imageprocess.find_red_areas(roi_image_, processed_image, 0.270, 0.300);
-    } else{
+    } else {
         imageprocess.find_red_areas(roi_image_, processed_image, 0.290, 0.300);
     }
 
@@ -196,7 +196,7 @@ void ArmorDetector::Preprocess(const Mat &src,
     }
 #endif
 #ifdef TRACKBAR
-    kernel_ = getStructuringElement(MORPH_RECT, Size(kernel_size_,kernel_size_));
+    kernel_ = getStructuringElement(MORPH_RECT, Size(kernel_size_, kernel_size_));
 #endif
     morphologyEx(processed_image, processed_image, MORPH_CLOSE, kernel_);
 
@@ -286,7 +286,7 @@ void ArmorDetector::findArmors(vector<RotatedRect> &lightbars,
                                vector<double> &scores) {
     armors.clear();
     scores.clear();
-    if (lightbars.empty() || lightbars.size() == 1)    return;
+    if (lightbars.empty() || lightbars.size() == 1) return;
 
     for (int i = 0; i < lightbars.size(); ++i) {
         adjustRotatedRect(lightbars[i]);
@@ -358,7 +358,7 @@ void ArmorDetector::findArmors(vector<RotatedRect> &lightbars,
 
     for (int i = 0; i < subscript_.size(); i += 2) {
         lightbars[subscript_[i]].points(left_vertices_);
-        lightbars[subscript_[i+1]].points(right_vertices_);
+        lightbars[subscript_[i + 1]].points(right_vertices_);
         for (int j = 0; j < 4; ++j) {
             armor_vertices_.push_back(left_vertices_[j]);
             armor_vertices_.push_back(right_vertices_[j]);
@@ -373,7 +373,7 @@ void ArmorDetector::selectTarget(const vector<RotatedRect> &armors,
                                  const vector<double> &scores,
                                  RotatedRect &target_armor) {
     target_armor = RotatedRect();
-    if (armors.empty() || scores.empty())    return;
+    if (armors.empty() || scores.empty()) return;
 
     int subscript;
     double min_score = 99999.9;
@@ -389,18 +389,19 @@ void ArmorDetector::selectTarget(const vector<RotatedRect> &armors,
 
 void ArmorDetector::adjustRotatedRect(RotatedRect &rect) {
     if (rect.size.width > rect.size.height) {
-        rect = RotatedRect(rect.center, Size2f(rect.size.height,rect.size.width), rect.angle+90);
+        rect = RotatedRect(rect.center, Size2f(rect.size.height, rect.size.width), rect.angle + 90);
     }
 }
 
 void ArmorDetector::preventROIExceed(int &x, int &y, int &width, int &height) {
-    if (x < 0)    x = 0;
-    if (y < 0)    y = 0;
-    if (x + width > 640)    width = width - (x + width - 640);
-    if (y + height > 480)   height = height - (y + height - 480);
+    if (x < 0) x = 0;
+    if (y < 0) y = 0;
+    if (x + width > 640) width = width - (x + width - 640);
+    if (y + height > 480) height = height - (y + height - 480);
 }
 
 #ifdef ROI_ENABLE
+
 Rect ArmorDetector::get_roi_rect() {
     return roi_rect_;
 }
@@ -418,4 +419,5 @@ void ArmorDetector::set_roi_rect(const Rect &rect) {
 
     roi_rect_ = Rect(detect_x, detect_y, detect_width, detect_height);
 }
+
 #endif

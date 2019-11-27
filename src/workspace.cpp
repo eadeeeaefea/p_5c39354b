@@ -92,8 +92,8 @@ void Workspace::imageReceivingFunc() {
             for (int i = 0; i < 10; ++i) {
                 try {
                     mv_camera.open(FRAME_WIDTH, FRAME_HEIGHT, EXPOSURE_TIME);
-                    if (mv_camera.isOpen())     break;
-                } catch (MVCameraException& e2) {
+                    if (mv_camera.isOpen()) break;
+                } catch (MVCameraException &e2) {
                     cout << "Try to open camera error." << endl;
                     sleep(1);
                 }
@@ -123,7 +123,7 @@ void Workspace::imageProcessingFunc() {
 #ifndef TEST
             if (!image_buffer_.empty()) {
 #else
-            if (1) {
+                if (1) {
 #endif
 #ifdef RUNNING_TIME
                 static Timer mutex_timer;
@@ -159,19 +159,21 @@ void Workspace::imageProcessingFunc() {
 #ifdef ENEMY_COLOR
                 read_pack_.enemy = ENEMY_COLOR;
 #endif
-                if (current_frame_.empty())     continue;
+                if (current_frame_.empty()) continue;
 
                 if (read_pack_.mode == Mode::ARMOR) {
 
                     armor_detector.run(current_frame_, read_pack_.enemy, target_armor_);
                     target_solver.run(target_armor_, target_);
                     //predictor.run(target_.x, target_.y, target_.z, read_pack_.pitch, read_pack_.yaw);
-                    angle_solver.run(target_.x, target_.y, target_.z, 20, send_pack_.yaw, send_pack_.pitch, read_pack_.pitch);
+                    angle_solver.run(target_.x, target_.y, target_.z, 20, send_pack_.yaw, send_pack_.pitch,
+                                     read_pack_.pitch);
 
                 } else if (read_pack_.mode == Mode::RUNE) {
 
                     rune_solver.run(current_frame_, target_.x, target_.y, target_.z);
-                    angle_solver.run(target_.x, target_.y, target_.z, 28, send_pack_.yaw, send_pack_.pitch, read_pack_.pitch);
+                    angle_solver.run(target_.x, target_.y, target_.z, 28, send_pack_.yaw, send_pack_.pitch,
+                                     read_pack_.pitch);
 
                 } else {
                     continue;
@@ -200,24 +202,24 @@ void Workspace::imageProcessingFunc() {
 #endif
 #ifdef SHOW_IMAGE
                 ostr << "yaw: " << send_pack_.yaw;
-                putText(src, ostr.str(), Point(20,30), CV_FONT_NORMAL, 1, Scalar(0,255,0));
+                putText(src, ostr.str(), Point(20, 30), CV_FONT_NORMAL, 1, Scalar(0, 255, 0));
                 ostr.str("");
                 ostr << "pitch: " << send_pack_.pitch;
-                putText(src, ostr.str(), Point(20,60), CV_FONT_NORMAL, 1, Scalar(0,255,0));
+                putText(src, ostr.str(), Point(20, 60), CV_FONT_NORMAL, 1, Scalar(0, 255, 0));
                 ostr.str("");
                 ostr << "x: " << target_.x;
-                putText(src, ostr.str(), Point(20,90), CV_FONT_NORMAL, 1, Scalar(0,255,0));
+                putText(src, ostr.str(), Point(20, 90), CV_FONT_NORMAL, 1, Scalar(0, 255, 0));
                 ostr.str("");
                 ostr << "y: " << target_.y;
-                putText(src, ostr.str(), Point(20,120), CV_FONT_NORMAL, 1, Scalar(0,255,0));
+                putText(src, ostr.str(), Point(20, 120), CV_FONT_NORMAL, 1, Scalar(0, 255, 0));
                 ostr.str("");
                 ostr << "z: " << target_.z;
-                putText(src, ostr.str(), Point(20,150), CV_FONT_NORMAL, 1, Scalar(0,255,0));
+                putText(src, ostr.str(), Point(20, 150), CV_FONT_NORMAL, 1, Scalar(0, 255, 0));
                 ostr.str("");
 
                 imshow("current_frame", src);
 #ifndef TEST
-                if (waitKey(1) == 27)  exit(0);
+                if (waitKey(1) == 27) exit(0);
 #endif
 #if TEST == 1
                 if (waitKey(0) == 27)     exit(0);
@@ -230,7 +232,7 @@ void Workspace::imageProcessingFunc() {
             }
         } catch (SerialException &e1) {
             cout << "Serial port send error." << endl;
-            if (serial_port.isOpen())  serial_port.close();
+            if (serial_port.isOpen()) serial_port.close();
             sleep(1);
             for (int i = 0; i < 10; ++i) {
                 try {
@@ -277,7 +279,7 @@ void Workspace::openSerial() {
         try {
             port_name = "/dev/ttyUSB" + to_string(count++);
             serial_port.open(port_name);
-            if (serial_port.isOpen())  {
+            if (serial_port.isOpen()) {
                 cout << "Open serial successfully in " << port_name << "." << endl;
                 return;
             }
