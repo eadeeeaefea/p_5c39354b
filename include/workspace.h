@@ -25,8 +25,11 @@
 #include "mvcamera.h"
 #include "serialport.h"
 #include "predictor.h"
+
 #ifdef RUNNING_TIME
+
 #include "timer.h"
+
 #endif
 
 using namespace std;
@@ -37,14 +40,14 @@ typedef struct SendPack_t {
     int mode;
     double yaw;
     double pitch;
-}SendPack;
+} SendPack;
 
 typedef struct ReadPack_t {
     int enemy;  // 0-red, 1-blue
     int mode;
     double pitch;
     double yaw;
-}ReadPack;
+} ReadPack;
 
 class Workspace {
 private:
@@ -73,14 +76,20 @@ private:
 
 public:
     Workspace();
+
     ~Workspace();
+
     void init(const FileStorage &file_storage);
+
     void run();
 
 private:
     void imageReceivingFunc();
+
     void imageProcessingFunc();
+
     void messageCommunicatingFunc();
+
     void openSerial();
 
 };

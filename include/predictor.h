@@ -9,24 +9,36 @@
 #ifndef HERORM2020_PREDICTOR_H
 #define HERORM2020_PREDICTOR_H
 
+#include "iostream"
+#include "opencv2/opencv.hpp"
+
+using namespace std;
+using namespace cv;
+
 class Predictor {
 private:
-    double coordinate[10][3];
-    double v[6][3];
-    double delta_t;
-    double x_last, y_last, z_last;
-
+    vector<Point3d> object_coordinate;
+    vector<Point3d> object_inaccurate_speed;
+    Point3d object_accurate_speed;
+    Point3d object_motion;
 public:
     Predictor();
+
     ~Predictor();
+
     void init();
-    void run(double &x, double &y, double &z,double ptz_pitch, double ptz_yaw);
+
+    void run(double &x, double &y, double &z, double ptz_pitch, double ptz_yaw);
 
 private:
-    void motion_prediction(double& x, double& y, double& z, double ptz_pitch, double ptz_yaw);
-    void coordinate_transformation(double& x, double& y, double& z, double ptz_pitch, double ptz_yaw);
-    void anti_coordinate_transformation(double& x, double& y, double& z, double ptz_pitch, double ptz_yaw);
-    double point_distance(double x_1, double y_1, double z_1, double x_2, double y_2, double z_2);
+    void motion_prediction(double &x, double &y, double &z, double ptz_pitch, double ptz_yaw);
+
+    void coordinate_transformation(double &x, double &y, double &z, double ptz_pitch, double ptz_yaw);
+
+    void anti_coordinate_transformation(double &x, double &y, double &z, double ptz_pitch, double ptz_yaw);
+
+    double point_distance(Point3d point1, Point3d point2);
+
     bool judgement();
 };
 

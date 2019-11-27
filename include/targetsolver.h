@@ -11,8 +11,11 @@
 
 #include <opencv2/opencv.hpp>
 #include "base.h"
+
 #ifdef RUNNING_TIME
+
 #include "timer.h"
+
 #endif
 
 using namespace std;
@@ -23,7 +26,7 @@ typedef struct Target_t {
     double x;
     double y;
     double z;
-}Target;
+} Target;
 
 class TargetSolver {
 private:
@@ -33,8 +36,11 @@ private:
 
 public:
     TargetSolver();
+
     ~TargetSolver();
+
     void init(const FileStorage &file_storage);
+
     void run(const RotatedRect &armor, Target &target);
 
 private:
@@ -42,6 +48,7 @@ private:
                          const bool is_big_armor,
                          Mat &rotate_mat,
                          Mat &trans_mat);
+
     void camera2ptzTransform(const Mat &camera_position, Target &ptz_position);
 
 };

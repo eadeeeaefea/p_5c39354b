@@ -22,17 +22,18 @@ using std::exception;
 
 class MVCamera {
 private:
-    unsigned char*      g_pRgbBuffer;     // 处理后图像输出的缓冲区
-    int                 hCamera;          // 相机的句柄
-    tSdkCameraDevInfo   tCameraEnumList;  // 工业摄像头设备列表数组
+    unsigned char *g_pRgbBuffer;     // 处理后图像输出的缓冲区
+    int hCamera;          // 相机的句柄
+    tSdkCameraDevInfo tCameraEnumList;  // 工业摄像头设备列表数组
     tSdkCameraCapbility tCapability;      // 相机特性描述的结构体
-    tSdkFrameHead       sFrameInfo;       // 图像的帧头信息
-    unsigned char*      pbyBuffer;        // 指向图像的数据的缓冲区
+    tSdkFrameHead sFrameInfo;       // 图像的帧头信息
+    unsigned char *pbyBuffer;        // 指向图像的数据的缓冲区
 
     bool is_open_;
 
 public:
     MVCamera();
+
     ~MVCamera();
 
     void open(int frame_width = 640,
@@ -42,9 +43,11 @@ public:
               int gamma = 100,            // 默认100
               int contrast = 100);        // 默认100
     bool isOpen();
+
     void close();
 
     void getImage(cv::Mat &image);
+
     cv::Mat getImage();
 
 };
@@ -55,8 +58,11 @@ private:
 
 public:
     MVCameraException() {}
+
     MVCameraException(const string &error) : e_what_(error) {}
+
     virtual ~MVCameraException() throw() {}
+
     virtual const char *what() const throw() {
         return e_what_.c_str();
     }

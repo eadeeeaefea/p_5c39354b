@@ -13,12 +13,15 @@
 #include <opencv2/opencv.hpp>
 #include "base.h"
 #include "imageprocess.h"
+
 #ifdef COMPILE_WITH_CUDA
 #include <opencv2/cudaarithm.hpp>
 #include <opencv2/cudaimgproc.hpp>
 #endif
 #ifdef RUNNING_TIME
+
 #include "timer.h"
+
 #endif
 
 using namespace std;
@@ -95,26 +98,38 @@ private:
 
 public:
     ArmorDetector();
+
     ~ArmorDetector();
+
     void init(const FileStorage &file_storage);
+
     void run(const Mat &src,
              const int enemy_color,  // 0-red, 1-blue
              RotatedRect &target_armor);
+
 #ifdef ROI_ENABLE
+
     Rect get_roi_rect();
+
     void set_roi_rect(const Rect &rect);
+
 #endif
 
 private:
     void Preprocess(const Mat &src, const int enemy_color, Mat &processed_image);
+
     void findTarget(const Mat &processed_image, RotatedRect &target_armor);
+
     void findArmors(vector<RotatedRect> &lightbars,
                     vector<RotatedRect> &armors,
                     vector<double> &scores);
+
     void selectTarget(const vector<RotatedRect> &armors,
                       const vector<double> &scores,
                       RotatedRect &target_armor);
+
     void adjustRotatedRect(RotatedRect &rect);
+
     void preventROIExceed(int &x, int &y, int &width, int &height);
 };
 

@@ -20,10 +20,15 @@ private:
 
 public:
     Timer();
+
     ~Timer();
+
     void start();
+
     double restart();
+
     void stop();
+
     double getTime();
 
 };

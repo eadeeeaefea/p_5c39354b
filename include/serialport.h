@@ -31,6 +31,7 @@ private:
 
 public:
     SerialPort();
+
     SerialPort(const string &port_name,
                long baud_rate = 115200,
                int byte_size = 8,        // 5: 5bits, 6: 6bits, 7: 7bits, 8: 8bits
@@ -41,6 +42,7 @@ public:
     ~SerialPort();
 
     void open();
+
     void open(const string &port_name,
               long baud_rate = 115200,
               int byte_size = 8,        // 5: 5bits, 6: 6bits, 7: 7bits, 8: 8bits
@@ -48,24 +50,31 @@ public:
               int stop_bit = 1,         // 1: 1bit, 2: 2bits, 3: 1.5bits
               int flow_control = 0);    // 0: none, 1: software, 2: hardware
     bool isOpen();
+
     void close();
 
     void setBaudRate(long baud_rate);
+
     long getBaudRate();
 
     void setByteSize(int byte_size);
+
     int getByteSize();
 
     void setParity(int parity);
+
     int getParity();
 
     void setStopBit(int stop_bit);
+
     int getStopBit();
 
     void setFlowControl(int flow_control);
+
     int getFlowControl();
 
     void sendData(int mode, double yaw, double pitch);
+
     bool readData(int &enemy_color, int &mode, double &pitch, double &yaw);
 
 private:
@@ -79,8 +88,11 @@ private:
 
 public:
     SerialException() {}
+
     SerialException(const string &error) : e_what_(error) {}
+
     virtual ~SerialException() throw() {}
+
     virtual const char *what() const throw() {
         return e_what_.c_str();
     }
