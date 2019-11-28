@@ -73,34 +73,27 @@ bool AngleSolver::parabolaSolve(double x, double y, double v, double &theta, dou
     /**
     double time;
     double res, res_1;
-    double min_alpha = atan(y / x) - 0.1;
-    double max_alpha = min_alpha + 0.5;
-    double flag1 = parabolaYDelta(x, y, v, min_alpha) * parabolaYDelta(x, y, v, max_alpha);
-    if (flag1 > 0) {
-        return 0;
-    }
+    static const double g = 9.7988;
     time = 2.0 * ((y * g + v * v) - sqrt(pow(g * y + v * v, 2.0)- (x * x + y * y) * g * g)) / (g * g);
     time = sqrt(time);
     res_1 = (y - 0.5 * g * time * time) / v / time;
     res = asin(res_1);
-    alpha = res * 180 / PI;
-    return 1;
+    theta = res * 180 / PI;
+    if(isnan(theta) || isinf(theta)){
+     theta = 0;
+     return false;
+    }
+    return true;
     //cout << alpha << endl;
     //cout << "(" << x << "," << y << ")" << endl;
     **/
+
     double time;
     static const double g = 9.7988;
     double res, res_1;
-    double min_alpha = atan(y / x) - 0.1;
-    double max_alpha = min_alpha + 0.5;
     double delta_angle;
     double x_bar;
     double y_bar;
-    double flag1 = parabolaDeltaY(x, y, v, min_alpha) * parabolaDeltaY(x, y, v, max_alpha);
-    if (flag1 > 0) {
-        return 0;
-    }
-
     delta_angle = ptz_pitch * PI / 180;
     x_bar = x * cos(delta_angle) - y * sin(delta_angle);
     y_bar = x * sin(delta_angle) + y * cos(delta_angle);
@@ -110,7 +103,12 @@ bool AngleSolver::parabolaSolve(double x, double y, double v, double &theta, dou
     res = asin(res_1);
     theta = res * 180 / PI;
     theta = theta - ptz_pitch;
-    return 1;
+    if(isnan(theta) || isinf(theta)){
+        theta = 0;
+        return false;
+    }
+    return true;
+
 }
 
 double AngleSolver::parabolaDeltaY(double x, double y, double v, double theta) {
