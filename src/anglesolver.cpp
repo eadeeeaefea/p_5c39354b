@@ -33,11 +33,11 @@ void AngleSolver::run(double x, double y, double z, double v,
     timer.start();
 #endif
 
-    if (parabolaSolve(sqrt(x*x+z*z), y, v, pitch, ptz_pitch)) {
-        if(z > 2.5){
+    if (parabolaSolve(sqrt(x * x + z * z), y, v, pitch, ptz_pitch)) {
+        if (z > 2.5) {
             pitch = -pitch - 0.65;
             yaw = atan(x / z) / PI * 180 - 0.6;
-        } else{
+        } else {
             pitch = -pitch;
             yaw = atan(x / z) / PI * 180;
         }
@@ -97,13 +97,14 @@ bool AngleSolver::parabolaSolve(double x, double y, double v, double &theta, dou
     delta_angle = ptz_pitch * PI / 180;
     x_bar = x * cos(delta_angle) - y * sin(delta_angle);
     y_bar = x * sin(delta_angle) + y * cos(delta_angle);
-    time = 2.0 * ((y_bar * g + v * v) - sqrt(pow(g * y_bar + v * v, 2.0)- (x_bar * x_bar + y_bar * y_bar) * g * g)) / (g * g);
+    time = 2.0 * ((y_bar * g + v * v) - sqrt(pow(g * y_bar + v * v, 2.0) - (x_bar * x_bar + y_bar * y_bar) * g * g)) /
+           (g * g);
     time = sqrt(time);
     res_1 = (y_bar - 0.5 * g * time * time) / v / time;
     res = asin(res_1);
     theta = res * 180 / PI;
     theta = theta - ptz_pitch;
-    if(isnan(theta) || isinf(theta)){
+    if (isnan(theta) || isinf(theta)) {
         theta = 0;
         return false;
     }
