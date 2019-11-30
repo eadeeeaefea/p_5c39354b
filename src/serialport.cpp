@@ -279,7 +279,7 @@ void SerialPort::reconfigurePort() {
     }
 }
 
-void SerialPort::sendData(int mode, double yaw, double pitch) {
+void SerialPort::sendData(const SendPack &send_pack) {
     if (!is_open_) {
         throw SerialException("Send data failed. Port is not opened.");
     }
@@ -293,9 +293,9 @@ void SerialPort::sendData(int mode, double yaw, double pitch) {
                             0xA5};       // frame tail
     int16_t *data_ptr = (int16_t *)(send_bytes + 2);
 
-    send_bytes[1] = static_cast<uint8_t>(mode);
-    data_ptr[0] = static_cast<int16_t>(yaw * 100);
-    data_ptr[1] = static_cast<int16_t>(pitch * 100);
+    send_bytes[1] = static_cast<uint8_t>(send_pack.mode);
+    data_ptr[0] = static_cast<int16_t>(send_pack.yaw * 100);
+    data_ptr[1] = static_cast<int16_t>(send_pack.pitch * 100);
     send_bytes[6] = 0x10;
     send_bytes[7] = static_cast<uint8_t>(send_bytes[1] + send_bytes[2] + send_bytes[3] +
                                          send_bytes[4] + send_bytes[5] + send_bytes[6]);
@@ -308,7 +308,7 @@ void SerialPort::sendData(int mode, double yaw, double pitch) {
     }
 }
 
-bool SerialPort::readData(int &enemy_color, int &mode, double &pitch, double &yaw) {
+bool SerialPort::readData(ReadPack &read_pack) {
     if (!is_open_) {
         throw SerialException("Read data failed. Port is not opened.");
     }
@@ -328,14 +328,14 @@ bool SerialPort::readData(int &enemy_color, int &mode, double &pitch, double &ya
                                              read_bytes[3] + read_bytes[4] +
                                              read_bytes[5] + read_bytes[6]);
     if (check_sum == read_bytes[7]) {
-        enemy_color = read_bytes[1] > 10;
-        mode = static_cast<int>(read_bytes[2]);
+        read_pack.enemy_color = read_bytes[1] > 10;
+        read_pack.mode = static_cast<int>(read_bytes[2]);
         int16_t temp_pitch = (static_cast<int16_t>(read_bytes[3]) << 8) +
                               static_cast<int16_t>(read_bytes[4]);
         int16_t temp_yaw = (static_cast<int16_t>(read_bytes[5]) << 8) +
                             static_cast<int16_t>(read_bytes[6]);
-        pitch = static_cast<double>(temp_pitch) * 0.01;
-        yaw = static_cast<double>(temp_yaw) * 0.01;
+        read_pack.pitch = static_cast<double>(temp_pitch) * 0.01;
+        read_pack.yaw = static_cast<double>(temp_yaw) * 0.01;
 
         return true;
     } else {

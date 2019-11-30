@@ -19,68 +19,79 @@ Workspace::~Workspace() {
 
 }
 
-void Workspace::init(const FileStorage &file_storage) {
+void Workspace::init() {
+#if (defined(USE_CAMERA) || defined(USE_SERIAL)) && defined(TEST)
+    cout << "wrong mode, TEST and USE_CAMERA or USE_SERIAL are mutually exclusive." << endl;
+    exit(0);
+#endif
+#if defined(SAVE_VIDEO) && !defined(USE_CAMERA)
+    cout << "wrong mode, SAVE_VIDEO need USE_CAMERA." << endl;
+    exit(0);
+#endif
+    FileStorage file_storage(PARAM_PATH, FileStorage::READ);
+
     armor_detector.init(file_storage);
     target_solver.init(file_storage);
     angle_solver.init();
     predictor.init();
     rune_solver.init();
-#ifndef TEST
+#ifdef USE_CAMERA
     mv_camera.open(FRAME_WIDTH, FRAME_HEIGHT, EXPOSURE_TIME);
-#ifndef CAMERA_ONLY
-    openSerial();
 #endif
+#ifdef USE_SERIAL
+    openSerialPort();
 #endif
 
-    max_image_buffer_size_ = 20;
-    send_pack_.yaw = 0.0;
-    send_pack_.pitch = 0.0;
-    read_pack_.enemy = 0;
+    max_image_buffer_size_ = 10;
+    read_pack_.enemy_color = 0;
     read_pack_.mode = 0;
 }
 
 void Workspace::run() {
-#ifndef TEST
+#ifdef USE_CAMERA
     thread image_receiving_thread(&Workspace::imageReceivingFunc, this);
-#ifndef CAMERA_ONLY
-    thread message_communicating_thread(&Workspace::messageCommunicatingFunc, this);
 #endif
-#endif
-#ifndef SAVE_VIDEO_ONLY
+#if SAVE_VIDEO != 2
     thread image_processing_thread(&Workspace::imageProcessingFunc, this);
 #endif
+#ifdef USE_SERIAL
+    thread message_communicating_thread(&Workspace::messageCommunicatingFunc, this);
+#endif
 
-#ifndef TEST
+#ifdef USE_CAMERA
     image_receiving_thread.join();
-#ifndef CAMERA_ONLY
-    message_communicating_thread.join();
 #endif
-#endif
-#ifndef SAVE_VIDEO_ONLY
+#if SAVE_VIDEO != 2
     image_processing_thread.join();
+#endif
+#ifdef USE_SERIAL
+    message_communicating_thread.join();
 #endif
 }
 
 void Workspace::imageReceivingFunc() {
-#if defined(SAVE_VIDEO) || defined(SAVE_VIDEO_ONLY)
+#ifdef SAVE_VIDEO
     Mat image;
     VideoWriter writer(VIDEO_SAVED_PATH, VideoWriter::fourcc('M','J','P','G'), 30, Size(FRAME_WIDTH,FRAME_HEIGHT));
 #endif
     while (1) {
         try {
-#if defined(SAVE_VIDEO) || defined(SAVE_VIDEO_ONLY)
+#ifdef SAVE_VIDEO
             mv_camera.getImage(image);
             writer.write(image);
-#ifdef SAVE_VIDEO_ONLY
+#if SAVE_VIDEO == 2
             imshow("current", image);
             if (waitKey(30) == 27)  exit(0);
-#endif
-#ifdef SAVE_VIDEO
+#elif SAVE_VIDEO == 1
             if (image_buffer_.size() < max_image_buffer_size_) {
                 image_buffer_.push_back(image);
             }
-#endif
 #else
+            cout << "wrong SAVE_VIDEO value, make sure SAVE_VIDEO = 1 or 2." << endll;
+            exit(0);
+#endif
+#endif    // SAVE_VIDEO
+#if defined(USE_CAMERA) && !defined(SAVE_VIDEO)
             if (image_buffer_.size() < max_image_buffer_size_) {
                 image_buffer_.push_back(mv_camera.getImage());
             }
@@ -92,12 +103,13 @@ void Workspace::imageReceivingFunc() {
             for (int i = 0; i < 10; ++i) {
                 try {
                     mv_camera.open(FRAME_WIDTH, FRAME_HEIGHT, EXPOSURE_TIME);
-                    if (mv_camera.isOpen())     break;
+                    if (mv_camera.isOpen())    break;
                 } catch (MVCameraException& e2) {
                     cout << "Try to open camera error." << endl;
                     sleep(1);
                 }
             }
+            if (!mv_camera.isOpen())    exit(1);
         }
     }
 }
@@ -116,37 +128,35 @@ void Workspace::imageProcessingFunc() {
     cout << "wrong TEST value, make sure TEST = 1 or 2" << endl;
     exit(0);
 #endif
-#endif
+#endif    // TEST
 
     while (1) {
         try {
-#ifndef TEST
+#ifdef USE_CAMERA
             if (!image_buffer_.empty()) {
 #else
             if (1) {
 #endif
+#ifdef USE_CAMERA
 #ifdef RUNNING_TIME
                 static Timer mutex_timer;
                 mutex_timer.start();
 #endif
-#ifndef TEST
                 image_buffer_mutex.lock();
 
                 current_frame_ = image_buffer_.back();
                 image_buffer_.clear();
 
                 image_buffer_mutex.unlock();
-#endif
 #ifdef RUNNING_TIME
                 cout << "lock time: " << mutex_timer.getTime() << "ms" << endl;
                 mutex_timer.stop();
 #endif
-#if TEST == 1
-
-#elif TEST == 2
+#endif    // USE_CAMERA
+#if TEST == 2
                 cap >> current_frame_;
                 if (current_frame_.empty())     exit(0);
-#endif  // 这里不加#else因上面已经判断过
+#endif
 #ifdef SHOW_IMAGE
                 src = current_frame_.clone();
 #endif
@@ -157,29 +167,29 @@ void Workspace::imageProcessingFunc() {
                 read_pack_.mode = Mode::RUNE;
 #endif
 #ifdef ENEMY_COLOR
-                read_pack_.enemy = ENEMY_COLOR;
+                read_pack_.enemy_color = ENEMY_COLOR;
 #endif
                 if (current_frame_.empty())     continue;
 
                 if (read_pack_.mode == Mode::ARMOR) {
 
-                    armor_detector.run(current_frame_, read_pack_.enemy, target_armor_);
+                    armor_detector.run(current_frame_, read_pack_.enemy_color, target_armor_);
                     target_solver.run(target_armor_, target_);
-                    predictor.run(target_.x, target_.y, target_.z, target_.x, target_.y, target_.z);
+                    // predictor.run(target_.x, target_.y, target_.z, target_.x, target_.y, target_.z);
                     angle_solver.run(target_.x, target_.y, target_.z, 20, send_pack_.yaw, send_pack_.pitch);
+                    send_pack_.mode = 0;
 
                 } else if (read_pack_.mode == Mode::RUNE) {
 
                     rune_solver.run(current_frame_, target_.x, target_.y, target_.z);
                     angle_solver.run(target_.x, target_.y, target_.z, 28, send_pack_.yaw, send_pack_.pitch);
+                    send_pack_.mode = 1;
 
                 } else {
                     continue;
                 }
-#ifndef CAMERA_ONLY
-#ifndef TEST
-                serial_port.sendData(0, send_pack_.yaw, send_pack_.pitch);
-#endif
+#ifdef USE_SERIAL
+                serial_port.sendData(send_pack_);
 #endif
                 // cout << "x: " << target_.x << "\t"
                 //      << "y: " << target_.y << "\t"
@@ -215,8 +225,9 @@ void Workspace::imageProcessingFunc() {
                 putText(src, ostr.str(), Point(20,150), CV_FONT_NORMAL, 1, Scalar(0,255,0));
                 ostr.str("");
 
+                drawRotatedRect(src, target_armor_);
                 imshow("current_frame", src);
-#ifndef TEST
+#ifdef USE_CAMERA
                 if (waitKey(1) == 27)  exit(0);
 #endif
 #if TEST == 1
@@ -224,7 +235,7 @@ void Workspace::imageProcessingFunc() {
 #elif TEST == 2
                 if (waitKey(30) == 27)     break;
 #endif
-#endif
+#endif    // SHOW_IMAGE
             } else {
                 continue;
             }
@@ -234,23 +245,22 @@ void Workspace::imageProcessingFunc() {
             sleep(1);
             for (int i = 0; i < 10; ++i) {
                 try {
-                    openSerial();
+                    openSerialPort();
                     if (serial_port.isOpen()) break;
                 } catch (SerialException &e2) {
                     cout << "Try to open serial port error." << endl;
                     sleep(1);
                 }
             }
-        } // catch (cv::Exception &e) {  // 预留，出现opencv异常时加入处理
-        //
-        // }
+            if (!serial_port.isOpen())    exit(1);
+        }
     }
 }
 
 void Workspace::messageCommunicatingFunc() {
     while (1) {
         try {
-            serial_port.readData(read_pack_.enemy, read_pack_.mode, read_pack_.pitch, read_pack_.yaw);
+            // serial_port.readData(read_pack_);
         } catch (SerialException &e1) {
             // cout << "Serial port read error." << endl;
             // 因已在imageProcessing线程中作了串口重启，为防止重启冲突造成程序bug，这里只接异常而不处理
@@ -258,18 +268,19 @@ void Workspace::messageCommunicatingFunc() {
             // sleep(1);
             // for (int i = 0; i < 10; ++i) {
             //     try {
-            //         openSerial();
+            //         openSerialPort();
             //         if (serial_port.isOpen()) break;
             //     } catch (SerialException &e2) {
             //         cout << "Try to open serial port error." << endl;
             //         sleep(1);
             //     }
             // }
+            // if (!serial_port.isOpen())    exit(1);
         }
     }
 }
 
-void Workspace::openSerial() {
+void Workspace::openSerialPort() {
     int count = 0;
     string port_name;
 

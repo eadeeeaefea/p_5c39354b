@@ -41,7 +41,7 @@ void TargetSolver::run(const RotatedRect &armor, Target &target) {
     double ratio = (armor.size.width > armor.size.height) ?
                    (armor.size.width / armor.size.height) :
                    (armor.size.height / armor.size.width);
-    is_big_armor = ratio > 4.8;
+    is_big_armor = ratio > 5.0;
     solvePnP4Points(armor, is_big_armor, rotate_mat_, trans_mat_);
     camera2ptzTransform(trans_mat_, target);
 

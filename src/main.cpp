@@ -13,9 +13,8 @@
 int main(int argc, char **argv) {
 
     Workspace workspace;
-    cv::FileStorage file_storage(PARAM_PATH, FileStorage::READ);
 
-    workspace.init(file_storage);
+    workspace.init();
 
     workspace.run();
 

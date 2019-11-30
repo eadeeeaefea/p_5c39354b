@@ -26,7 +26,7 @@ void ArmorDetector::init(const FileStorage &file_storage) {
     file_storage["distortion_coeff"] >> distortion_coeff_;
 #endif
 #ifdef BGR
-    gray_thres_ = 30;
+    gray_thres_ = 20;
     subtract_thres_ = 40;
     kernel_size_ = 3;
 #endif
@@ -51,9 +51,9 @@ void ArmorDetector::init(const FileStorage &file_storage) {
     max_ratio_ = 6.0;
     min_len_ratio_ = 0.5;
     max_len_ratio_ = 2.0;
-    max_lightbar_angle_ = 15.0;  // 下面三个tracebar上为*10
-    max_armor_angle_ = 20.0;
-    max_armor_lightbar_delta_ = 15.0;
+    max_lightbar_angle_ = 20.0;  // 下面三个tracebar上为*10
+    max_armor_angle_ = 30.0;
+    max_armor_lightbar_delta_ = 20.0;
 }
 
 void ArmorDetector::run(const Mat &src,
@@ -121,10 +121,7 @@ void ArmorDetector::run(const Mat &src,
 #endif
     findTarget(processed_image_, target_armor);
 #ifdef SHOW_IMAGE
-    Point2f vertices[4];
-    target_armor.points(vertices);
-    for (int i = 0; i < 4; ++i)
-        line(original_image_, vertices[i], vertices[(i+1)%4], Scalar(0,255,0), 2, 8);
+    drawRotatedRect(original_image_, target_armor);
     imshow("original", original_image_);
 #ifdef TRACKBAR
     copyMakeBorder(processed_image_, processed_image_, 0, 480-processed_image_.rows,
@@ -316,7 +313,7 @@ void ArmorDetector::findArmors(vector<RotatedRect> &lightbars,
             // 长宽比在范围内
             temp_result_ = temp_result_ && current_ratio_ > min_ratio_ && current_ratio_ < max_ratio_;
             temp_score_ += fabs(current_ratio_ - 3.31) * 10.0 / 3.31;  // 标准宽高比和其权值
-            // cout << temp_result_ << "  " << temp_score_ << endl;
+            // cout << current_ratio_ << "  " << temp_result_ << "  " << temp_score_ << endl;
             // 两灯条长度相差不过大
             temp_result_ = temp_result_ && length_ratio_ > min_len_ratio_ && length_ratio_ < max_len_ratio_;
             if (length_ratio_ > 1.0) {
@@ -324,19 +321,19 @@ void ArmorDetector::findArmors(vector<RotatedRect> &lightbars,
             } else {
                 temp_score_ += (1.0 - length_ratio_) * 10.0 / (1.0 - min_len_ratio_);  // 权值
             }
-            // cout << temp_result_ << "  " << temp_score_ << endl;
+            // cout << length_ratio_ << "  " << temp_result_ << "  " << temp_score_ << endl;
             // 两灯条倾斜度之差不过大
             temp_result_ = temp_result_ && lightbar_angle_delta_ < max_lightbar_angle_;
             temp_score_ += lightbar_angle_delta_ * 10.0 / max_lightbar_angle_;  // 权值
-            // cout << temp_result_ << "  " << temp_score_ << endl;
+            // cout << lightbar_angle_delta_ << "  " << temp_result_ << "  " << temp_score_ << endl;
             // 装甲板不过于倾斜
             temp_result_ = temp_result_ && fabs(armor_angle_) < max_armor_angle_;
             temp_score_ += fabs(armor_angle_) * 10.0 / max_armor_angle_;  // 权值
-            // cout << temp_result_ << "  " << temp_score_ << endl;
+            // cout << armor_angle_ << "  " << temp_result_ << "  " << temp_score_ << endl;
             // 灯甲倾斜度相差不过大
             temp_result_ = temp_result_ && armor_lightbar_delta_ < max_armor_lightbar_delta_;
             temp_score_ += armor_lightbar_delta_ * 10.0 / max_armor_lightbar_delta_;  // 权值
-            // cout << temp_result_ << "  " << temp_score_ << endl;
+            // cout << armor_lightbar_delta_ << "  " << temp_result_ << "  " << temp_score_ << endl;
 
             if (temp_result_) {
                 subscript_.push_back(i);
@@ -409,3 +406,10 @@ void ArmorDetector::set_roi_rect(const Rect &rect) {
     roi_rect_ = Rect(detect_x, detect_y, detect_width, detect_height);
 }
 #endif
+
+void drawRotatedRect(Mat &src, RotatedRect &rect) {
+    Point2f vertices[4];
+    rect.points(vertices);
+    for (int i = 0; i < 4; ++i)
+        line(src, vertices[i], vertices[(i+1)%4], Scalar(0,255,0), 2, 8);
+}

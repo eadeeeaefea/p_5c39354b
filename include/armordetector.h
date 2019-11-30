@@ -118,5 +118,7 @@ private:
 
 };
 
+void drawRotatedRect(Mat &src, RotatedRect &rect);
+
 
 #endif  // HERORM2020_ARMORDETECTOR_H
