@@ -17,6 +17,19 @@ using std::string;
 using std::exception;
 
 
+typedef struct SendPack_t {
+    int mode;
+    double yaw;
+    double pitch;
+}SendPack;
+
+typedef struct ReadPack_t {
+    int enemy_color;  // 0-red, 1-blue
+    int mode;
+    double pitch;
+    double yaw;
+}ReadPack;
+
 class SerialPort {
 private:
     string port_name_;
@@ -65,8 +78,8 @@ public:
     void setFlowControl(int flow_control);
     int getFlowControl();
 
-    void sendData(int mode, double yaw, double pitch);
-    bool readData(int &enemy_color, int &mode, double &pitch, double &yaw);
+    void sendData(const SendPack &send_pack);
+    bool readData(ReadPack &read_pack);
 
 private:
     void reconfigurePort();

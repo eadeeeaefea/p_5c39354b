@@ -53,5 +53,6 @@ double Predictor::uniformMotionSolve(double &x0, double x1) {
     double v = (x1 - x0) / delta_t;
     double xt = x1 + v * delta_t;
     x0 = x1;
+
     return xt;
 }
