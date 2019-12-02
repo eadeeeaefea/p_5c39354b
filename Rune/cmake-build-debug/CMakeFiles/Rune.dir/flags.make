@@ -6,5 +6,5 @@ CXX_FLAGS = -g   -std=gnu++11
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I"/home/luzhan/My Project/RM2020/Rune/./include" -I"/home/luzhan/My Project/RM2020/Rune/include" -isystem /usr/local/include/opencv 
+CXX_INCLUDES = -I"/home/luzhan/My Project/RM2020/2020 大风车识别/Rune/./include" -I"/home/luzhan/My Project/RM2020/2020 大风车识别/Rune/include" -isystem /usr/local/include/opencv 
 

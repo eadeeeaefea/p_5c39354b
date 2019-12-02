@@ -86,7 +86,15 @@ energy.hpp
 videoio.hpp
 .././include/videoio.hpp
 
-/home/luzhan/My Project/RM2020/Rune/src/workspace.cpp
+/home/luzhan/My Project/RM2020/2020 大风车识别/Rune/src/energy.cpp
+energy.hpp
+/home/luzhan/My Project/RM2020/2020 大风车识别/Rune/src/energy.hpp
+
+/home/luzhan/My Project/RM2020/2020 大风车识别/Rune/src/main.cpp
 workspace.h
-/home/luzhan/My Project/RM2020/Rune/src/workspace.h
+/home/luzhan/My Project/RM2020/2020 大风车识别/Rune/src/workspace.h
+
+/home/luzhan/My Project/RM2020/2020 大风车识别/Rune/src/workspace.cpp
+workspace.h
+/home/luzhan/My Project/RM2020/2020 大风车识别/Rune/src/workspace.h
 

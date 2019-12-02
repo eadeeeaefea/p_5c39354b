@@ -233,7 +233,7 @@ bool Energy::findArrow() {
     for (size_t i = 0; i < contours.size(); ++i){
 //        drawContours(src, contours, i, Scalar(200, 100, 0), 1);
         area = contourArea(contours[i]);
-//        cout<<"箭头面积: "<<area<<'\n';
+        cout<<"箭头面积: "<<area<<'\n';
         //根据面积筛选
         if (area < MIN_ARROW_AREA || area > MAX_ARROW_AREA)
             continue;
@@ -247,7 +247,7 @@ bool Energy::findArrow() {
         height = min(temp_rect.size.width, temp_rect.size.height);
         ratio = width / height;
 
-//        cout<<"箭头比例："<<ratio<<'\n';
+        cout<<"箭头比例："<<ratio<<'\n';
         if (ratio < MIN_ARROW_RATIO || ratio > MAX_ARROW_RATIO)
             continue;
 

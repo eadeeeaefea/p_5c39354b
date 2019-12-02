@@ -41,7 +41,7 @@ private:
     const float MIN_ENERGY_RATIO = 1.0f;
     const float MAX_ENERGY_RATIO = 2.0f;
     //箭头范围
-    static const int MIN_ARROW_AREA = 1500;
+    static const int MIN_ARROW_AREA = 1450;
     static const int MAX_ARROW_AREA = 1900;
     const float MIN_ARROW_RATIO = 1.7f;
     const float MAX_ARROW_RATIO = 2.8f;
