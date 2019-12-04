@@ -18,7 +18,7 @@ using namespace cv;
 class Predictor {
 private:
     vector<Point3d> object_coordinate;
-    vector<Point3d> object_inaccurate_speed;
+    Point3d object_inaccurate_speed[5];
     Point3d object_accurate_speed;
     Point3d object_motion;
 public:
