@@ -127,7 +127,7 @@ void Energy::run(double &x, double &y, double &z) {
     if ((mode == MODE_BIG) || (mode ==MODE_RANDOM))
         solveCurrentCenter();
 
-//    circle(src, current_center, 1, Scalar(255, 10, 0), 2);
+    circle(src, current_center, 1, Scalar(255, 10, 0), 2);
 //    line(src, target_energy.center, current_center, Scalar(255, 255, 255), 1);
 
     predicting();
@@ -355,7 +355,7 @@ void Energy::solveCurrentCenter() {
     unitVector = target_arrow.center - target_energy.center;
     unitVector /= getDistance(target_arrow.center, target_energy.center);
     current_center = unitVector * circle_radius + target_energy.center;
-//    circle(src, current_center, 2, Scalar(190, 10, 160), 2);
+    circle(src, current_center, 2, Scalar(190, 10, 160), 2);
 //    cout<<"当前圆心:"<<current_center<<endl;
 }
 
@@ -414,7 +414,7 @@ void Energy::judgeDirection() {
         //对于角度在x轴正半轴附近的跳变进行补偿
         if (delta < -180) delta += 360;
         if (delta > 180) delta -= 360;
-        if (abs(delta) < 2)
+        if (abs(delta) < 1)
             STATIC_cnt++;
         else if (delta > 0)
             CCW_cnt++;

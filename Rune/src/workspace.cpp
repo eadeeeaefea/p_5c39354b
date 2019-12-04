@@ -50,9 +50,11 @@ void Workspace::imageReceivingFunc() {
 }
 
 void Workspace::imageProcessingFunc() {
-
+//    Timer clock;
+    int count = 0;
     while (1) {
         try {
+            Timer clock;
             if (!image_buffer_.empty()) {
 
                 image_buffer_mutex.lock();
@@ -80,9 +82,8 @@ void Workspace::imageProcessingFunc() {
                     putText(current_frame_, "send_pitch:" + to_string(send_pack_.pitch), Point(10, 150), 1, 1.5, Scalar(255,255,255));
                     putText(current_frame_, "send_yaw:" + to_string(send_pack_.yaw), Point(10, 200), 1, 1.5, Scalar(255,255,255));
                     serial_port.sendData(0, send_pack_.yaw, send_pack_.pitch);
-                }
-                cout<<energy.isCalibrated<<endl;
-                if (energy.isLoseAllTargets && energy.isCalibrated) {
+                    count++;
+                }else if (energy.isLoseAllTargets && energy.isCalibrated) {
                     cout << target_.x << "  " << target_.y << "  " << target_.z << endl;
                     cout<<"复位!\n";
                     send_pack_.pitch = angle_solver.getOriginPitch() - read_pack_.pitch;
@@ -92,15 +93,19 @@ void Workspace::imageProcessingFunc() {
                     putText(current_frame_, "send_pitch:" + to_string(send_pack_.pitch), Point(10, 150), 1, 1.5, Scalar(255,255,255));
                     putText(current_frame_, "send_yaw:" + to_string(send_pack_.yaw), Point(10, 200), 1, 1.5, Scalar(255,255,255));
                     serial_port.sendData(0, send_pack_.yaw, send_pack_.pitch);
+                    count++;
                 }
                 imshow("读回的角度", current_frame_);
                 video.write(current_frame_);
-                if (waitKey(1) == 27){
-                    exit(0);
-                }
-                if (waitKey(1000 / 30) > 0)  {
+                clock.stop();
+//                if (waitKey(1) == 27){
+//                    exit(0);
+//                }
+                if (waitKey(1) > 0)  {
                     waitKey();
                 }
+
+
 
             }
         } catch (SerialException &e1) {

@@ -15,7 +15,7 @@ private:
 public:
     Timer();
     ~Timer();
-    void stop();
+    double stop();
     void stop(std::string str);
 };
 

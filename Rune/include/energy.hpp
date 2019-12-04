@@ -42,12 +42,12 @@ private:
     const float MAX_ENERGY_RATIO = 2.0f;
     //箭头范围
     static const int MIN_ARROW_AREA = 1450;
-    static const int MAX_ARROW_AREA = 1900;
+    static const int MAX_ARROW_AREA = 2050;
     const float MIN_ARROW_RATIO = 1.7f;
     const float MAX_ARROW_RATIO = 2.8f;
     //PNP解算 能量板实际尺寸
-    const float ENERGY_HALF_LENGTH = 115.0f;
-    const float ENERGY_HALF_WIDTH = 27.0f;
+    const float ENERGY_HALF_LENGTH = 135.0f;
+    const float ENERGY_HALF_WIDTH = 65.0f;
 
     const int QUEUE_SIZE = 30;
     //变量部分
