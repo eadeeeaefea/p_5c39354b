@@ -21,6 +21,7 @@ private:
     Point3d object_inaccurate_speed[5];
     Point3d object_accurate_speed;
     Point3d object_motion;
+    double time_for_excercise;
 public:
     Predictor();
 
@@ -31,7 +32,9 @@ public:
     void run(double &x, double &y, double &z, double ptz_pitch, double ptz_yaw);
 
 private:
-    void motion_prediction(double &x, double &y, double &z, double ptz_pitch, double ptz_yaw);
+    void explosive_motion_prediction(double &x, double &y, double &z, double ptz_pitch, double ptz_yaw);
+
+    void normal_motion_prediction(double &x, double &y, double &z, double ptz_pitch, double ptz_yaw);
 
     void coordinate_transformation(double &x, double &y, double &z, double ptz_pitch, double ptz_yaw);
 
@@ -40,6 +43,8 @@ private:
     double point_distance(Point3d point1, Point3d point2);
 
     bool judgement();
+
+    void get_excercise_time(double x, double y, double v, double ptz_pitch);
 };
 
 
