@@ -27,6 +27,7 @@ void Predictor::init() {
 }
 
 void Predictor::run(double &x, double &y, double &z, double ptz_pitch, double ptz_yaw) {
+    get_excercise_time(sqrt(x * x + z * z), y, 20, ptz_pitch);
     motion_prediction(x, y, z, ptz_pitch, ptz_yaw);
 }
 
@@ -52,9 +53,9 @@ void Predictor::motion_prediction(double &x, double &y, double &z, double ptz_pi
         }
         object_accurate_speed = (object_inaccurate_speed[0] + object_inaccurate_speed[1] + object_inaccurate_speed[2] +
                                  object_inaccurate_speed[3] + object_inaccurate_speed[4]) / 5;
-        x = object_coordinate[9].x + object_accurate_speed.x * 0.035;
-        y = object_coordinate[9].y + object_accurate_speed.y * 0.035;
-        z = object_coordinate[9].z + object_accurate_speed.z * 0.035;
+        x = object_coordinate[9].x + object_accurate_speed.x * time_for_excercise;
+        y = object_coordinate[9].y + object_accurate_speed.y * time_for_excercise;
+        z = object_coordinate[9].z + object_accurate_speed.z * time_for_excercise;
         anti_coordinate_transformation(x, y, z, angle_pitch, angle_yaw);
     } else {
         anti_coordinate_transformation(x, y, z, angle_pitch, angle_yaw);
@@ -102,5 +103,23 @@ bool Predictor::judgement() {
     }
     if (count == 10) {
         return true;
+    }
+}
+
+void Predictor::get_excercise_time(double x, double y, double v, double ptz_pitch) {
+    double time_square;
+    static const double g = 9.7988;
+    double delta_angle;
+    double x_bar;
+    double y_bar;
+    delta_angle = ptz_pitch * PI / 180;
+    x_bar = x * cos(delta_angle) - y * sin(delta_angle);
+    y_bar = x * sin(delta_angle) + y * cos(delta_angle);
+    time_square =
+            2.0 * ((y_bar * g + v * v) - sqrt(pow(g * y_bar + v * v, 2.0) - (x_bar * x_bar + y_bar * y_bar) * g * g)) /
+            (g * g);
+    time_for_excercise = sqrt(time_square) + 0.04;
+    if (isnan(time_for_excercise)) {
+        time_for_excercise = 0.04;
     }
 }
