@@ -6,6 +6,12 @@
 
 #IncludeRegexTransform: 
 
+.././include/anglesolver.h
+cmath
+-
+iostream
+-
+
 .././include/draw.hpp
 opencv2/opencv.hpp
 -
@@ -25,6 +31,10 @@ draw.hpp
 .././include/timer.hpp
 opencv2/opencv.hpp
 -
+
+/home/luzhan/My Project/RM2020/2020 大风车识别/Rune/src/anglesolver.cpp
+anglesolver.h
+/home/luzhan/My Project/RM2020/2020 大风车识别/Rune/src/anglesolver.h
 
 /home/luzhan/My Project/RM2020/2020 大风车识别/Rune/src/energy.cpp
 energy.hpp

@@ -72,7 +72,7 @@ void Energy::run(double &x, double &y, double &z) {
 
     //数据匹配,更新队列
     updateQueue();
-
+    findCenterR();
     //方向未知则判断方向
     if (direction == DIR_DEFAULT){
         if (!solveDirection())
@@ -120,14 +120,15 @@ void Energy::run(double &x, double &y, double &z) {
     //执行到这一步以后,就可以标定云台原点了
 
 //    cout<<"方向:"<<direction<<'\n';
-//    circle(src, circle_center, 2, Scalar(255, 255, 255), 2);
-//    circle(src, circle_center, circle_radius, Scalar(255, 0, 0), 1);
+//    circle(src, ellipse_center, 2, Scalar(255, 255, 255), 2);
+//    circle(src, ellipse_center, circle_radius, Scalar(255, 0, 0), 1);
 
     if ((mode == MODE_BIG) || (mode ==MODE_RANDOM))
         solveCurrentCenter();
-
+    cout<<ellipse_Xaxis<<  "椭圆   "<<ellipse_Yaxis<<'\n';
     circle(src, current_center, 1, Scalar(255, 10, 0), 2);
 //    line(src, target_energy.center, current_center, Scalar(255, 255, 255), 1);
+    ellipse(src, fit_rect, Scalar(0, 0, 255), 6, 4);
 
     predicting();
     circle(src, predicted_energy.center, 2, Scalar(190, 10, 160), 2);
@@ -291,8 +292,10 @@ bool Energy::findCenterR() {
         return false;
     isFindCenterR = false;
 //    计算拟合圆
-    isFindCenterR = calculate();
-
+//    isFindCenterR = calculate();
+    for (int i =0; i<QUEUE_SIZE; ++i)
+        circle(src, energy_centers[i], 1, Scalar(255, 10, 0), 2);
+    isFindCenterR = calculate_ellipse();
     //删除异常样本点
     if (!isFindCenterR) {
         energy_centers.pop_back();
@@ -302,61 +305,90 @@ bool Energy::findCenterR() {
 }
 
 
-//最小二乘法拟合圆，推导过程详见
-//https://blog.csdn.net/Jacky_Ponder/article/details/70314919
-bool Energy::calculate() {
-    int N = energy_centers.size();
-    double Xi , Yi;
-    double sigmaX = 0 , sigmaY = 0;
-    double sigmaX2 = 0, sigmaXY = 0, sigmaY2 = 0;
-    double sigmaX3 = 0, sigmaX2Y = 0, sigmaXY2 = 0, sigmaY3 = 0;
-
-    size_t i;
-    for (i = 0; i < N; ++i){
-        Xi = energy_centers[i].x;
-        Yi = energy_centers[i].y;
-        sigmaX += Xi;
-        sigmaY += Yi;
-        sigmaX2 += Xi * Xi;
-        sigmaXY += Xi * Yi;
-        sigmaY2 += Yi * Yi;
-        sigmaX3 += Xi * Xi * Xi;
-        sigmaX2Y += Xi * Xi * Yi;
-        sigmaXY2 += Xi * Yi * Yi;
-        sigmaY3 += Yi * Yi * Yi;
+bool Energy::calculate_ellipse() {
+    int i;
+    fit_rect = fitEllipse(energy_centers);
+    ellipse(src, fit_rect, Scalar(0, 0, 255), 6, 4);
+    ellipse_center = fit_rect.center;
+    Point2f vertices[4];
+    vector<Point2f> temp_points;
+    Point2f temp_point;
+    fit_rect.points(vertices);
+    for (i = 0; i < 4; ++i)
+        temp_points.emplace_back(vertices[i]);
+    if (temp_points[0].x > temp_points[1].x){
+        temp_point = temp_points[0];
+        temp_points.erase(temp_points.begin());
+        temp_points.emplace_back(temp_point);
     }
 
-    double C, D, E, G, H, a, b, c;
-    C = N * sigmaX2 - sigmaX * sigmaX;
-    D = N * sigmaXY - sigmaX * sigmaY;
-    E = N * (sigmaX3 + sigmaXY2) - sigmaX * (sigmaX2 + sigmaY2);
-    G = N * sigmaY2 - sigmaY * sigmaY;
-    H = N * (sigmaY3 + sigmaX2Y) - sigmaY * (sigmaX2 + sigmaY2);
-    a = (H*D - E*G) / (C*G - D*D);
-    b = (H*C - E*D) / (D*D - C*G);
-    if (isnan(a) || isnan(b))
+    ellipse_Yaxis = getDistance(temp_points[0], temp_points[1]) / 2;
+    ellipse_Xaxis = getDistance(temp_points[1], temp_points[2]) / 2;
+    if (ellipse_Xaxis < 100)
         return false;
-    c = -(sigmaX2 + sigmaY2 + a*sigmaX + b*sigmaY) / N;
-
-    circle_center.x = a / (-2);
-    circle_center.y = b / (-2);
-    circle_radius = sqrt(a*a + b*b -4*c) / 2;
-//    cout<<"rad ="<<circle_radius<<'\n';
-    if (isnan(circle_radius))
-        return false;
-
-    if (circle_radius < MIN_RADIUS || circle_radius > MAX_RADIUS)
+    if (isnan(ellipse_Xaxis) || isnan(ellipse_Yaxis))
         return false;
     else
         return true;
 }
 
+//最小二乘法拟合圆，推导过程详见
+//https://blog.csdn.net/Jacky_Ponder/article/details/70314919
+//bool Energy::calculate() {
+//    int N = energy_centers.size();
+//    double Xi , Yi;
+//    double sigmaX = 0 , sigmaY = 0;
+//    double sigmaX2 = 0, sigmaXY = 0, sigmaY2 = 0;
+//    double sigmaX3 = 0, sigmaX2Y = 0, sigmaXY2 = 0, sigmaY3 = 0;
+//
+//    size_t i;
+//    for (i = 0; i < N; ++i){
+//        Xi = energy_centers[i].x;
+//        Yi = energy_centers[i].y;
+//        sigmaX += Xi;
+//        sigmaY += Yi;
+//        sigmaX2 += Xi * Xi;
+//        sigmaXY += Xi * Yi;
+//        sigmaY2 += Yi * Yi;
+//        sigmaX3 += Xi * Xi * Xi;
+//        sigmaX2Y += Xi * Xi * Yi;
+//        sigmaXY2 += Xi * Yi * Yi;
+//        sigmaY3 += Yi * Yi * Yi;
+//    }
+//
+//    double C, D, E, G, H, a, b, c;
+//    C = N * sigmaX2 - sigmaX * sigmaX;
+//    D = N * sigmaXY - sigmaX * sigmaY;
+//    E = N * (sigmaX3 + sigmaXY2) - sigmaX * (sigmaX2 + sigmaY2);
+//    G = N * sigmaY2 - sigmaY * sigmaY;
+//    H = N * (sigmaY3 + sigmaX2Y) - sigmaY * (sigmaX2 + sigmaY2);
+//    a = (H*D - E*G) / (C*G - D*D);
+//    b = (H*C - E*D) / (D*D - C*G);
+//    if (isnan(a) || isnan(b))
+//        return false;
+//    c = -(sigmaX2 + sigmaY2 + a*sigmaX + b*sigmaY) / N;
+//
+//    ellipse_center.x = a / (-2);
+//    ellipse_center.y = b / (-2);
+//    circle_radius = sqrt(a*a + b*b -4*c) / 2;
+////    cout<<"rad ="<<circle_radius<<'\n';
+//    if (isnan(circle_radius))
+//        return false;
+//
+//    if (circle_radius < MIN_RADIUS || circle_radius > MAX_RADIUS)
+//        return false;
+//    else
+//        return true;
+//}
+
 void Energy::solveCurrentCenter() {
     Point2f unitVector;             //单位向量
+    float theta = toPolarCoordinates(target_energy.center, target_arrow.center) * PI / 180;
+    float radius = sqrt(pow(ellipse_Xaxis * cos(theta), 2.0) + pow(ellipse_Yaxis * sin(theta), 2.0));
     unitVector = target_arrow.center - target_energy.center;
     unitVector /= getDistance(target_arrow.center, target_energy.center);
-    current_center = unitVector * circle_radius + target_energy.center;
-    circle(src, current_center, 2, Scalar(190, 10, 160), 2);
+    current_center = unitVector *  radius + target_energy.center;
+    circle(src, current_center, 2, Scalar(255, 255, 255), 2);
 //    cout<<"当前圆心:"<<current_center<<endl;
 }
 
@@ -368,7 +400,7 @@ bool Energy::solveDirection() {
 
     if (isFindCenterR) {
         for (int i = 0; i < energy_centers.size(); ++i) {
-            angle = toPolarCoordinates(energy_centers[i], circle_center);
+            angle = toPolarCoordinates(energy_centers[i], ellipse_center);
             angle_array.emplace_back(angle);
         }
     }else{
@@ -476,9 +508,9 @@ void Energy::predicting() {
     }
     if (next_angle > 360) next_angle -= 360;
     if (next_angle < 0) next_angle += 360;
-    dx = cos(next_angle * PI / 180) * getDistance((Point)target_energy.center, current_center);
-    dy = sin(next_angle * PI / 180) * getDistance((Point)target_energy.center, current_center);
-    cout<<circle_radius<<'\n';
+    dx = cos(next_angle * PI / 180) * ellipse_Xaxis;
+    dy = sin(next_angle * PI / 180) * ellipse_Yaxis;
+
     cout<<"next_angle = "<<next_angle<<'\n';
     cout<<"dx,dy:"<<dx<<"   "<<dy<<'\n';
     //从极坐标系转换到图像坐标系
