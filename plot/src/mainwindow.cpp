@@ -1,14 +1,11 @@
 #include "include/mainwindow.h"
-#include "ui_mainwindow.h"
 
-MainWindow::MainWindow(QWidget *parent) :
+MainWindow::MainWindow(const char* serial_name, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
-    hero_plot = new HeroPlot;
-
+    hero_plot = new HeroPlot(serial_name);
     setupPlot();
 }
 
@@ -53,6 +50,7 @@ void MainWindow::setupPlot()
             SLOT(legendDoubleClicked(QCPLegend*,QCPAbstractLegendItem*)));
     connect(ui->btn_freeze, SIGNAL(clicked(bool)), SLOT(freezeBtnClicked()));
     connect(ui->btn_clear, SIGNAL(clicked(bool)), SLOT(clearBtnClicked()));
+    connect(ui->btn_detail, SIGNAL(clicked(bool)), SLOT(detailBtnClicked()));
 
     hero_plot->timer.start(0);
     ui->customPlot->replot();
@@ -100,11 +98,11 @@ void MainWindow::plot()
             {
                 if(i == 0)
                 {
-    //                ui->customPlot->graph(i)->rescaleValueAxis();
+//                    ui->customPlot->graph(i)->rescaleValueAxis();
                 }
                 else
                 {
-    //                ui->customPlot->graph(i)->rescaleValueAxis(true);
+//                    ui->customPlot->graph(i)->rescaleValueAxis(true);
                 }
             }
             ui->customPlot->replot();
@@ -122,11 +120,9 @@ void MainWindow::plotAxes()
     {
         if(!ui->customPlot->graph(i)->data()->coreData()->isEmpty())
         {
+            if(show_detail_flag_)
+                showDetails();
 
-#ifdef SHOW_DETAIL
-            showDetails(static_cast<HeroPlot::PLOT_TYPE>(i) );
-#endif
-            // todo: to spinbox -> lable
             switch(i)
             {
                 case 0:
@@ -160,34 +156,85 @@ void MainWindow::showFPS()
     if (time_key - fps_last_time_key > 1) // average fps over 1 seconds
     {
       ui->statusBar->showMessage(
-            QString("FPS : %1")
-            .arg(frameCount/(time_key-fps_last_time_key), 0, 'f', 0), 0);
+            QString("FPS : %1\n detail : %2")
+            .arg(frameCount/(time_key-fps_last_time_key), 0, 'f', 0)
+            .arg(show_detail_flag_), 0);
       fps_last_time_key = time_key;
       frameCount = 0;
     }
 }
 
-void MainWindow::showDetails(HeroPlot::PLOT_TYPE graph_index)
+void MainWindow::showDetails()
 {
+    static double min[5]{9999.9, 9999.9, 9999.9, 9999.9, 9999.9};
+    static double max[5]{-9999.9, -9999.9, -9999.9, -9999.9, -9999.9};
+    static double mean[5]{0,0,0,0,0};
+    static double variance[5]{0,0,0,0,0};
     static double detail_last_time_key = 0;
 
     if(time_key - detail_last_time_key > 1)
     {
         if(ui->customPlot->selectedGraphs().size() > 0)
         {
-            if(ui->customPlot->selectedGraphs().first() == ui->customPlot->graph(graph_index))
+            if(ui->customPlot->selectedGraphs().first() == ui->customPlot->graph(0))
             {
-                static double max=-9999.9, min=9999.9, mean=0, variance=0;
+                QVector<QCPGraphData> *m_data = ui->customPlot->selectedGraphs().first()->data()->coreData();
+                calMax(m_data, max[0]);
+                calMin(m_data, min[0]);
+                calMV(m_data, variance[0], mean[0]);
 
-                QVector<QCPGraphData> *m_data = ui->customPlot->graph(graph_index)->data()->coreData();
-                calMax(m_data, max);
-                calMin(m_data, min);
-                calMV(m_data, variance, mean);
+                ui->max_lable->setText(QString("max: %1").arg(max[0], 0, 'f', 2));
+                ui->min_lable->setText(QString("min: %1").arg(min[0], 0, 'f', 2));
+                ui->mean_lable->setText(QString("mean: %1").arg(mean[0], 0, 'f', 2));
+                ui->var_lable->setText(QString("variance: %1").arg(variance[0], 0, 'f', 2));
+            }
+            else if(ui->customPlot->selectedGraphs().first() == ui->customPlot->graph(1))
+            {
+                QVector<QCPGraphData> *m_data = ui->customPlot->selectedGraphs().first()->data()->coreData();
+                calMax(m_data, max[1]);
+                calMin(m_data, min[1]);
+                calMV(m_data, variance[1], mean[1]);
 
-                ui->max_lable->setText(QString("max: %1").arg(max, 0, 'f', 2));
-                ui->min_lable->setText(QString("min: %1").arg(min, 0, 'f', 2));
-                ui->mean_lable->setText(QString("mean: %1").arg(mean, 0, 'f', 2));
-                ui->var_lable->setText(QString("variance: %1").arg(variance, 0, 'f', 2));
+                ui->max_lable->setText(QString("max: %1").arg(max[1], 0, 'f', 2));
+                ui->min_lable->setText(QString("min: %1").arg(min[1], 0, 'f', 2));
+                ui->mean_lable->setText(QString("mean: %1").arg(mean[1], 0, 'f', 2));
+                ui->var_lable->setText(QString("variance: %1").arg(variance[1], 0, 'f', 2));
+            }
+            else if(ui->customPlot->selectedGraphs().first() == ui->customPlot->graph(2))
+            {
+                QVector<QCPGraphData> *m_data = ui->customPlot->selectedGraphs().first()->data()->coreData();
+                calMax(m_data, max[2]);
+                calMin(m_data, min[2]);
+                calMV(m_data, variance[2], mean[2]);
+
+                ui->max_lable->setText(QString("max: %1").arg(max[2], 0, 'f', 2));
+                ui->min_lable->setText(QString("min: %1").arg(min[2], 0, 'f', 2));
+                ui->mean_lable->setText(QString("mean: %1").arg(mean[2], 0, 'f', 2));
+                ui->var_lable->setText(QString("variance: %1").arg(variance[2], 0, 'f', 2));
+            }
+            else if(ui->customPlot->selectedGraphs().first() == ui->customPlot->graph(3))
+            {
+                QVector<QCPGraphData> *m_data = ui->customPlot->selectedGraphs().first()->data()->coreData();
+                calMax(m_data, max[3]);
+                calMin(m_data, min[3]);
+                calMV(m_data, variance[3], mean[3]);
+
+                ui->max_lable->setText(QString("max: %1").arg(max[3], 0, 'f', 2));
+                ui->min_lable->setText(QString("min: %1").arg(min[3], 0, 'f', 2));
+                ui->mean_lable->setText(QString("mean: %1").arg(mean[3], 0, 'f', 2));
+                ui->var_lable->setText(QString("variance: %1").arg(variance[3], 0, 'f', 2));
+            }
+            else if(ui->customPlot->selectedGraphs().first() == ui->customPlot->graph(4))
+            {
+                QVector<QCPGraphData> *m_data = ui->customPlot->selectedGraphs().first()->data()->coreData();
+                calMax(m_data, max[4]);
+                calMin(m_data, min[4]);
+                calMV(m_data, variance[4], mean[4]);
+
+                ui->max_lable->setText(QString("max: %1").arg(max[4], 0, 'f', 2));
+                ui->min_lable->setText(QString("min: %1").arg(min[4], 0, 'f', 2));
+                ui->mean_lable->setText(QString("mean: %1").arg(mean[4], 0, 'f', 2));
+                ui->var_lable->setText(QString("variance: %1").arg(variance[4], 0, 'f', 2));
             }
         }
     detail_last_time_key = time_key;
@@ -283,7 +330,7 @@ void MainWindow::clearBtnClicked()
 {
     for(int i = 0; i < graph_num_; ++i)
     {
-        ui->customPlot->graph(0)->data()->coreData()->clear();
+        ui->customPlot->graph(i)->data()->coreData()->clear();
     }
     ui->customPlot->replot();
 }
@@ -291,6 +338,11 @@ void MainWindow::clearBtnClicked()
 void MainWindow::freezeBtnClicked()
 {
     plot_freeze_flag_ = !plot_freeze_flag_;
+}
+
+void MainWindow::detailBtnClicked()
+{
+    show_detail_flag_ = !show_detail_flag_;
 }
 
 template<typename T>

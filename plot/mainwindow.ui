@@ -32,8 +32,8 @@
    <widget class="QPushButton" name="btn_exit">
     <property name="geometry">
      <rect>
-      <x>1040</x>
-      <y>460</y>
+      <x>1150</x>
+      <y>540</y>
       <width>101</width>
       <height>41</height>
      </rect>
@@ -50,8 +50,8 @@
    <widget class="QPushButton" name="btn_freeze">
     <property name="geometry">
      <rect>
-      <x>1040</x>
-      <y>340</y>
+      <x>1020</x>
+      <y>540</y>
       <width>101</width>
       <height>41</height>
      </rect>
@@ -210,8 +210,8 @@
    <widget class="QPushButton" name="btn_clear">
     <property name="geometry">
      <rect>
-      <x>1040</x>
-      <y>400</y>
+      <x>1020</x>
+      <y>470</y>
       <width>101</width>
       <height>41</height>
      </rect>
@@ -223,6 +223,24 @@
     </property>
     <property name="text">
      <string>Clear</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_detail">
+    <property name="geometry">
+     <rect>
+      <x>1150</x>
+      <y>470</y>
+      <width>101</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>15</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Detail</string>
     </property>
    </widget>
   </widget>

@@ -28,13 +28,15 @@ SOURCES += \
     src/main.cpp \
     src/mainwindow.cpp \
     src/hero_plot.cpp \
-    src/qcustomplot.cpp
+    src/qcustomplot.cpp \
+    src/serialport.cpp
 
 HEADERS += \
     include/mainwindow.h \
     include/hero_plot.h \
     include/qcustomplot.h \
-    include/ui_mainwindow.h
+    include/ui_mainwindow.h \
+    include/serialport.h
 
 FORMS += \
         mainwindow.ui

@@ -2,7 +2,6 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QMutex>
 #include <QDebug>
 #include <QVector>
 
@@ -32,19 +31,17 @@ private:
     // control variables
     int graph_num_ = 0;
     bool plot_freeze_flag_ = false;
+    bool show_detail_flag_ = false;
     int max_vec_size_ = 17000;
     double time_key = 0;
     double last_time_key = 0;
-
-    // locker
-    QMutex mutex_;
 
     // plot vectors
     QVector<QVector<double> > value_vecs_;
     QVector<double> time_vec;
 
 public:
-    explicit MainWindow(QWidget *parent = 0);
+    explicit MainWindow(const char* serial_name, QWidget *parent = 0);
     ~MainWindow();
 
     void run();
@@ -54,7 +51,7 @@ private:
     void newGraph(QString name, QPen pen);
     void plotAxes();
     void showFPS();
-    void showDetails(HeroPlot::PLOT_TYPE graph_index);
+    void showDetails();
 
     template<typename T>
     inline void calMax(const QVector<QCPGraphData> *m_data, T &max);
@@ -75,6 +72,7 @@ private slots:
     void legendDoubleClicked(QCPLegend *legend, QCPAbstractLegendItem *item);
     void clearBtnClicked();
     void freezeBtnClicked();
+    void detailBtnClicked();
 
     void testPlot();
 
