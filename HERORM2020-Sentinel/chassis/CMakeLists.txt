@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5.1)
-project(HERORM2020_TOP)
+project(HERORM2020_CHASSIS)
 
 set(CMAKE_CXX_STANDARD 14)
 set(OpenCV_DIR /usr/local/share/OpenCV)
