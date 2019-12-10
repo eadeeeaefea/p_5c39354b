@@ -1,4 +1,0 @@
-Log file created at: 2019/12/04 21:46:03
-Running on machine: luzhan-GF63-8RC
-Log line format: [IWEF]mmdd hh:mm:ss.uuuuuu threadid file:line] msg
-W1204 21:46:03.422236  5494 MVCameraBase.cpp:97] Device:(name:MV-SUA33GC#0 sn:049080710033)Lost

@@ -72,7 +72,7 @@ void Energy::run(double &x, double &y, double &z) {
 
     //数据匹配,更新队列
     updateQueue();
-    findCenterR();
+//    findCenterR();
     //方向未知则判断方向
     if (direction == DIR_DEFAULT){
         if (!solveDirection())
@@ -90,8 +90,6 @@ void Energy::run(double &x, double &y, double &z) {
             case DIR_STATIC:
                 mode = MODE_SMALL;
                 break;
-            default:
-                return;
         }
     }
 
@@ -125,10 +123,12 @@ void Energy::run(double &x, double &y, double &z) {
 
     if ((mode == MODE_BIG) || (mode ==MODE_RANDOM))
         solveCurrentCenter();
-    cout<<ellipse_Xaxis<<  "椭圆   "<<ellipse_Yaxis<<'\n';
+//    cout<<ellipse_Xaxis<<  "椭圆   "<<ellipse_Yaxis<<'\n';
     circle(src, current_center, 1, Scalar(255, 10, 0), 2);
 //    line(src, target_energy.center, current_center, Scalar(255, 255, 255), 1);
-    ellipse(src, fit_rect, Scalar(0, 0, 255), 6, 4);
+    RotatedRect fit_rect = RotatedRect(ellipse_center, Size(ellipse_Xaxis * 2, ellipse_Yaxis * 2), 0);
+    draw.drawRectangle(src, fit_rect, Scalar(0, 0, 255));
+    ellipse(src, fit_rect, Scalar(255,255,255));
 
     predicting();
     circle(src, predicted_energy.center, 2, Scalar(190, 10, 160), 2);
@@ -165,12 +165,12 @@ bool Energy::findEnergy() {
 
     Mat element = getStructuringElement(MORPH_RECT, Size(3, 3));
     dilate(temp_bin, temp_bin, element, Point(-1, -1), 2);
-    imshow("填充前",temp_bin);
+//    imshow("填充前",temp_bin);
     floodFill(temp_bin, Point(1, 1), Scalar(255), 0, FLOODFILL_FIXED_RANGE);
-    imshow("填充后",temp_bin);
+//    imshow("填充后",temp_bin);
     element = getStructuringElement(MORPH_RECT, Size(5, 5));
     erode(temp_bin, temp_bin, element, Point(-1, -1), 3);
-    imshow("复原后", temp_bin);
+//    imshow("复原后", temp_bin);
 
     vector<vector<Point>> contours;
     vector<Point> target_contour;       //目标轮廓
@@ -223,7 +223,7 @@ bool Energy::findArrow() {
 
     Mat element = getStructuringElement(MORPH_RECT, Size(3, 3));
     dilate(temp_bin, temp_bin, element, Point(-1, -1), 2);
-    imshow("箭头预处理后", temp_bin);
+//    imshow("箭头预处理后", temp_bin);
 
     vector<vector<Point>> contours;
     vector<Point> target_contour;       //目标轮廓
@@ -306,8 +306,69 @@ bool Energy::findCenterR() {
 
 
 bool Energy::calculate_ellipse() {
+//    int N = energy_centers.size();
+//    float Xi , Yi;
+//    float sigmaX = 0 , sigmaY = 0;
+//    float sigmaX2 = 0, sigmaXY = 0, sigmaY2 = 0;
+//    float sigmaX3 = 0, sigmaX2Y = 0, sigmaXY2 = 0, sigmaY3 = 0;
+//    float sigmaX4 = 0, sigmaX3Y = 0, sigmaX2Y2 = 0, sigmaXY3 = 0, sigmaY4 = 0;
+//    int i;
+//    for (i = 0; i < N; ++i){
+//        Xi = energy_centers[i].x;
+//        Yi = energy_centers[i].y;
+//        sigmaX += Xi;
+//        sigmaY += Yi;
+//        sigmaX2 += Xi * Xi;
+//        sigmaXY += Xi * Yi;
+//        sigmaY2 += Yi * Yi;
+//        sigmaX3 += Xi * Xi * Xi;
+//        sigmaX2Y += Xi * Xi * Yi;
+//        sigmaXY2 += Xi * Yi * Yi;
+//        sigmaY3 += Yi * Yi * Yi;
+//        sigmaX4 += Xi * Xi * Xi * Xi;
+//        sigmaX3Y += Xi * Xi * Xi * Yi;
+//        sigmaX2Y2 += Xi * Xi * Yi * Yi;
+//        sigmaXY3 += Xi * Yi * Yi * Yi;
+//        sigmaY4 += Yi * Yi * Yi * Yi;
+//    }
+//    Mat left_matrix = (Mat_<float>(4, 4) << sigmaY4, sigmaXY2, sigmaY3, sigmaY2,
+//                                            sigmaXY2, sigmaX2, sigmaXY, sigmaX,
+//                                            sigmaY3, sigmaXY, sigmaY2, sigmaY,
+//                                            sigmaY2, sigmaX, sigmaY, 1);
+//    cout << "left_matrix[4,4]=" << left_matrix << endl;
+//    Mat right_matrix = (Mat_<float>(4, 1) << -sigmaX2Y2, -sigmaX3, -sigmaX2Y, -sigmaX2);
+//    cout << "right_matrix[4,1]=" << right_matrix << endl;
+//    Mat ellipse_solution(4, 1, CV_32F);
+//    solve(left_matrix, right_matrix, ellipse_solution, DECOMP_LU);
+//    cout << "solution[4,1]=" << ellipse_solution << endl;
+//    double A, B, C, D;
+//    A = ellipse_solution.at<float>(0, 0);
+//    B = ellipse_solution.at<float>(1, 0);
+//    C = ellipse_solution.at<float>(2, 0);
+//    D = ellipse_solution.at<float>(3, 0);
+//
+//    ellipse_Xaxis = sqrt(0.25*B*B + C*C/4.0/A - D);
+//    ellipse_Yaxis = sqrt((0.25*B*B + C*C/4.0/A - D) / A);
+//    ellipse_center.x = -B / 2.0;
+//    ellipse_center.y = -C / 2.0 / A;
+//    cout<<"x="<<ellipse_Xaxis<<"   y="<<ellipse_Yaxis<<endl;
+//    cout<<"center.x="<<ellipse_center.x<<"   y="<<ellipse_center.y<<endl;
+//    if (isnan(ellipse_Xaxis))
+//        return false;
+//
+//    if (isnan(ellipse_Yaxis))
+//        return false;
+//
+//    if (ellipse_center.x < 0 || ellipse_center.x > 640)
+//        return false;
+//
+//    if (ellipse_center.y < 0 || ellipse_center.y > 480)
+//        return false;
+//
+//    return true;
+//    cout<<"rad ="<<circle_radius<<'\n';
     int i;
-    fit_rect = fitEllipse(energy_centers);
+    RotatedRect fit_rect = fitEllipse(energy_centers);
     ellipse(src, fit_rect, Scalar(0, 0, 255), 6, 4);
     ellipse_center = fit_rect.center;
     Point2f vertices[4];
@@ -324,8 +385,8 @@ bool Energy::calculate_ellipse() {
 
     ellipse_Yaxis = getDistance(temp_points[0], temp_points[1]) / 2;
     ellipse_Xaxis = getDistance(temp_points[1], temp_points[2]) / 2;
-    if (ellipse_Xaxis < 100)
-        return false;
+//    if (ellipse_Xaxis < 100)
+//        return false;
     if (isnan(ellipse_Xaxis) || isnan(ellipse_Yaxis))
         return false;
     else

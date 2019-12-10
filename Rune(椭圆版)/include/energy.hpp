@@ -38,19 +38,19 @@ private:
     static const int MAX_RADIUS = 90;
     //能量板范围
     static const int MIN_ENERGY_AREA = 650;
-    static const int MAX_ENERGY_AREA = 1000;
+    static const int MAX_ENERGY_AREA = 1500;
     const float MIN_ENERGY_RATIO = 1.0f;
     const float MAX_ENERGY_RATIO = 2.0f;
     //箭头范围
     static const int MIN_ARROW_AREA = 1450;
-    static const int MAX_ARROW_AREA = 2050;
+    static const int MAX_ARROW_AREA = 3050;
     const float MIN_ARROW_RATIO = 1.7f;
-    const float MAX_ARROW_RATIO = 2.8f;
+    const float MAX_ARROW_RATIO = 2.6f;
     //PNP解算 能量板实际尺寸
     const float ENERGY_HALF_LENGTH = 135.0f;
     const float ENERGY_HALF_WIDTH = 65.0f;
 
-    const int QUEUE_SIZE = 100;
+    const int QUEUE_SIZE = 300;
     //变量部分
     std::vector<cv::Point3f> object_Points;     //世界坐标系下的坐标
     std::vector<cv::Point2f> image_Points;      //图像坐标系下的坐标
@@ -77,7 +77,7 @@ private:
     cv::Point current_center;                           //当前帧椭圆圆心坐标
     double ellipse_Xaxis;                               //拟合椭圆X半长轴
     double ellipse_Yaxis;                               //拟合椭圆Y半长轴
-    cv::RotatedRect fit_rect;
+
     //预测
     std::vector<double> angle_array;
     const float ANGLE_OFFSET = 25.0f;

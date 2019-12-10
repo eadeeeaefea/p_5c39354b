@@ -41,8 +41,8 @@ private:
     const float MIN_ENERGY_RATIO = 1.0f;
     const float MAX_ENERGY_RATIO = 2.0f;
     //箭头范围
-    static const int MIN_ARROW_AREA = 1450;
-    static const int MAX_ARROW_AREA = 2050;
+    static const int MIN_ARROW_AREA = 1350;
+    static const int MAX_ARROW_AREA = 2550;
     const float MIN_ARROW_RATIO = 1.7f;
     const float MAX_ARROW_RATIO = 2.8f;
     //PNP解算 能量板实际尺寸
@@ -78,7 +78,7 @@ private:
 
     //预测
     std::vector<double> angle_array;
-    const float ANGLE_OFFSET = 25.0f;
+    const float ANGLE_OFFSET = 45.0f;
     Direction direction;
 public:
     Energy();

@@ -164,12 +164,12 @@ bool Energy::findEnergy() {
 
     Mat element = getStructuringElement(MORPH_RECT, Size(3, 3));
     dilate(temp_bin, temp_bin, element, Point(-1, -1), 2);
-    imshow("填充前",temp_bin);
+//    imshow("填充前",temp_bin);
     floodFill(temp_bin, Point(1, 1), Scalar(255), 0, FLOODFILL_FIXED_RANGE);
-    imshow("填充后",temp_bin);
+//    imshow("填充后",temp_bin);
     element = getStructuringElement(MORPH_RECT, Size(5, 5));
     erode(temp_bin, temp_bin, element, Point(-1, -1), 3);
-    imshow("复原后", temp_bin);
+//    imshow("复原后", temp_bin);
 
     vector<vector<Point>> contours;
     vector<Point> target_contour;       //目标轮廓
@@ -222,7 +222,7 @@ bool Energy::findArrow() {
 
     Mat element = getStructuringElement(MORPH_RECT, Size(3, 3));
     dilate(temp_bin, temp_bin, element, Point(-1, -1), 2);
-    imshow("箭头预处理后", temp_bin);
+//    imshow("箭头预处理后", temp_bin);
 
     vector<vector<Point>> contours;
     vector<Point> target_contour;       //目标轮廓
