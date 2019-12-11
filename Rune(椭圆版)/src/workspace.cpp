@@ -78,10 +78,11 @@ void Workspace::imageProcessingFunc() {
                         energy.isCalibrated = true;
                     }
                     cout << target_.x << "  " << target_.y << "  " << target_.z << endl;
-                    angle_solver.run(target_.x, target_.y, target_.z, 20, send_pack_.yaw, send_pack_.pitch, read_pack_.pitch);
+                    angle_solver.run(target_.x, target_.y, target_.z, 15, send_pack_.yaw, send_pack_.pitch, read_pack_.pitch);
                     putText(current_frame_, "send_pitch:" + to_string(send_pack_.pitch), Point(10, 150), 1, 1.5, Scalar(255,255,255));
                     putText(current_frame_, "send_yaw:" + to_string(send_pack_.yaw), Point(10, 200), 1, 1.5, Scalar(255,255,255));
-                    serial_port.sendData(0, send_pack_.yaw, send_pack_.pitch);
+                    for (int i=0; i<3; ++i)
+                        serial_port.sendData(0, send_pack_.yaw/3, send_pack_.pitch/3);
                     count++;
                 }else if (energy.isLoseAllTargets && energy.isCalibrated) {
                     cout << target_.x << "  " << target_.y << "  " << target_.z << endl;
@@ -92,8 +93,10 @@ void Workspace::imageProcessingFunc() {
                     putText(current_frame_, "O_yaw:" + to_string(angle_solver.getOriginYaw()), Point(10, 300), 1, 1.5, Scalar(255,255,255));
                     putText(current_frame_, "send_pitch:" + to_string(send_pack_.pitch), Point(10, 150), 1, 1.5, Scalar(255,255,255));
                     putText(current_frame_, "send_yaw:" + to_string(send_pack_.yaw), Point(10, 200), 1, 1.5, Scalar(255,255,255));
-                    serial_port.sendData(0, send_pack_.yaw, send_pack_.pitch);
+                    for (int i=0; i<3; ++i)
+                        serial_port.sendData(0, send_pack_.yaw/3, send_pack_.pitch/3);
                     count++;
+                    waitKey();
                 }
                 imshow("读回的角度", current_frame_);
                 video.write(current_frame_);

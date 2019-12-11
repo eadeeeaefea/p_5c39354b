@@ -13,13 +13,14 @@
   <component name="ChangeListManager">
     <list default="true" id="eac98cf9-cbb2-4818-8d7e-fe4ee7e248d2" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/../Rune(椭圆版)/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Rune(椭圆版)/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Rune(椭圆版)/cmake-build-debug/CMakeFiles/Rune_.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/../Rune(椭圆版)/cmake-build-debug/CMakeFiles/Rune_.dir/CXX.includecache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Rune(椭圆版)/cmake-build-debug/CMakeFiles/Rune_.dir/src/energy.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/../Rune(椭圆版)/cmake-build-debug/CMakeFiles/Rune_.dir/src/energy.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Rune(椭圆版)/cmake-build-debug/CMakeFiles/Rune_.dir/src/main.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/../Rune(椭圆版)/cmake-build-debug/CMakeFiles/Rune_.dir/src/main.cpp.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Rune(椭圆版)/cmake-build-debug/CMakeFiles/Rune_.dir/src/workspace.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/../Rune(椭圆版)/cmake-build-debug/CMakeFiles/Rune_.dir/src/workspace.cpp.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Rune(椭圆版)/cmake-build-debug/Rune_" beforeDir="false" afterPath="$PROJECT_DIR$/../Rune(椭圆版)/cmake-build-debug/Rune_" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Rune(椭圆版)/include/energy.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/../Rune(椭圆版)/include/energy.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Rune(椭圆版)/src/anglesolver.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../Rune(椭圆版)/src/anglesolver.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Rune(椭圆版)/src/energy.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../Rune(椭圆版)/src/energy.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Rune(椭圆版)/src/workspace.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../Rune(椭圆版)/src/workspace.cpp" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -52,7 +53,7 @@
         <entry file="file://$PROJECT_DIR$/src/anglesolver.cpp">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="153">
-              <caret line="53" column="32" selection-start-line="53" selection-start-column="32" selection-end-line="53" selection-end-column="32" />
+              <caret line="53" column="31" selection-start-line="53" selection-start-column="31" selection-end-line="53" selection-end-column="31" />
             </state>
           </provider>
         </entry>
@@ -81,7 +82,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/include/workspace.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1239">
+            <state relative-caret-position="384">
               <caret line="16" column="19" selection-start-line="16" selection-start-column="19" selection-end-line="16" selection-end-column="19" />
             </state>
           </provider>
@@ -90,7 +91,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/videoio.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-168">
+            <state relative-caret-position="480">
               <caret line="20" column="28" selection-start-line="20" selection-start-column="28" selection-end-line="20" selection-end-column="28" />
             </state>
           </provider>
@@ -99,26 +100,26 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/mvcamera.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="513">
+            <state relative-caret-position="3000">
               <caret line="125" selection-start-line="125" selection-end-line="125" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/energy.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-19">
-              <caret line="227" column="41" selection-start-line="227" selection-start-column="41" selection-end-line="227" selection-end-column="41" />
+            <state relative-caret-position="316">
+              <caret line="121" column="60" selection-start-line="121" selection-start-column="60" selection-end-line="121" selection-end-column="60" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/include/energy.hpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="80" column="32" selection-start-line="80" selection-start-column="32" selection-end-line="80" selection-end-column="32" />
+            <state relative-caret-position="408">
+              <caret line="80" column="33" selection-start-line="80" selection-start-column="33" selection-end-line="80" selection-end-column="33" />
               <folding>
                 <element signature="e#106#123#0" expanded="true" />
                 <element signature="e#2622#2634#0" expanded="true" />
@@ -165,10 +166,10 @@
         <option value="$PROJECT_DIR$/include/anglesolver.h" />
         <option value="$PROJECT_DIR$/src/timer.cpp" />
         <option value="$PROJECT_DIR$/include/timer.hpp" />
-        <option value="$PROJECT_DIR$/src/anglesolver.cpp" />
-        <option value="$PROJECT_DIR$/src/energy.cpp" />
         <option value="$PROJECT_DIR$/src/workspace.cpp" />
+        <option value="$PROJECT_DIR$/src/anglesolver.cpp" />
         <option value="$PROJECT_DIR$/include/energy.hpp" />
+        <option value="$PROJECT_DIR$/src/energy.cpp" />
       </list>
     </option>
   </component>
@@ -212,7 +213,7 @@
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Rune(椭圆版)" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -315,17 +316,18 @@
       <workItem from="1575630966503" duration="4828000" />
       <workItem from="1575636280449" duration="890000" />
       <workItem from="1575981605804" duration="1800000" />
+      <workItem from="1576068799357" duration="2041000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="238875000" />
+    <option name="totallyTimeSpent" value="240916000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="67" y="25" width="1853" height="1055" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16564758" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16787104" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -606,6 +608,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/timer.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="17" column="18" selection-start-line="17" selection-start-column="14" selection-end-line="17" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/serialport.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1752">
@@ -616,30 +625,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/timer.cpp">
+    <entry file="file://$PROJECT_DIR$/include/workspace.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="17" column="18" selection-start-line="17" selection-start-column="14" selection-end-line="17" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/anglesolver.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="53" column="32" selection-start-line="53" selection-start-column="32" selection-end-line="53" selection-end-column="32" />
+        <state relative-caret-position="384">
+          <caret line="16" column="19" selection-start-line="16" selection-start-column="19" selection-end-line="16" selection-end-column="19" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/videoio.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-168">
+        <state relative-caret-position="480">
           <caret line="20" column="28" selection-start-line="20" selection-start-column="28" selection-end-line="20" selection-end-column="28" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/mvcamera.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="513">
+        <state relative-caret-position="3000">
           <caret line="125" selection-start-line="125" selection-end-line="125" />
         </state>
       </provider>
@@ -651,28 +653,28 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/include/workspace.h">
+    <entry file="file://$PROJECT_DIR$/src/anglesolver.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1239">
-          <caret line="16" column="19" selection-start-line="16" selection-start-column="19" selection-end-line="16" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/energy.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-19">
-          <caret line="227" column="41" selection-start-line="227" selection-start-column="41" selection-end-line="227" selection-end-column="41" />
+        <state relative-caret-position="153">
+          <caret line="53" column="31" selection-start-line="53" selection-start-column="31" selection-end-line="53" selection-end-column="31" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/include/energy.hpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="80" column="32" selection-start-line="80" selection-start-column="32" selection-end-line="80" selection-end-column="32" />
+        <state relative-caret-position="408">
+          <caret line="80" column="33" selection-start-line="80" selection-start-column="33" selection-end-line="80" selection-end-column="33" />
           <folding>
             <element signature="e#106#123#0" expanded="true" />
             <element signature="e#2622#2634#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/energy.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="316">
+          <caret line="121" column="60" selection-start-line="121" selection-start-column="60" selection-end-line="121" selection-end-column="60" />
         </state>
       </provider>
     </entry>

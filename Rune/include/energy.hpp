@@ -78,7 +78,7 @@ private:
 
     //预测
     std::vector<double> angle_array;
-    const float ANGLE_OFFSET = 45.0f;
+    const float ANGLE_OFFSET = 40.0f;
     Direction direction;
 public:
     Energy();

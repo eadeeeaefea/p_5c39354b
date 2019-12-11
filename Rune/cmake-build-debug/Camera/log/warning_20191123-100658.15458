@@ -1,5 +1,0 @@
-Log file created at: 2019/11/23 10:06:58
-Running on machine: luzhan-GF63-8RC
-Log line format: [IWEF]mmdd hh:mm:ss.uuuuuu threadid file:line] msg
-W1123 10:06:58.089113 15482 MVCameraBase.cpp:97] Device:(name:MV-SUA33GC#0 sn:049080710033)Lost
-W1123 10:07:04.047222 15482 MVCameraBase.cpp:117] Device:(name:MV-SUA33GC#0 sn:049080710033)ReConnected, TolCount:1

@@ -90,8 +90,6 @@ void Energy::run(double &x, double &y, double &z) {
             case DIR_STATIC:
                 mode = MODE_SMALL;
                 break;
-            default:
-                return;
         }
     }
 
@@ -120,8 +118,8 @@ void Energy::run(double &x, double &y, double &z) {
     //执行到这一步以后,就可以标定云台原点了
 
 //    cout<<"方向:"<<direction<<'\n';
-//    circle(src, circle_center, 2, Scalar(255, 255, 255), 2);
-//    circle(src, circle_center, circle_radius, Scalar(255, 0, 0), 1);
+    circle(src, circle_center, 2, Scalar(255, 255, 255), 2);
+    circle(src, circle_center, circle_radius, Scalar(255, 0, 0), 1);
 
     if ((mode == MODE_BIG) || (mode ==MODE_RANDOM))
         solveCurrentCenter();

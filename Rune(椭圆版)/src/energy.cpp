@@ -61,6 +61,7 @@ void Energy::run(double &x, double &y, double &z) {
     if (!isFindEnergy || !isFindArrow ){
         isLoseAllTargets = true;
         cout<<"丢失目标!\n";
+
         return;
     }
 
@@ -223,12 +224,12 @@ bool Energy::findArrow() {
 
     Mat element = getStructuringElement(MORPH_RECT, Size(3, 3));
     dilate(temp_bin, temp_bin, element, Point(-1, -1), 2);
-//    imshow("箭头预处理后", temp_bin);
+    imshow("箭头预处理后", temp_bin);
 
     vector<vector<Point>> contours;
     vector<Point> target_contour;       //目标轮廓
     findContours(temp_bin, contours, RETR_EXTERNAL, CHAIN_APPROX_NONE);
-//    cout<<"箭头轮廓总数:  "<<contours.size()<<'\n';
+    cout<<"箭头轮廓总数:  "<<contours.size()<<'\n';
     //筛选目标的箭头区域
     for (size_t i = 0; i < contours.size(); ++i){
 //        drawContours(src, contours, i, Scalar(200, 100, 0), 1);
