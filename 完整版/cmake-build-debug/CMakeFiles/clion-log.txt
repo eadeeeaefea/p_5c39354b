@@ -1,0 +1,4 @@
+/home/luzhan/软件/clion-2019.1.4/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" "/home/luzhan/My Project/RM2020/2020 大风车识别/完整版"
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/luzhan/My Project/RM2020/2020 大风车识别/完整版/cmake-build-debug
