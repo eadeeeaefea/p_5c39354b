@@ -46,13 +46,13 @@ void Energy::run(double &x, double &y, double &z) {
     //找能量板
     if (findEnergy()) {
         circle(src, target_energy.center, 1, Scalar(0, 255, 0), 1);
-        draw.drawRectangle(src, target_energy, Scalar(0, 255, 0));
+        drawRectangle(src, target_energy, Scalar(0, 255, 0));
     }
 
     //找箭头
     if (findArrow()) {
         circle(src, target_arrow.center, 1, Scalar(0, 255, 0), 1);
-        draw.drawRectangle(src, target_arrow, Scalar(0, 255, 0));
+        drawRectangle(src, target_arrow, Scalar(0, 255, 0));
     }
 
 
@@ -102,38 +102,23 @@ void Energy::run(double &x, double &y, double &z) {
     if (mode == MODE_DEFAULT)
         return;
 
-//    //还没有成功拟合圆并判断方向
-//    if (!(isFindCenterR && direction != DIR_DEFAULT)) {
-//        if (!findCenterR()){
-//            cout<<"未拟合\n";
-//            return;
-//
-//        }
-//        //拟合成功 判断方向
-//        if (direction == DIR_DEFAULT)
-//            solveDirection();
-//        //判断失败
-//        if (direction == DIR_DEFAULT)
-//            return;
-//    }
-    //执行到这一步以后,就可以标定云台原点了
-
 //    cout<<"方向:"<<direction<<'\n';
 //    circle(src, ellipse_center, 2, Scalar(255, 255, 255), 2);
 //    circle(src, ellipse_center, circle_radius, Scalar(255, 0, 0), 1);
 
     if ((mode == MODE_BIG) || (mode ==MODE_RANDOM))
         solveCurrentCenter();
+
 //    cout<<ellipse_Xaxis<<  "椭圆   "<<ellipse_Yaxis<<'\n';
-    circle(src, current_center, 1, Scalar(255, 10, 0), 2);
+//    circle(src, current_center, 1, Scalar(255, 10, 0), 2);
 //    line(src, target_energy.center, current_center, Scalar(255, 255, 255), 1);
-    RotatedRect fit_rect = RotatedRect(ellipse_center, Size(ellipse_Xaxis * 2, ellipse_Yaxis * 2), 0);
-    draw.drawRectangle(src, fit_rect, Scalar(0, 0, 255));
-    ellipse(src, fit_rect, Scalar(255,255,255));
+//    RotatedRect fit_rect = RotatedRect(ellipse_center, Size(ellipse_Xaxis * 2, ellipse_Yaxis * 2), 0);
+//    draw.drawRectangle(src, fit_rect, Scalar(0, 0, 255));
+//    ellipse(src, fit_rect, Scalar(255,255,255));
 
     predicting();
     circle(src, predicted_energy.center, 2, Scalar(190, 10, 160), 2);
-    draw.drawRectangle(src, predicted_energy, Scalar(190, 10, 160));
+    drawRectangle(src, predicted_energy, Scalar(190, 10, 160));
 //    line(src, predicted_energy.center, current_center, Scalar(255, 255, 255), 1);
 
     solveRealPostiton(predicted_energy);
@@ -143,6 +128,7 @@ void Energy::run(double &x, double &y, double &z) {
     z = (translation_matrix.at<double>(2,0) + 115.62) / 1000;
     shoot = true;
 }
+
 void Energy::preprocess() {
     vector<Mat> channels(3);
     split(src, channels);
@@ -152,9 +138,7 @@ void Energy::preprocess() {
 #else
     threshold(channels[0] - channels[2], bin, 90, 255, THRESH_BINARY);
 #endif
-
 }
-
 
 bool Energy::findEnergy() {
     isFindEnergy = false;
@@ -267,7 +251,7 @@ bool Energy::findArrow() {
 
 }
 
-bool Energy::match() {
+inline bool Energy::match() {
     vector<Point2f> intersection;
     if (rotatedRectangleIntersection(target_arrow, target_energy, intersection) > 0)
         return true;
@@ -276,7 +260,7 @@ bool Energy::match() {
 }
 
 //更新中心点队列数据
-void Energy::updateQueue() {
+inline void Energy::updateQueue() {
     if (energy_centers.size() >= QUEUE_SIZE){
         energy_centers.erase(energy_centers.begin());
     }
@@ -443,7 +427,7 @@ bool Energy::calculate_ellipse() {
 //        return true;
 //}
 
-void Energy::solveCurrentCenter() {
+inline void Energy::solveCurrentCenter() {
     Point2f unitVector;             //单位向量
     float theta = toPolarCoordinates(target_energy.center, target_arrow.center) * PI / 180;
     float radius = sqrt(pow(ellipse_Xaxis * cos(theta), 2.0) + pow(ellipse_Yaxis * sin(theta), 2.0));
@@ -482,7 +466,7 @@ bool Energy::solveDirection() {
 }
 
 //返回极坐标下的角度,角度制
-float Energy::toPolarCoordinates(const cv::Point &temp_point, const Point &origin_point) {
+inline float Energy::toPolarCoordinates(const cv::Point &temp_point, const Point &origin_point) {
     float angle, rad;
     //x轴从左向右，y轴从下到上
     Point new_point = Point(temp_point.x - origin_point.x, origin_point.y - temp_point.y);
@@ -518,12 +502,6 @@ void Energy::judgeDirection() {
             continue;
         total += delta;
         num++;
-//        if (abs(delta) < 1)
-//            STATIC_cnt++;
-//        else if (delta > 0)
-//            CCW_cnt++;
-//        else
-//            CW_cnt++;
     }
     double average = total / num;
     if (abs(average) < 0.3)
@@ -532,18 +510,11 @@ void Energy::judgeDirection() {
         direction = DIR_CCW;
     else if (average < 0)
         direction = DIR_CW;
-//    if (CW_cnt > 15)
-//        direction = DIR_CW;
-//    else if (CCW_cnt > 15)
-//        direction = DIR_CCW;
-//    else if (STATIC_cnt > 15)
-//        direction = DIR_STATIC;
-//    else
-//        direction = DIR_DEFAULT;
-    cout<<"旋转方向:"<<direction<<'\n';
-    for (i = 0; i < angle_array.size(); ++i){
-        cout<<i<<"号极坐标角度:"<<angle_array[i]<<'\n';
-    }
+//
+//    cout<<"旋转方向:"<<direction<<'\n';
+//    for (i = 0; i < angle_array.size(); ++i){
+//        cout<<i<<"号极坐标角度:"<<angle_array[i]<<'\n';
+//    }
 }
 
 void Energy::predicting() {

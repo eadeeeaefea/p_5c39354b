@@ -5,7 +5,6 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
   "/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/anglesolver.cpp" "/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/cmake-build-debug/CMakeFiles/Rune_.dir/src/anglesolver.cpp.o"
-  "/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/draw.cpp" "/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/cmake-build-debug/CMakeFiles/Rune_.dir/src/draw.cpp.o"
   "/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/energy.cpp" "/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/cmake-build-debug/CMakeFiles/Rune_.dir/src/energy.cpp.o"
   "/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/main.cpp" "/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/cmake-build-debug/CMakeFiles/Rune_.dir/src/main.cpp.o"
   "/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/mvcamera.cpp" "/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/cmake-build-debug/CMakeFiles/Rune_.dir/src/mvcamera.cpp.o"

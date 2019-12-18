@@ -8,7 +8,6 @@
 #include <queue>
 #include <opencv2/opencv.hpp>
 #include "timer.hpp"
-#include "draw.hpp"
 #include <algorithm>
 
 typedef enum {
@@ -61,7 +60,6 @@ private:
 
     cv::Mat src;
     cv::Mat bin;
-    Draw draw;
     Mode mode;
 
 
@@ -90,20 +88,26 @@ public:
     cv::Mat getSrc();
 private:
     template <typename T>
-    float getDistance(T p1, T p2){
+    inline float getDistance(T p1, T p2){
         return sqrt(pow(p1.x - p2.x, 2.0f) + pow(p1.y - p2.y, 2.0f));
     };
+    void drawRectangle(cv::Mat &src, cv::RotatedRect rect, cv::Scalar color) {
+        cv::Point2f vertices[4];
+        rect.points(vertices);
+        for (size_t i = 0; i < 4; ++i){
+            cv::line(src, vertices[i], vertices[(i+1) % 4], color, 1);
+        }
+    }
     void preprocess();
     bool findEnergy();
     bool findArrow();
     bool match();
-    void updateQueue();
-    void solveCurrentCenter();
+    inline void updateQueue();
+    inline void solveCurrentCenter();
     bool findCenterR();
 //    bool calculate();
     bool calculate_ellipse();
-
-    float toPolarCoordinates(const cv::Point &temp_point, const cv::Point &origin_point);     //计算极坐标系下的角度
+    inline float toPolarCoordinates(const cv::Point &temp_point, const cv::Point &origin_point);     //计算极坐标系下的角度
     void judgeDirection();                              //判断方向
     void predicting();                                  //预测位置
     bool solveDirection();

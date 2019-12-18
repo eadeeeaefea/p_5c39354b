@@ -150,33 +150,6 @@ src/anglesolver.cpp.s:
 	$(MAKE) -f CMakeFiles/Rune_.dir/build.make CMakeFiles/Rune_.dir/src/anglesolver.cpp.s
 .PHONY : src/anglesolver.cpp.s
 
-src/draw.o: src/draw.cpp.o
-
-.PHONY : src/draw.o
-
-# target to build an object file
-src/draw.cpp.o:
-	$(MAKE) -f CMakeFiles/Rune_.dir/build.make CMakeFiles/Rune_.dir/src/draw.cpp.o
-.PHONY : src/draw.cpp.o
-
-src/draw.i: src/draw.cpp.i
-
-.PHONY : src/draw.i
-
-# target to preprocess a source file
-src/draw.cpp.i:
-	$(MAKE) -f CMakeFiles/Rune_.dir/build.make CMakeFiles/Rune_.dir/src/draw.cpp.i
-.PHONY : src/draw.cpp.i
-
-src/draw.s: src/draw.cpp.s
-
-.PHONY : src/draw.s
-
-# target to generate assembly for a file
-src/draw.cpp.s:
-	$(MAKE) -f CMakeFiles/Rune_.dir/build.make CMakeFiles/Rune_.dir/src/draw.cpp.s
-.PHONY : src/draw.cpp.s
-
 src/energy.o: src/energy.cpp.o
 
 .PHONY : src/energy.o
@@ -378,9 +351,6 @@ help:
 	@echo "... src/anglesolver.o"
 	@echo "... src/anglesolver.i"
 	@echo "... src/anglesolver.s"
-	@echo "... src/draw.o"
-	@echo "... src/draw.i"
-	@echo "... src/draw.s"
 	@echo "... src/energy.o"
 	@echo "... src/energy.i"
 	@echo "... src/energy.s"

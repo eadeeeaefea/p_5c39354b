@@ -3,7 +3,6 @@ file(REMOVE_RECURSE
   "CMakeFiles/Rune_.dir/src/timer.cpp.o"
   "CMakeFiles/Rune_.dir/src/energy.cpp.o"
   "CMakeFiles/Rune_.dir/src/videoio.cpp.o"
-  "CMakeFiles/Rune_.dir/src/draw.cpp.o"
   "CMakeFiles/Rune_.dir/src/mvcamera.cpp.o"
   "CMakeFiles/Rune_.dir/src/anglesolver.cpp.o"
   "CMakeFiles/Rune_.dir/src/serialport.cpp.o"

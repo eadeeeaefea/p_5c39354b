@@ -93,9 +93,6 @@
 		<Unit filename="/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/anglesolver.cpp">
 			<Option target="Rune_"/>
 		</Unit>
-		<Unit filename="/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/draw.cpp">
-			<Option target="Rune_"/>
-		</Unit>
 		<Unit filename="/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/energy.cpp">
 			<Option target="Rune_"/>
 		</Unit>

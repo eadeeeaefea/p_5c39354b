@@ -50,8 +50,6 @@ void Workspace::imageReceivingFunc() {
 }
 
 void Workspace::imageProcessingFunc() {
-//    Timer clock;
-    int count = 0;
     while (1) {
         try {
             Timer clock;
@@ -83,7 +81,6 @@ void Workspace::imageProcessingFunc() {
                     putText(current_frame_, "send_yaw:" + to_string(send_pack_.yaw), Point(10, 200), 1, 1.5, Scalar(255,255,255));
                     for (int i=0; i<3; ++i)
                         serial_port.sendData(0, send_pack_.yaw/3, send_pack_.pitch/3);
-                    count++;
                 }else if (energy.isLoseAllTargets && energy.isCalibrated) {
                     cout << target_.x << "  " << target_.y << "  " << target_.z << endl;
                     cout<<"复位!\n";
@@ -95,21 +92,14 @@ void Workspace::imageProcessingFunc() {
                     putText(current_frame_, "send_yaw:" + to_string(send_pack_.yaw), Point(10, 200), 1, 1.5, Scalar(255,255,255));
                     for (int i=0; i<3; ++i)
                         serial_port.sendData(0, send_pack_.yaw/3, send_pack_.pitch/3);
-                    count++;
                     waitKey();
                 }
                 imshow("读回的角度", current_frame_);
                 video.write(current_frame_);
                 clock.stop();
-//                if (waitKey(1) == 27){
-//                    exit(0);
-//                }
                 if (waitKey(1) > 0)  {
                     waitKey();
                 }
-
-
-
             }
         } catch (SerialException &e1) {
             cout << "Serial port send error." << endl;

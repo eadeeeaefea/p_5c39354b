@@ -11,17 +11,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="eac98cf9-cbb2-4818-8d7e-fe4ee7e248d2" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../Rune(椭圆版)/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Rune(椭圆版)/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Rune(椭圆版)/cmake-build-debug/CMakeFiles/Rune_.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/../Rune(椭圆版)/cmake-build-debug/CMakeFiles/Rune_.dir/CXX.includecache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Rune(椭圆版)/cmake-build-debug/CMakeFiles/Rune_.dir/src/energy.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/../Rune(椭圆版)/cmake-build-debug/CMakeFiles/Rune_.dir/src/energy.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Rune(椭圆版)/cmake-build-debug/CMakeFiles/Rune_.dir/src/workspace.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/../Rune(椭圆版)/cmake-build-debug/CMakeFiles/Rune_.dir/src/workspace.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Rune(椭圆版)/cmake-build-debug/Rune_" beforeDir="false" afterPath="$PROJECT_DIR$/../Rune(椭圆版)/cmake-build-debug/Rune_" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Rune(椭圆版)/include/energy.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/../Rune(椭圆版)/include/energy.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Rune(椭圆版)/src/anglesolver.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../Rune(椭圆版)/src/anglesolver.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Rune(椭圆版)/src/energy.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../Rune(椭圆版)/src/energy.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Rune(椭圆版)/src/workspace.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../Rune(椭圆版)/src/workspace.cpp" afterDir="false" />
-    </list>
+    <list default="true" id="eac98cf9-cbb2-4818-8d7e-fe4ee7e248d2" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -52,7 +42,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/anglesolver.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
+            <state relative-caret-position="1272">
               <caret line="53" column="31" selection-start-line="53" selection-start-column="31" selection-end-line="53" selection-end-column="31" />
             </state>
           </provider>
@@ -61,7 +51,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/workspace.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="417">
+            <state relative-caret-position="1920">
               <caret line="80" column="72" selection-start-line="80" selection-start-column="72" selection-end-line="80" selection-end-column="72" />
             </state>
           </provider>
@@ -109,7 +99,7 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/energy.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="316">
+            <state relative-caret-position="2116">
               <caret line="121" column="60" selection-start-line="121" selection-start-column="60" selection-end-line="121" selection-end-column="60" />
             </state>
           </provider>
@@ -118,7 +108,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/include/energy.hpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="408">
+            <state relative-caret-position="1920">
               <caret line="80" column="33" selection-start-line="80" selection-start-column="33" selection-end-line="80" selection-end-column="33" />
               <folding>
                 <element signature="e#106#123#0" expanded="true" />
@@ -186,7 +176,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -208,6 +197,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -317,17 +307,17 @@
       <workItem from="1575636280449" duration="890000" />
       <workItem from="1575981605804" duration="1800000" />
       <workItem from="1576068799357" duration="2041000" />
+      <workItem from="1576649331482" duration="15000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="240916000" />
+    <option name="totallyTimeSpent" value="240931000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="67" y="25" width="1853" height="1055" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16787104" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17009449" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -615,6 +605,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/anglesolver.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1272">
+          <caret line="53" column="31" selection-start-line="53" selection-start-column="31" selection-end-line="53" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/workspace.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1920">
+          <caret line="80" column="72" selection-start-line="80" selection-start-column="72" selection-end-line="80" selection-end-column="72" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/serialport.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1752">
@@ -646,23 +650,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/workspace.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="417">
-          <caret line="80" column="72" selection-start-line="80" selection-start-column="72" selection-end-line="80" selection-end-column="72" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/anglesolver.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="53" column="31" selection-start-line="53" selection-start-column="31" selection-end-line="53" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/include/energy.hpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
+        <state relative-caret-position="1920">
           <caret line="80" column="33" selection-start-line="80" selection-start-column="33" selection-end-line="80" selection-end-column="33" />
           <folding>
             <element signature="e#106#123#0" expanded="true" />
@@ -673,7 +663,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/energy.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="316">
+        <state relative-caret-position="2116">
           <caret line="121" column="60" selection-start-line="121" selection-start-column="60" selection-end-line="121" selection-end-column="60" />
         </state>
       </provider>

@@ -12,10 +12,6 @@ cmath
 iostream
 -
 
-.././include/draw.hpp
-opencv2/opencv.hpp
--
-
 .././include/energy.hpp
 vector
 -
@@ -25,8 +21,6 @@ opencv2/opencv.hpp
 -
 timer.hpp
 .././include/timer.hpp
-draw.hpp
-.././include/draw.hpp
 algorithm
 -
 
@@ -87,6 +81,14 @@ energy.hpp
 .././include/energy.hpp
 videoio.hpp
 .././include/videoio.hpp
+
+/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/energy.cpp
+energy.hpp
+/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/energy.hpp
+
+/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/main.cpp
+workspace.h
+/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/workspace.h
 
 /home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/workspace.cpp
 workspace.h

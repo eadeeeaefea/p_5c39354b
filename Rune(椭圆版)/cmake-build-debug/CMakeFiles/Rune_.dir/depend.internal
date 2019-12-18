@@ -4,17 +4,12 @@
 CMakeFiles/Rune_.dir/src/anglesolver.cpp.o
  .././include/anglesolver.h
  /home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/anglesolver.cpp
-CMakeFiles/Rune_.dir/src/draw.cpp.o
- .././include/draw.hpp
- /home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/draw.cpp
 CMakeFiles/Rune_.dir/src/energy.cpp.o
- .././include/draw.hpp
  .././include/energy.hpp
  .././include/timer.hpp
  /home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/energy.cpp
 CMakeFiles/Rune_.dir/src/main.cpp.o
  .././include/anglesolver.h
- .././include/draw.hpp
  .././include/energy.hpp
  .././include/mvcamera.h
  .././include/serialport.h
@@ -36,7 +31,6 @@ CMakeFiles/Rune_.dir/src/videoio.cpp.o
  /home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/videoio.cpp
 CMakeFiles/Rune_.dir/src/workspace.cpp.o
  .././include/anglesolver.h
- .././include/draw.hpp
  .././include/energy.hpp
  .././include/mvcamera.h
  .././include/serialport.h

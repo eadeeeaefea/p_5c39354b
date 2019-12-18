@@ -11,7 +11,6 @@ add_executable(Rune_
 		       src/timer.cpp
 			   src/energy.cpp
 			   src/videoio.cpp
-			   src/draw.cpp
 			   src/mvcamera.cpp
 			   src/anglesolver.cpp
 			   src/serialport.cpp
