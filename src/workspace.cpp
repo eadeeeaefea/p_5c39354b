@@ -90,8 +90,8 @@ void Workspace::imageReceivingFunc() {
             imshow("current", image);
             if (waitKey(30) == 27)  exit(0);
 #elif SAVE_VIDEO == 1
-            if (image_buffer_.size() < max_image_buffer_size) {
-                image_buffer_.push_back(image);
+            if (image_buffer.size() < max_image_buffer_size) {
+                image_buffer.push_back(image);
             }
 #else
             cout << "wrong SAVE_VIDEO value, make sure SAVE_VIDEO = 1 or 2." << endll;
@@ -99,8 +99,8 @@ void Workspace::imageReceivingFunc() {
 #endif
 #endif  // SAVE_VIDEO
 #if defined(USE_CAMERA) && !defined(SAVE_VIDEO)
-            if (image_buffer_.size() < max_image_buffer_size) {
-                image_buffer_.push_back(mv_camera.getImage());
+            if (image_buffer.size() < max_image_buffer_size) {
+                image_buffer.push_back(mv_camera.getImage());
             }
 #endif
             // cout << "get image: " << timer.getTime() << "ms" << endl;
@@ -146,7 +146,7 @@ void Workspace::imageProcessingFunc() {
             total_timer.start();
 #endif
 #ifdef USE_CAMERA
-            if (!image_buffer_.empty()) {
+            if (!image_buffer.empty()) {
 #else
             if (1) {
 #endif  // USE_CAMERA
@@ -157,8 +157,8 @@ void Workspace::imageProcessingFunc() {
 #endif  // RUNNING_TIME
                 image_buffer_mutex.lock();
 
-                current_frame = image_buffer_.back();
-                image_buffer_.clear();
+                current_frame = image_buffer.back();
+                image_buffer.clear();
 
                 image_buffer_mutex.unlock();
 #ifdef RUNNING_TIME
@@ -277,7 +277,7 @@ void Workspace::imageProcessingFunc() {
 void Workspace::messageCommunicatingFunc() {
     while (1) {
         try {
-            serial_port.readData(read_pack);
+            // serial_port.readData(read_pack);
         } catch (SerialException &e1) {
             // cout << "Serial port read error." << endl;
             // 因已在imageProcessing线程中作了串口重启，为防止重启冲突造成程序bug，这里只接异常而不处理
