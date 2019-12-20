@@ -20,10 +20,10 @@
 // #define HSV    // 不可与BGR同时使用
 #define ROI_ENABLE
 
-// #define USE_CAMERA 1    // use camera enable and camera id
-// #define USE_SERIAL
-#define TEST 1    // 1-image, 2-video
-#define IMAGE_PATH "../../armature/dataset2/1.jpg"
+#define USE_CAMERA 1    // use camera enable and camera id
+#define USE_SERIAL
+// #define TEST 1    // 1-image, 2-video
+#define IMAGE_PATH "1.jpg"
 #define VIDEO_PATH "1.avi"
 // #define SAVE_VIDEO 2    // 1-save video and run other programs, 2-save video only
 #define VIDEO_SAVED_PATH "1.avi"

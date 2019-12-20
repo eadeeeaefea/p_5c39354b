@@ -277,7 +277,7 @@ void Workspace::imageProcessingFunc() {
 void Workspace::messageCommunicatingFunc() {
     while (1) {
         try {
-            // serial_port.readData(read_pack);
+            serial_port.readData(read_pack);
         } catch (SerialException &e1) {
             // cout << "Serial port read error." << endl;
             // 因已在imageProcessing线程中作了串口重启，为防止重启冲突造成程序bug，这里只接异常而不处理
