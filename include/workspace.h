@@ -50,13 +50,13 @@ private:
     RuneSolver rune_solver;
     Predictor predictor;
 
-    vector<Mat> image_buffer_;
-    int max_image_buffer_size_;
-    Mat current_frame_;
-    RotatedRect target_armor_;
-    Target target_;
-    SendPack send_pack_;
-    ReadPack read_pack_;
+    vector<Mat> image_buffer;
+    int max_image_buffer_size;
+    Mat current_frame;
+    RotatedRect target_armor;
+    Target target;
+    SendPack send_pack;
+    ReadPack read_pack;
 
 public:
     Workspace();

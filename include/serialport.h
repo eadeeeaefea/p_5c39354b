@@ -32,51 +32,51 @@ typedef struct ReadPack_t {
 
 class SerialPort {
 private:
-    string port_name_;
-    long baud_rate_;
-    int byte_size_;
-    int parity_;
-    int stop_bit_;
-    int flow_control_;
+    string port_name;
+    long baud_rate;
+    int byte_size;
+    int parity;
+    int stop_bit;
+    int flow_control;
 
-    int fd_;
-    bool is_open_;
+    int fd;
+    bool is_open;
 
 public:
     SerialPort();
-    SerialPort(const string &port_name,
-               long baud_rate = 115200,
-               int byte_size = 8,        // 5: 5bits, 6: 6bits, 7: 7bits, 8: 8bits
-               int parity = 0,           // 0: none, 1: odd, 2: even
-               int stop_bit = 1,         // 1: 1bit, 2: 2bits, 3: 1.5bits
-               int flow_control = 0);    // 0: none, 1: software, 2: hardware
+    SerialPort(const string &_port_name,
+               long _baud_rate = 115200,
+               int _byte_size = 8,        // 5: 5bits, 6: 6bits, 7: 7bits, 8: 8bits
+               int _parity = 0,           // 0: none, 1: odd, 2: even
+               int _stop_bit = 1,         // 1: 1bit, 2: 2bits, 3: 1.5bits
+               int _flow_control = 0);    // 0: none, 1: software, 2: hardware
 
     ~SerialPort();
 
     void open();
-    void open(const string &port_name,
-              long baud_rate = 115200,
-              int byte_size = 8,        // 5: 5bits, 6: 6bits, 7: 7bits, 8: 8bits
-              int parity = 0,           // 0: none, 1: odd, 2: even
-              int stop_bit = 1,         // 1: 1bit, 2: 2bits, 3: 1.5bits
-              int flow_control = 0);    // 0: none, 1: software, 2: hardware
+    void open(const string &_port_name,
+              long _baud_rate = 115200,
+              int _byte_size = 8,        // 5: 5bits, 6: 6bits, 7: 7bits, 8: 8bits
+              int _parity = 0,           // 0: none, 1: odd, 2: even
+              int _stop_bit = 1,         // 1: 1bit, 2: 2bits, 3: 1.5bits
+              int _flow_control = 0);    // 0: none, 1: software, 2: hardware
     bool isOpen();
     void close();
 
-    void setBaudRate(long baud_rate);
-    long getBaudRate();
+    void set_baud_rate(long _baud_rate);
+    long get_baud_rate();
 
-    void setByteSize(int byte_size);
-    int getByteSize();
+    void set_byte_size(int _byte_size);
+    int get_byte_size();
 
-    void setParity(int parity);
-    int getParity();
+    void set_parity(int _parity);
+    int get_parity();
 
-    void setStopBit(int stop_bit);
-    int getStopBit();
+    void set_stop_bit(int _stop_bit);
+    int get_stop_bit();
 
-    void setFlowControl(int flow_control);
-    int getFlowControl();
+    void set_flow_control(int _flow_control);
+    int get_flow_control();
 
     void sendData(const SendPack &send_pack);
     bool readData(ReadPack &read_pack);
@@ -88,14 +88,14 @@ private:
 
 class SerialException : public exception {
 private:
-    string e_what_;
+    string e_what;
 
 public:
     SerialException() {}
-    SerialException(const string &error) : e_what_(error) {}
+    SerialException(const string &error) : e_what(error) {}
     virtual ~SerialException() throw() {}
     virtual const char *what() const throw() {
-        return e_what_.c_str();
+        return e_what.c_str();
     }
 
 };

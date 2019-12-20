@@ -29,7 +29,7 @@ private:
     tSdkFrameHead       sFrameInfo;       // 图像的帧头信息
     unsigned char*      pbyBuffer;        // 指向图像的数据的缓冲区
 
-    bool is_open_;
+    bool is_open;
 
 public:
     MVCamera();
@@ -51,14 +51,14 @@ public:
 
 class MVCameraException : public exception {
 private:
-    string e_what_;
+    string e_what;
 
 public:
     MVCameraException() {}
-    MVCameraException(const string &error) : e_what_(error) {}
+    MVCameraException(const string &error) : e_what(error) {}
     virtual ~MVCameraException() throw() {}
     virtual const char *what() const throw() {
-        return e_what_.c_str();
+        return e_what.c_str();
     }
 
 };
