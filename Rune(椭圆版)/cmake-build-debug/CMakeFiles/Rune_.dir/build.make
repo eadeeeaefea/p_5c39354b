@@ -43,10 +43,10 @@ RM = /home/luzhan/软件/clion-2019.1.4/bin/cmake/linux/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = "/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)"
+CMAKE_SOURCE_DIR = "/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)"
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = "/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/cmake-build-debug"
+CMAKE_BINARY_DIR = "/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/cmake-build-debug"
 
 # Include any dependencies generated for this target.
 include CMakeFiles/Rune_.dir/depend.make
@@ -59,107 +59,107 @@ include CMakeFiles/Rune_.dir/flags.make
 
 CMakeFiles/Rune_.dir/src/main.cpp.o: CMakeFiles/Rune_.dir/flags.make
 CMakeFiles/Rune_.dir/src/main.cpp.o: ../src/main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Rune_.dir/src/main.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Rune_.dir/src/main.cpp.o -c "/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/main.cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Rune_.dir/src/main.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Rune_.dir/src/main.cpp.o -c "/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/src/main.cpp"
 
 CMakeFiles/Rune_.dir/src/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Rune_.dir/src/main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/main.cpp" > CMakeFiles/Rune_.dir/src/main.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/src/main.cpp" > CMakeFiles/Rune_.dir/src/main.cpp.i
 
 CMakeFiles/Rune_.dir/src/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Rune_.dir/src/main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/main.cpp" -o CMakeFiles/Rune_.dir/src/main.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/src/main.cpp" -o CMakeFiles/Rune_.dir/src/main.cpp.s
 
 CMakeFiles/Rune_.dir/src/timer.cpp.o: CMakeFiles/Rune_.dir/flags.make
 CMakeFiles/Rune_.dir/src/timer.cpp.o: ../src/timer.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Rune_.dir/src/timer.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Rune_.dir/src/timer.cpp.o -c "/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/timer.cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Rune_.dir/src/timer.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Rune_.dir/src/timer.cpp.o -c "/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/src/timer.cpp"
 
 CMakeFiles/Rune_.dir/src/timer.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Rune_.dir/src/timer.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/timer.cpp" > CMakeFiles/Rune_.dir/src/timer.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/src/timer.cpp" > CMakeFiles/Rune_.dir/src/timer.cpp.i
 
 CMakeFiles/Rune_.dir/src/timer.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Rune_.dir/src/timer.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/timer.cpp" -o CMakeFiles/Rune_.dir/src/timer.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/src/timer.cpp" -o CMakeFiles/Rune_.dir/src/timer.cpp.s
 
 CMakeFiles/Rune_.dir/src/energy.cpp.o: CMakeFiles/Rune_.dir/flags.make
 CMakeFiles/Rune_.dir/src/energy.cpp.o: ../src/energy.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Rune_.dir/src/energy.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Rune_.dir/src/energy.cpp.o -c "/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/energy.cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Rune_.dir/src/energy.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Rune_.dir/src/energy.cpp.o -c "/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/src/energy.cpp"
 
 CMakeFiles/Rune_.dir/src/energy.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Rune_.dir/src/energy.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/energy.cpp" > CMakeFiles/Rune_.dir/src/energy.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/src/energy.cpp" > CMakeFiles/Rune_.dir/src/energy.cpp.i
 
 CMakeFiles/Rune_.dir/src/energy.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Rune_.dir/src/energy.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/energy.cpp" -o CMakeFiles/Rune_.dir/src/energy.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/src/energy.cpp" -o CMakeFiles/Rune_.dir/src/energy.cpp.s
 
 CMakeFiles/Rune_.dir/src/videoio.cpp.o: CMakeFiles/Rune_.dir/flags.make
 CMakeFiles/Rune_.dir/src/videoio.cpp.o: ../src/videoio.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/Rune_.dir/src/videoio.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Rune_.dir/src/videoio.cpp.o -c "/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/videoio.cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/Rune_.dir/src/videoio.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Rune_.dir/src/videoio.cpp.o -c "/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/src/videoio.cpp"
 
 CMakeFiles/Rune_.dir/src/videoio.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Rune_.dir/src/videoio.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/videoio.cpp" > CMakeFiles/Rune_.dir/src/videoio.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/src/videoio.cpp" > CMakeFiles/Rune_.dir/src/videoio.cpp.i
 
 CMakeFiles/Rune_.dir/src/videoio.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Rune_.dir/src/videoio.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/videoio.cpp" -o CMakeFiles/Rune_.dir/src/videoio.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/src/videoio.cpp" -o CMakeFiles/Rune_.dir/src/videoio.cpp.s
 
 CMakeFiles/Rune_.dir/src/mvcamera.cpp.o: CMakeFiles/Rune_.dir/flags.make
 CMakeFiles/Rune_.dir/src/mvcamera.cpp.o: ../src/mvcamera.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/Rune_.dir/src/mvcamera.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Rune_.dir/src/mvcamera.cpp.o -c "/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/mvcamera.cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/Rune_.dir/src/mvcamera.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Rune_.dir/src/mvcamera.cpp.o -c "/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/src/mvcamera.cpp"
 
 CMakeFiles/Rune_.dir/src/mvcamera.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Rune_.dir/src/mvcamera.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/mvcamera.cpp" > CMakeFiles/Rune_.dir/src/mvcamera.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/src/mvcamera.cpp" > CMakeFiles/Rune_.dir/src/mvcamera.cpp.i
 
 CMakeFiles/Rune_.dir/src/mvcamera.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Rune_.dir/src/mvcamera.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/mvcamera.cpp" -o CMakeFiles/Rune_.dir/src/mvcamera.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/src/mvcamera.cpp" -o CMakeFiles/Rune_.dir/src/mvcamera.cpp.s
 
 CMakeFiles/Rune_.dir/src/anglesolver.cpp.o: CMakeFiles/Rune_.dir/flags.make
 CMakeFiles/Rune_.dir/src/anglesolver.cpp.o: ../src/anglesolver.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/Rune_.dir/src/anglesolver.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Rune_.dir/src/anglesolver.cpp.o -c "/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/anglesolver.cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/Rune_.dir/src/anglesolver.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Rune_.dir/src/anglesolver.cpp.o -c "/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/src/anglesolver.cpp"
 
 CMakeFiles/Rune_.dir/src/anglesolver.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Rune_.dir/src/anglesolver.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/anglesolver.cpp" > CMakeFiles/Rune_.dir/src/anglesolver.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/src/anglesolver.cpp" > CMakeFiles/Rune_.dir/src/anglesolver.cpp.i
 
 CMakeFiles/Rune_.dir/src/anglesolver.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Rune_.dir/src/anglesolver.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/anglesolver.cpp" -o CMakeFiles/Rune_.dir/src/anglesolver.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/src/anglesolver.cpp" -o CMakeFiles/Rune_.dir/src/anglesolver.cpp.s
 
 CMakeFiles/Rune_.dir/src/serialport.cpp.o: CMakeFiles/Rune_.dir/flags.make
 CMakeFiles/Rune_.dir/src/serialport.cpp.o: ../src/serialport.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/Rune_.dir/src/serialport.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Rune_.dir/src/serialport.cpp.o -c "/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/serialport.cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/Rune_.dir/src/serialport.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Rune_.dir/src/serialport.cpp.o -c "/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/src/serialport.cpp"
 
 CMakeFiles/Rune_.dir/src/serialport.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Rune_.dir/src/serialport.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/serialport.cpp" > CMakeFiles/Rune_.dir/src/serialport.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/src/serialport.cpp" > CMakeFiles/Rune_.dir/src/serialport.cpp.i
 
 CMakeFiles/Rune_.dir/src/serialport.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Rune_.dir/src/serialport.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/serialport.cpp" -o CMakeFiles/Rune_.dir/src/serialport.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/src/serialport.cpp" -o CMakeFiles/Rune_.dir/src/serialport.cpp.s
 
 CMakeFiles/Rune_.dir/src/workspace.cpp.o: CMakeFiles/Rune_.dir/flags.make
 CMakeFiles/Rune_.dir/src/workspace.cpp.o: ../src/workspace.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/Rune_.dir/src/workspace.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Rune_.dir/src/workspace.cpp.o -c "/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/workspace.cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/Rune_.dir/src/workspace.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Rune_.dir/src/workspace.cpp.o -c "/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/src/workspace.cpp"
 
 CMakeFiles/Rune_.dir/src/workspace.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Rune_.dir/src/workspace.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/workspace.cpp" > CMakeFiles/Rune_.dir/src/workspace.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/src/workspace.cpp" > CMakeFiles/Rune_.dir/src/workspace.cpp.i
 
 CMakeFiles/Rune_.dir/src/workspace.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Rune_.dir/src/workspace.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/workspace.cpp" -o CMakeFiles/Rune_.dir/src/workspace.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/src/workspace.cpp" -o CMakeFiles/Rune_.dir/src/workspace.cpp.s
 
 # Object files for target Rune_
 Rune__OBJECTS = \
@@ -231,7 +231,7 @@ Rune_: /usr/local/lib/libopencv_objdetect.so.3.4.3
 Rune_: /usr/local/lib/libopencv_imgproc.so.3.4.3
 Rune_: /usr/local/lib/libopencv_core.so.3.4.3
 Rune_: CMakeFiles/Rune_.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_9) "Linking CXX executable Rune_"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_9) "Linking CXX executable Rune_"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Rune_.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -244,6 +244,6 @@ CMakeFiles/Rune_.dir/clean:
 .PHONY : CMakeFiles/Rune_.dir/clean
 
 CMakeFiles/Rune_.dir/depend:
-	cd "/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/cmake-build-debug" && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" "/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)" "/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)" "/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/cmake-build-debug" "/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/cmake-build-debug" "/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/cmake-build-debug/CMakeFiles/Rune_.dir/DependInfo.cmake" --color=$(COLOR)
+	cd "/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/cmake-build-debug" && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" "/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)" "/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)" "/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/cmake-build-debug" "/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/cmake-build-debug" "/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/cmake-build-debug/CMakeFiles/Rune_.dir/DependInfo.cmake" --color=$(COLOR)
 .PHONY : CMakeFiles/Rune_.dir/depend
 

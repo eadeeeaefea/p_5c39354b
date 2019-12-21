@@ -1,3 +1,0 @@
-/home/luzhan/My Project/RM2020/2020 大风车识别/完整版/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/luzhan/My Project/RM2020/2020 大风车识别/完整版/cmake-build-debug/CMakeFiles/HERORM2020.dir
-/home/luzhan/My Project/RM2020/2020 大风车识别/完整版/cmake-build-debug/CMakeFiles/edit_cache.dir

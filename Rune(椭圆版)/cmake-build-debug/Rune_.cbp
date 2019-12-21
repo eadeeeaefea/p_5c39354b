@@ -8,34 +8,34 @@
 		<Option virtualFolders="CMake Files\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\..\;CMake Files\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\usr\;CMake Files\..\..\..\..\..\..\usr\local\;CMake Files\..\..\..\..\..\..\usr\local\share\;CMake Files\..\..\..\..\..\..\usr\local\share\OpenCV\;"/>
 		<Build>
 			<Target title="all">
-				<Option working_dir="/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/cmake-build-debug"/>
+				<Option working_dir="/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j12 -f &quot;/home/luzhan/My\ Project/RM2020/2020\ 大风车识别/Rune(椭圆版)/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
-					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/luzhan/My\ Project/RM2020/2020\ 大风车识别/Rune(椭圆版)/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j12 -f &quot;/home/luzhan/My\ Project/RM2020/2020\ 大风车识别/Rune(椭圆版)/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j12 -f &quot;/home/luzhan/My\ Project/RM2020/2020\ 大风车识别/Rune(椭圆版)/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j12 -f &quot;/home/luzhan/My\ Project/RM2020/个人任务/Rune(椭圆版)/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/luzhan/My\ Project/RM2020/个人任务/Rune(椭圆版)/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/home/luzhan/My\ Project/RM2020/个人任务/Rune(椭圆版)/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/home/luzhan/My\ Project/RM2020/个人任务/Rune(椭圆版)/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="rebuild_cache">
-				<Option working_dir="/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/cmake-build-debug"/>
+				<Option working_dir="/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j12 -f &quot;/home/luzhan/My\ Project/RM2020/2020\ 大风车识别/Rune(椭圆版)/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
-					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/luzhan/My\ Project/RM2020/2020\ 大风车识别/Rune(椭圆版)/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j12 -f &quot;/home/luzhan/My\ Project/RM2020/2020\ 大风车识别/Rune(椭圆版)/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j12 -f &quot;/home/luzhan/My\ Project/RM2020/2020\ 大风车识别/Rune(椭圆版)/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j12 -f &quot;/home/luzhan/My\ Project/RM2020/个人任务/Rune(椭圆版)/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/luzhan/My\ Project/RM2020/个人任务/Rune(椭圆版)/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/home/luzhan/My\ Project/RM2020/个人任务/Rune(椭圆版)/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/home/luzhan/My\ Project/RM2020/个人任务/Rune(椭圆版)/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="Rune_">
-				<Option output="/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/cmake-build-debug/Rune_" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/cmake-build-debug"/>
+				<Option output="/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/cmake-build-debug/Rune_" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/./include"/>
-					<Add directory="/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/include"/>
+					<Add directory="/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/./include"/>
+					<Add directory="/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/include"/>
 					<Add directory="/usr/local/include/opencv"/>
 					<Add directory="/usr/include/c++/7"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
@@ -47,21 +47,21 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j12 -f &quot;/home/luzhan/My\ Project/RM2020/2020\ 大风车识别/Rune(椭圆版)/cmake-build-debug/Makefile&quot;  VERBOSE=1 Rune_"/>
-					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/luzhan/My\ Project/RM2020/2020\ 大风车识别/Rune(椭圆版)/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j12 -f &quot;/home/luzhan/My\ Project/RM2020/2020\ 大风车识别/Rune(椭圆版)/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j12 -f &quot;/home/luzhan/My\ Project/RM2020/2020\ 大风车识别/Rune(椭圆版)/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j12 -f &quot;/home/luzhan/My\ Project/RM2020/个人任务/Rune(椭圆版)/cmake-build-debug/Makefile&quot;  VERBOSE=1 Rune_"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/luzhan/My\ Project/RM2020/个人任务/Rune(椭圆版)/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/home/luzhan/My\ Project/RM2020/个人任务/Rune(椭圆版)/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/home/luzhan/My\ Project/RM2020/个人任务/Rune(椭圆版)/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="Rune_/fast">
-				<Option output="/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/cmake-build-debug/Rune_" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/cmake-build-debug"/>
+				<Option output="/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/cmake-build-debug/Rune_" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/./include"/>
-					<Add directory="/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/include"/>
+					<Add directory="/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/./include"/>
+					<Add directory="/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/include"/>
 					<Add directory="/usr/local/include/opencv"/>
 					<Add directory="/usr/include/c++/7"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
@@ -73,60 +73,60 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j12 -f &quot;/home/luzhan/My\ Project/RM2020/2020\ 大风车识别/Rune(椭圆版)/cmake-build-debug/Makefile&quot;  VERBOSE=1 Rune_/fast"/>
-					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/luzhan/My\ Project/RM2020/2020\ 大风车识别/Rune(椭圆版)/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j12 -f &quot;/home/luzhan/My\ Project/RM2020/2020\ 大风车识别/Rune(椭圆版)/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j12 -f &quot;/home/luzhan/My\ Project/RM2020/2020\ 大风车识别/Rune(椭圆版)/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j12 -f &quot;/home/luzhan/My\ Project/RM2020/个人任务/Rune(椭圆版)/cmake-build-debug/Makefile&quot;  VERBOSE=1 Rune_/fast"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/luzhan/My\ Project/RM2020/个人任务/Rune(椭圆版)/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/home/luzhan/My\ Project/RM2020/个人任务/Rune(椭圆版)/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/home/luzhan/My\ Project/RM2020/个人任务/Rune(椭圆版)/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="edit_cache">
-				<Option working_dir="/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/cmake-build-debug"/>
+				<Option working_dir="/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j12 -f &quot;/home/luzhan/My\ Project/RM2020/2020\ 大风车识别/Rune(椭圆版)/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
-					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/luzhan/My\ Project/RM2020/2020\ 大风车识别/Rune(椭圆版)/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j12 -f &quot;/home/luzhan/My\ Project/RM2020/2020\ 大风车识别/Rune(椭圆版)/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j12 -f &quot;/home/luzhan/My\ Project/RM2020/2020\ 大风车识别/Rune(椭圆版)/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j12 -f &quot;/home/luzhan/My\ Project/RM2020/个人任务/Rune(椭圆版)/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/luzhan/My\ Project/RM2020/个人任务/Rune(椭圆版)/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/home/luzhan/My\ Project/RM2020/个人任务/Rune(椭圆版)/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/home/luzhan/My\ Project/RM2020/个人任务/Rune(椭圆版)/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/anglesolver.cpp">
+		<Unit filename="/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/src/anglesolver.cpp">
 			<Option target="Rune_"/>
 		</Unit>
-		<Unit filename="/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/energy.cpp">
+		<Unit filename="/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/src/energy.cpp">
 			<Option target="Rune_"/>
 		</Unit>
-		<Unit filename="/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/main.cpp">
+		<Unit filename="/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/src/main.cpp">
 			<Option target="Rune_"/>
 		</Unit>
-		<Unit filename="/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/mvcamera.cpp">
+		<Unit filename="/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/src/mvcamera.cpp">
 			<Option target="Rune_"/>
 		</Unit>
-		<Unit filename="/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/serialport.cpp">
+		<Unit filename="/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/src/serialport.cpp">
 			<Option target="Rune_"/>
 		</Unit>
-		<Unit filename="/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/timer.cpp">
+		<Unit filename="/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/src/timer.cpp">
 			<Option target="Rune_"/>
 		</Unit>
-		<Unit filename="/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/videoio.cpp">
+		<Unit filename="/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/src/videoio.cpp">
 			<Option target="Rune_"/>
 		</Unit>
-		<Unit filename="/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/workspace.cpp">
+		<Unit filename="/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/src/workspace.cpp">
 			<Option target="Rune_"/>
 		</Unit>
-		<Unit filename="/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/CMakeLists.txt">
+		<Unit filename="/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
-		<Unit filename="/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/../../../../../../usr/local/share/OpenCV/OpenCVConfig-version.cmake">
+		<Unit filename="/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/../../../../../../usr/local/share/OpenCV/OpenCVConfig-version.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\local\share\OpenCV\"/>
 		</Unit>
-		<Unit filename="/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/../../../../../../usr/local/share/OpenCV/OpenCVConfig.cmake">
+		<Unit filename="/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/../../../../../../usr/local/share/OpenCV/OpenCVConfig.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\local\share\OpenCV\"/>
 		</Unit>
-		<Unit filename="/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/../../../../../../usr/local/share/OpenCV/OpenCVModules-release.cmake">
+		<Unit filename="/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/../../../../../../usr/local/share/OpenCV/OpenCVModules-release.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\local\share\OpenCV\"/>
 		</Unit>
-		<Unit filename="/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/../../../../../../usr/local/share/OpenCV/OpenCVModules.cmake">
+		<Unit filename="/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/../../../../../../usr/local/share/OpenCV/OpenCVModules.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\local\share\OpenCV\"/>
 		</Unit>
 	</Project>

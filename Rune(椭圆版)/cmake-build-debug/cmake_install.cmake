@@ -1,4 +1,4 @@
-# Install script for directory: /home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)
+# Install script for directory: /home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

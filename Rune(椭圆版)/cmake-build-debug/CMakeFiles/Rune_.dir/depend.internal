@@ -3,11 +3,11 @@
 
 CMakeFiles/Rune_.dir/src/anglesolver.cpp.o
  .././include/anglesolver.h
- /home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/anglesolver.cpp
+ /home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/src/anglesolver.cpp
 CMakeFiles/Rune_.dir/src/energy.cpp.o
  .././include/energy.hpp
  .././include/timer.hpp
- /home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/energy.cpp
+ /home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/src/energy.cpp
 CMakeFiles/Rune_.dir/src/main.cpp.o
  .././include/anglesolver.h
  .././include/energy.hpp
@@ -16,19 +16,19 @@ CMakeFiles/Rune_.dir/src/main.cpp.o
  .././include/timer.hpp
  .././include/videoio.hpp
  .././include/workspace.h
- /home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/main.cpp
+ /home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/src/main.cpp
 CMakeFiles/Rune_.dir/src/mvcamera.cpp.o
  .././include/mvcamera.h
- /home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/mvcamera.cpp
+ /home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/src/mvcamera.cpp
 CMakeFiles/Rune_.dir/src/serialport.cpp.o
  .././include/serialport.h
- /home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/serialport.cpp
+ /home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/src/serialport.cpp
 CMakeFiles/Rune_.dir/src/timer.cpp.o
  .././include/timer.hpp
- /home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/timer.cpp
+ /home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/src/timer.cpp
 CMakeFiles/Rune_.dir/src/videoio.cpp.o
  .././include/videoio.hpp
- /home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/videoio.cpp
+ /home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/src/videoio.cpp
 CMakeFiles/Rune_.dir/src/workspace.cpp.o
  .././include/anglesolver.h
  .././include/energy.hpp
@@ -37,4 +37,4 @@ CMakeFiles/Rune_.dir/src/workspace.cpp.o
  .././include/timer.hpp
  .././include/videoio.hpp
  .././include/workspace.h
- /home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/workspace.cpp
+ /home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/src/workspace.cpp

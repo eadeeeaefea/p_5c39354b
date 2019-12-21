@@ -11,7 +11,111 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="eac98cf9-cbb2-4818-8d7e-fe4ee7e248d2" name="Default Changelist" comment="" />
+    <list default="true" id="eac98cf9-cbb2-4818-8d7e-fe4ee7e248d2" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeDirectoryInformation.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeDirectoryInformation.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeOutput.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeOutput.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Rune_.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Rune_.dir/CXX.includecache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Rune_.dir/DependInfo.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Rune_.dir/DependInfo.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Rune_.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Rune_.dir/build.make" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Rune_.dir/depend.internal" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Rune_.dir/depend.internal" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Rune_.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Rune_.dir/flags.make" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Rune_.dir/src/anglesolver.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Rune_.dir/src/anglesolver.cpp.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Rune_.dir/src/energy.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Rune_.dir/src/energy.cpp.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Rune_.dir/src/main.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Rune_.dir/src/main.cpp.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Rune_.dir/src/mvcamera.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Rune_.dir/src/mvcamera.cpp.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Rune_.dir/src/serialport.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Rune_.dir/src/serialport.cpp.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Rune_.dir/src/timer.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Rune_.dir/src/timer.cpp.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Rune_.dir/src/videoio.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Rune_.dir/src/videoio.cpp.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Rune_.dir/src/workspace.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Rune_.dir/src/workspace.cpp.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Rune_" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Rune_" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Rune_.cbp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Rune_.cbp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/cmake_install.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/cmake_install.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/.idea/.name" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/.idea/p_5c39354b.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/CMakeLists.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/cmake-build-debug/CMakeCache.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/cmake-build-debug/CMakeFiles/3.14.3/CMakeCCompiler.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/cmake-build-debug/CMakeFiles/3.14.3/CMakeCXXCompiler.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/cmake-build-debug/CMakeFiles/3.14.3/CMakeDetermineCompilerABI_C.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/cmake-build-debug/CMakeFiles/3.14.3/CMakeDetermineCompilerABI_CXX.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/cmake-build-debug/CMakeFiles/3.14.3/CMakeSystem.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/cmake-build-debug/CMakeFiles/3.14.3/CompilerIdC/CMakeCCompilerId.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/cmake-build-debug/CMakeFiles/3.14.3/CompilerIdC/a.out" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/cmake-build-debug/CMakeFiles/3.14.3/CompilerIdCXX/CMakeCXXCompilerId.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/cmake-build-debug/CMakeFiles/3.14.3/CompilerIdCXX/a.out" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/cmake-build-debug/CMakeFiles/CMakeDirectoryInformation.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/cmake-build-debug/CMakeFiles/CMakeOutput.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/cmake-build-debug/CMakeFiles/HERORM2020.dir/CXX.includecache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/cmake-build-debug/CMakeFiles/HERORM2020.dir/DependInfo.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/cmake-build-debug/CMakeFiles/HERORM2020.dir/build.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/cmake-build-debug/CMakeFiles/HERORM2020.dir/cmake_clean.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/cmake-build-debug/CMakeFiles/HERORM2020.dir/depend.internal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/cmake-build-debug/CMakeFiles/HERORM2020.dir/depend.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/cmake-build-debug/CMakeFiles/HERORM2020.dir/flags.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/cmake-build-debug/CMakeFiles/HERORM2020.dir/link.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/cmake-build-debug/CMakeFiles/HERORM2020.dir/progress.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/cmake-build-debug/CMakeFiles/HERORM2020.dir/src/anglesolver.cpp.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/cmake-build-debug/CMakeFiles/HERORM2020.dir/src/armordetector.cpp.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/cmake-build-debug/CMakeFiles/HERORM2020.dir/src/energy.cpp.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/cmake-build-debug/CMakeFiles/HERORM2020.dir/src/main.cpp.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/cmake-build-debug/CMakeFiles/HERORM2020.dir/src/mvcamera.cpp.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/cmake-build-debug/CMakeFiles/HERORM2020.dir/src/predictor.cpp.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/cmake-build-debug/CMakeFiles/HERORM2020.dir/src/serialport.cpp.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/cmake-build-debug/CMakeFiles/HERORM2020.dir/src/targetsolver.cpp.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/cmake-build-debug/CMakeFiles/HERORM2020.dir/src/timer.cpp.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/cmake-build-debug/CMakeFiles/HERORM2020.dir/src/workspace.cpp.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/cmake-build-debug/CMakeFiles/Makefile.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/cmake-build-debug/CMakeFiles/Makefile2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/cmake-build-debug/CMakeFiles/TargetDirectories.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/cmake-build-debug/CMakeFiles/clion-environment.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/cmake-build-debug/CMakeFiles/clion-log.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/cmake-build-debug/CMakeFiles/cmake.check_cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/cmake-build-debug/CMakeFiles/feature_tests.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/cmake-build-debug/CMakeFiles/feature_tests.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/cmake-build-debug/CMakeFiles/feature_tests.cxx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/cmake-build-debug/CMakeFiles/progress.marks" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/cmake-build-debug/Camera/Data/049080710033.mvdat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/cmake-build-debug/HERORM2020" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/cmake-build-debug/HERORM2020.cbp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/cmake-build-debug/Makefile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/cmake-build-debug/cmake_install.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/include/anglesolver.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/include/armordetector.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/include/base.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/include/energy.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/include/mvcamera.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/include/predictor.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/include/runesolver.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/include/serialport.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/include/targetsolver.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/include/timer.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/include/workspace.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/models/svm_model.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/monitor.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/param/param.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/src/anglesolver.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/src/armordetector.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/src/energy.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/src/main.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/src/mvcamera.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/src/predictor.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/src/runesolver.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/src/serialport.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/src/targetsolver.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/src/timer.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../完整版/src/workspace.cpp" beforeDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -42,19 +146,19 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/workspace.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="504">
-              <caret line="78" column="126" selection-start-line="78" selection-start-column="20" selection-end-line="78" selection-end-column="126" />
+            <state relative-caret-position="-2688">
+              <caret line="23" column="13" selection-start-line="23" selection-start-column="4" selection-end-line="23" selection-end-column="13" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/serialport.cpp">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/include/mvcamera.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="392">
-              <caret line="294" selection-start-line="294" selection-end-line="294" selection-end-column="49" />
+            <state relative-caret-position="48">
+              <caret line="5" column="35" lean-forward="true" selection-start-line="5" selection-start-column="35" selection-end-line="5" selection-end-column="35" />
               <folding>
-                <element signature="e#309#332#0" expanded="true" />
+                <element signature="e#381#399#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -63,7 +167,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/include/workspace.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="800">
+            <state relative-caret-position="1272">
               <caret line="53" column="15" selection-start-line="53" selection-start-column="15" selection-end-line="53" selection-end-column="15" />
               <folding>
                 <element signature="e#314#333#0" expanded="true" />
@@ -75,11 +179,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/energy.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-6">
+            <state relative-caret-position="24">
               <caret line="31" column="26" selection-start-line="31" selection-start-column="26" selection-end-line="31" selection-end-column="26" />
-              <folding>
-                <element signature="e#4089#4155#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -87,7 +188,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/anglesolver.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="336">
+            <state relative-caret-position="1056">
               <caret line="44" column="19" selection-start-line="44" selection-start-column="19" selection-end-line="44" selection-end-column="19" />
             </state>
           </provider>
@@ -96,7 +197,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/include/anglesolver.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="392">
+            <state relative-caret-position="792">
               <caret line="33" column="9" selection-start-line="33" selection-start-column="9" selection-end-line="33" selection-end-column="9" />
             </state>
           </provider>
@@ -105,7 +206,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/mvcamera.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="513">
+            <state relative-caret-position="1056">
               <caret line="44" selection-start-line="44" selection-end-line="44" />
             </state>
           </provider>
@@ -114,7 +215,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="312">
+            <state relative-caret-position="528">
               <caret line="22" column="24" selection-start-line="22" selection-start-column="24" selection-end-line="22" selection-end-column="24" />
             </state>
           </provider>
@@ -123,17 +224,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/include/energy.hpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1584">
+            <state relative-caret-position="216">
               <caret line="9" column="20" selection-start-line="9" selection-start-column="20" selection-end-line="9" selection-end-column="20" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="216">
-              <caret line="9" column="27" lean-forward="true" selection-start-line="9" selection-start-column="27" selection-end-line="9" selection-end-column="27" />
+              <caret line="9" column="27" selection-start-line="9" selection-start-column="27" selection-end-line="9" selection-end-column="27" />
             </state>
           </provider>
         </entry>
@@ -196,6 +297,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -217,13 +319,12 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../完整版" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -333,17 +434,20 @@
       <workItem from="1575976774956" duration="5545000" />
       <workItem from="1576070187123" duration="4252000" />
       <workItem from="1576649355961" duration="3127000" />
+      <workItem from="1576671101788" duration="276000" />
+      <workItem from="1576839178805" duration="597000" />
+      <workItem from="1576891911026" duration="1457000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="258681000" />
+    <option name="totallyTimeSpent" value="261011000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="67" y="25" width="1853" height="1055" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18121178" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18843803" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -491,16 +595,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/include/mvcamera.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="888">
-          <caret line="37" column="36" selection-start-line="37" selection-start-column="36" selection-end-line="37" selection-end-column="36" />
-          <folding>
-            <element signature="e#381#399#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/include/videoio.hpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="264">
@@ -604,64 +698,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/mvcamera.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="513">
-          <caret line="44" selection-start-line="44" selection-end-line="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/include/workspace.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="800">
-          <caret line="53" column="15" selection-start-line="53" selection-start-column="15" selection-end-line="53" selection-end-column="15" />
-          <folding>
-            <element signature="e#314#333#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/draw.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="7" selection-start-line="7" selection-end-line="14" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/include/draw.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="312">
-          <caret line="22" column="24" selection-start-line="22" selection-start-column="24" selection-end-line="22" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/energy.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-6">
-          <caret line="31" column="26" selection-start-line="31" selection-start-column="26" selection-end-line="31" selection-end-column="26" />
-          <folding>
-            <element signature="e#4089#4155#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/include/energy.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1584">
-          <caret line="9" column="20" selection-start-line="9" selection-start-column="20" selection-end-line="9" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/draw.cpp" />
+    <entry file="file://$PROJECT_DIR$/include/draw.hpp" />
     <entry file="file://$PROJECT_DIR$/src/serialport.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="392">
+        <state relative-caret-position="7056">
           <caret line="294" selection-start-line="294" selection-end-line="294" selection-end-column="49" />
           <folding>
             <element signature="e#309#332#0" expanded="true" />
@@ -671,29 +712,77 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/anglesolver.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="336">
+        <state relative-caret-position="1056">
           <caret line="44" column="19" selection-start-line="44" selection-start-column="19" selection-end-line="44" selection-end-column="19" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/include/anglesolver.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="392">
+        <state relative-caret-position="792">
           <caret line="33" column="9" selection-start-line="33" selection-start-column="9" selection-end-line="33" selection-end-column="9" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/workspace.cpp">
+    <entry file="file://$PROJECT_DIR$/src/mvcamera.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="504">
-          <caret line="78" column="126" selection-start-line="78" selection-start-column="20" selection-end-line="78" selection-end-column="126" />
+        <state relative-caret-position="1056">
+          <caret line="44" selection-start-line="44" selection-end-line="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="528">
+          <caret line="22" column="24" selection-start-line="22" selection-start-column="24" selection-end-line="22" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/energy.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="9" column="20" selection-start-line="9" selection-start-column="20" selection-end-line="9" selection-end-column="20" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="216">
-          <caret line="9" column="27" lean-forward="true" selection-start-line="9" selection-start-column="27" selection-end-line="9" selection-end-column="27" />
+          <caret line="9" column="27" selection-start-line="9" selection-start-column="27" selection-end-line="9" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/energy.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="24">
+          <caret line="31" column="26" selection-start-line="31" selection-start-column="26" selection-end-line="31" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/workspace.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1272">
+          <caret line="53" column="15" selection-start-line="53" selection-start-column="15" selection-end-line="53" selection-end-column="15" />
+          <folding>
+            <element signature="e#314#333#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/workspace.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2688">
+          <caret line="23" column="13" selection-start-line="23" selection-start-column="4" selection-end-line="23" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/mvcamera.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="48">
+          <caret line="5" column="35" lean-forward="true" selection-start-line="5" selection-start-column="35" selection-end-line="5" selection-end-column="35" />
+          <folding>
+            <element signature="e#381#399#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

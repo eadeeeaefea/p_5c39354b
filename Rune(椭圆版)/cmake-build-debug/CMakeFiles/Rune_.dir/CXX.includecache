@@ -82,15 +82,49 @@ energy.hpp
 videoio.hpp
 .././include/videoio.hpp
 
-/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/energy.cpp
+/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/src/anglesolver.cpp
+anglesolver.h
+/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/src/anglesolver.h
+
+/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/src/energy.cpp
 energy.hpp
-/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/energy.hpp
+/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/src/energy.hpp
 
-/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/main.cpp
+/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/src/main.cpp
 workspace.h
-/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/workspace.h
+/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/src/workspace.h
 
-/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/workspace.cpp
+/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/src/mvcamera.cpp
+mvcamera.h
+/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/src/mvcamera.h
+
+/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/src/serialport.cpp
+serialport.h
+/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/src/serialport.h
+stdio.h
+-
+unistd.h
+-
+fcntl.h
+-
+sys/ioctl.h
+-
+sys/signal.h
+-
+errno.h
+-
+termios.h
+-
+
+/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/src/timer.cpp
+timer.hpp
+/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/src/timer.hpp
+
+/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/src/videoio.cpp
+videoio.hpp
+/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/src/videoio.hpp
+
+/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/src/workspace.cpp
 workspace.h
-/home/luzhan/My Project/RM2020/2020 大风车识别/Rune(椭圆版)/src/workspace.h
+/home/luzhan/My Project/RM2020/个人任务/Rune(椭圆版)/src/workspace.h
 
