@@ -108,6 +108,6 @@ void TargetSolver::solvePnP4Points(const RotatedRect &rect,
 void TargetSolver::camera2ptzTransform(const Mat &camera_position,
                                        Target &ptz_position) {
     ptz_position.x = camera_position.at<double>(0,0) / 1000;
-    ptz_position.y = -(camera_position.at<double>(1,0) - 49.19) / 1000;  // 云台坐标系y向上
+    ptz_position.y = (camera_position.at<double>(1,0) - 49.19) / 1000;  // 云台坐标系y向上
     ptz_position.z = (camera_position.at<double>(2,0) + 115.62) / 1000;
 }

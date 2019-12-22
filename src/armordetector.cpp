@@ -41,7 +41,7 @@ void ArmorDetector::init(const FileStorage &file_storage) {
     kernel_size = 5;
 #endif
 #ifndef COMPILE_WITH_CUDA
-    kernel = getStructuringElement(MORPH_RECT, Size(kernel_size,kernel_size));
+    kernel = getStructuringElement(MORPH_RECT, Size(kernel_size, kernel_size));
 #else
     kernel = cv::cuda::createMorphologyFilter(MORPH_CLOSE, CV_8U,
         getStructuringElement(MORPH_RECT, Size(kernel_size,kernel_size)));
@@ -129,8 +129,8 @@ void ArmorDetector::run(const Mat &src,
     drawRotatedRect(original_image, target_armor);
     imshow("original", original_image);
 #ifdef TRACKBAR
-    copyMakeBorder(processed_image, processed_image, 0, 480-processed_image.rows,
-                   0, 640-processed_image.cols, BORDER_CONSTANT, Scalar(255,255,255));
+    copyMakeBorder(processed_image, processed_image, 0, 480 - processed_image.rows,
+                   0, 640 - processed_image.cols, BORDER_CONSTANT, Scalar(255, 255, 255));
 #endif  // TRACKBAR
     imshow("processed", processed_image);
 #ifdef ROI_ENABLE
@@ -193,7 +193,7 @@ void ArmorDetector::Preprocess(const Mat &src,
     }
 #endif  // HSV
 #ifdef TRACKBAR
-    kernel = getStructuringElement(MORPH_RECT, Size(kernel_size,kernel_size));
+    kernel = getStructuringElement(MORPH_RECT, Size(kernel_size, kernel_size));
 #endif  // TRACKBAR
     morphologyEx(dst, dst, MORPH_CLOSE, kernel);
 
@@ -298,7 +298,7 @@ void ArmorDetector::findArmors(vector<RotatedRect> &lightbars,
                                vector<double> &scores) {
     armors.clear();
     scores.clear();
-    if (lightbars.empty() || lightbars.size() == 1)     return;
+    if (lightbars.empty() || lightbars.size() == 1) return;
 
     for (int i = 0; i < lightbars.size(); ++i) {
         adjustRotatedRect(lightbars[i]);
@@ -380,7 +380,7 @@ void ArmorDetector::findArmors(vector<RotatedRect> &lightbars,
 
     for (int i = 0; i < subscript.size(); i += 2) {
         lightbars[subscript[i]].points(left_vertices);
-        lightbars[subscript[i+1]].points(right_vertices);
+        lightbars[subscript[i + 1]].points(right_vertices);
         for (int j = 0; j < 4; ++j) {
             armor_vertices.push_back(left_vertices[j]);
             armor_vertices.push_back(right_vertices[j]);
@@ -394,36 +394,37 @@ void ArmorDetector::findArmors(vector<RotatedRect> &lightbars,
 void ArmorDetector::selectTarget(const vector<RotatedRect> &armors,
                                  const vector<double> &scores,
                                  RotatedRect &target_armor) {
-     target_armor = RotatedRect();
-     if (armors.empty() || scores.empty())     return;
+    target_armor = RotatedRect();
+    if (armors.empty() || scores.empty()) return;
 
-     static int subscript;
-     static double min_score;
-     min_score = 1e+5;
-     for (int i = 0; i < scores.size(); ++i) {
-         if (scores[i] < min_score) {
-             min_score = scores[i];
-             subscript = i;
-         }
-     }
+    static int subscript;
+    static double min_score;
+    min_score = 1e+5;
+    for (int i = 0; i < scores.size(); ++i) {
+        if (scores[i] < min_score) {
+            min_score = scores[i];
+            subscript = i;
+        }
+    }
 
-     target_armor = armors[subscript];
+    target_armor = armors[subscript];
 }
 
 void ArmorDetector::adjustRotatedRect(RotatedRect &rect) {
     if (rect.size.width > rect.size.height) {
-        rect = RotatedRect(rect.center, Size2f(rect.size.height,rect.size.width), rect.angle+90);
+        rect = RotatedRect(rect.center, Size2f(rect.size.height, rect.size.width), rect.angle + 90);
     }
 }
 
 void ArmorDetector::preventROIExceed(int &x, int &y, int &width, int &height) {
-    if (x < 0)    x = 0;
-    if (y < 0)    y = 0;
-    if (x + width > 640)    width = width - (x + width - 640);
-    if (y + height > 480)   height = height - (y + height - 480);
+    if (x < 0) x = 0;
+    if (y < 0) y = 0;
+    if (x + width > 640) width = width - (x + width - 640);
+    if (y + height > 480) height = height - (y + height - 480);
 }
 
 #ifdef ROI_ENABLE
+
 Rect ArmorDetector::get_roi_rect() {
     return roi_rect;
 }
@@ -441,11 +442,12 @@ void ArmorDetector::set_roi_rect(const Rect &rect) {
 
     roi_rect = Rect(detect_x, detect_y, detect_width, detect_height);
 }
+
 #endif  // ROI_ENABLE
 
 void drawRotatedRect(Mat &src, RotatedRect &rect) {
     Point2f vertices[4];
     rect.points(vertices);
     for (int i = 0; i < 4; ++i)
-        line(src, vertices[i], vertices[(i+1)%4], Scalar(0,255,0), 2, 8);
+        line(src, vertices[i], vertices[(i + 1) % 4], Scalar(0, 255, 0), 2, 8);
 }
