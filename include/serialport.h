@@ -12,75 +12,73 @@
 #include <stdint.h>
 #include <string>
 #include <exception>
+#include "base.h"
 
 using std::string;
 using std::exception;
 
 
-typedef struct SendPack_t {
-    int mode;
-    double yaw;
-    double pitch;
-}SendPack;
-
-typedef struct ReadPack_t {
-    int enemy_color;  // 0-red, 1-blue
-    int mode;
-    double pitch;
-    double yaw;
-}ReadPack;
-
 class SerialPort {
 private:
-    string port_name;
-    long baud_rate;
-    int byte_size;
-    int parity;
-    int stop_bit;
-    int flow_control;
+    string port_name_;
+    long baud_rate_;
+    int byte_size_;
+    int parity_;
+    int stop_bit_;
+    int flow_control_;
 
-    int fd;
-    bool is_open;
+    int fd_;
+    bool is_open_;
 
 public:
     SerialPort();
-    SerialPort(const string &_port_name,
-               long _baud_rate = 115200,
-               int _byte_size = 8,        // 5: 5bits, 6: 6bits, 7: 7bits, 8: 8bits
-               int _parity = 0,           // 0: none, 1: odd, 2: even
-               int _stop_bit = 1,         // 1: 1bit, 2: 2bits, 3: 1.5bits
-               int _flow_control = 0);    // 0: none, 1: software, 2: hardware
+
+    SerialPort(const string &port_name,
+               long baud_rate = 115200,
+               int byte_size = 8,        // 5: 5bits, 6: 6bits, 7: 7bits, 8: 8bits
+               int parity = 0,           // 0: none, 1: odd, 2: even
+               int stop_bit = 1,         // 1: 1bit, 2: 2bits, 3: 1.5bits
+               int flow_control = 0);    // 0: none, 1: software, 2: hardware
 
     ~SerialPort();
 
     void open();
-    void open(const string &_port_name,
-              long _baud_rate = 115200,
-              int _byte_size = 8,        // 5: 5bits, 6: 6bits, 7: 7bits, 8: 8bits
-              int _parity = 0,           // 0: none, 1: odd, 2: even
-              int _stop_bit = 1,         // 1: 1bit, 2: 2bits, 3: 1.5bits
-              int _flow_control = 0);    // 0: none, 1: software, 2: hardware
+
+    void open(const string &port_name,
+              long baud_rate = 115200,
+              int byte_size = 8,        // 5: 5bits, 6: 6bits, 7: 7bits, 8: 8bits
+              int parity = 0,           // 0: none, 1: odd, 2: even
+              int stop_bit = 1,         // 1: 1bit, 2: 2bits, 3: 1.5bits
+              int flow_control = 0);    // 0: none, 1: software, 2: hardware
     bool isOpen();
+
     void close();
 
-    void set_baud_rate(long _baud_rate);
-    long get_baud_rate();
+    void setBaudRate(long baud_rate);
 
-    void set_byte_size(int _byte_size);
-    int get_byte_size();
+    long getBaudRate();
 
-    void set_parity(int _parity);
-    int get_parity();
+    void setByteSize(int byte_size);
 
-    void set_stop_bit(int _stop_bit);
-    int get_stop_bit();
+    int getByteSize();
 
-    void set_flow_control(int _flow_control);
-    int get_flow_control();
+    void setParity(int parity);
+
+    int getParity();
+
+    void setStopBit(int stop_bit);
+
+    int getStopBit();
+
+    void setFlowControl(int flow_control);
+
+    int getFlowControl();
 
     void sendData(const SendPack &send_pack);
+
     bool readData(ReadPack &read_pack);
 
+    bool sendPlot(const PlotPack &plot_pack);
 private:
     void reconfigurePort();
 
@@ -88,14 +86,17 @@ private:
 
 class SerialException : public exception {
 private:
-    string e_what;
+    string e_what_;
 
 public:
     SerialException() {}
-    SerialException(const string &error) : e_what(error) {}
+
+    SerialException(const string &error) : e_what_(error) {}
+
     virtual ~SerialException() throw() {}
+
     virtual const char *what() const throw() {
-        return e_what.c_str();
+        return e_what_.c_str();
     }
 
 };

@@ -25,8 +25,13 @@
 #include "anglesolver.h"
 #include "runesolver.h"
 #include "predictor.h"
+//#include "an_predictor.h"
+#include "cannode.h"
+
 #ifdef RUNNING_TIME
+
 #include "timer.h"
+
 #endif
 
 using namespace std;
@@ -48,7 +53,10 @@ private:
     MVCamera mv_camera;
     SerialPort serial_port;
     RuneSolver rune_solver;
+    CanNode can_node;
+    //有两套Predictor代码通过include可以切换,此时用的是kalman预测
     Predictor predictor;
+
 
     vector<Mat> image_buffer;
     int max_image_buffer_size;
@@ -58,16 +66,26 @@ private:
     SendPack send_pack;
     ReadPack read_pack;
 
+    // plot used
+    SerialPort plot_serial;
+    PlotPack plot_pack;
+
 public:
     Workspace();
+
     ~Workspace();
+
     void init();
+
     void run();
 
 private:
     void imageReceivingFunc();
+
     void imageProcessingFunc();
+
     void messageCommunicatingFunc();
+
     void openSerialPort();
 
 };
