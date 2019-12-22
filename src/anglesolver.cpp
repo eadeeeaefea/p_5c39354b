@@ -21,6 +21,23 @@ AngleSolver::~AngleSolver() {
 
 }
 
+double AngleSolver::getOriginPitch() {
+    return origin_pitch;
+}
+
+double AngleSolver::getOriginYaw() {
+    return origin_yaw;
+}
+
+void AngleSolver::setOriginPitch(double pitch) {
+    origin_pitch = pitch;
+}
+
+void AngleSolver::setOriginYaw(double yaw) {
+    origin_yaw = yaw;
+}
+
+
 void AngleSolver::init() {
     yaw_offset_ = 0.0;
     pitch_offset_ = 0.0;
@@ -35,10 +52,10 @@ void AngleSolver::run(double x, double y, double z, double v,
 
     if (parabolaSolve(sqrt(x * x + z * z), y, v, pitch, ptz_pitch)) {
         if (z > 2.5) {
-            pitch = -pitch - 0.65;
-            yaw = atan(x / z) / PI * 180 - 0.6;
+            pitch = -pitch - pitch_offset_;
+            yaw = atan(x / z) / PI * 180 - yaw_offset_;
         } else {
-            pitch = -pitch;
+            pitch = -pitch - 0.3;
             yaw = atan(x / z) / PI * 180;
         }
     } else {
@@ -51,6 +68,8 @@ void AngleSolver::run(double x, double y, double z, double v,
     timer.stop();
 #endif
 }
+
+
 
 double AngleSolver::get_yaw_offset() {
     return yaw_offset_;
@@ -88,7 +107,7 @@ bool AngleSolver::parabolaSolve(double x, double y, double v, double &theta, dou
     //cout << "(" << x << "," << y << ")" << endl;
     **/
 
-    double time;
+    double time, time_square;
     static const double g = 9.7988;
     double res, res_1;
     double delta_angle;
@@ -97,9 +116,10 @@ bool AngleSolver::parabolaSolve(double x, double y, double v, double &theta, dou
     delta_angle = ptz_pitch * PI / 180;
     x_bar = x * cos(delta_angle) - y * sin(delta_angle);
     y_bar = x * sin(delta_angle) + y * cos(delta_angle);
-    time = 2.0 * ((y_bar * g + v * v) - sqrt(pow(g * y_bar + v * v, 2.0) - (x_bar * x_bar + y_bar * y_bar) * g * g)) /
-           (g * g);
-    time = sqrt(time);
+    time_square =
+            2.0 * ((y_bar * g + v * v) - sqrt(pow(g * y_bar + v * v, 2.0) - (x_bar * x_bar + y_bar * y_bar) * g * g)) /
+            (g * g);
+    time = sqrt(time_square);
     res_1 = (y_bar - 0.5 * g * time * time) / v / time;
     res = asin(res_1);
     theta = res * 180 / PI;

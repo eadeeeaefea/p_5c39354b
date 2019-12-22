@@ -2,12 +2,11 @@
  Copyright© HITwh HERO-Robomaster2020 Group
 
  Author: Wang Xiaoyan on 2019.11.5
- Update: Bruce Hou on 2019.12.03
+
  Detail:
  *****************************************************************************/
 
 #include "predictor.h"
-#include "base.h"
 #include <cmath>
 #include <iostream>
 
@@ -24,125 +23,116 @@ Predictor::~Predictor() {
 }
 
 void Predictor::init() {
+    x_filter.init();
+    y_filter.init();
+    z_filter.init();
+    // first = 1;
+    // coeff = 1.5;
+    // x_last = 0.0;
+    // y_last = 0.0;
+    // z_last = 0.0;
 }
 
-void Predictor::run(double &x, double &y, double &z, double ptz_pitch, double ptz_yaw) {
-    get_excercise_time(sqrt(x * x + z * z), y, 20, ptz_pitch);
-    explosive_motion_prediction(x, y, z, ptz_pitch, ptz_yaw);
-//    normal_motion_prediction(x, y, z, ptz_pitch, ptz_yaw);
-}
-
-void Predictor::explosive_motion_prediction(double &x, double &y, double &z, double ptz_pitch, double ptz_yaw) {
-    double angle_pitch, angle_yaw;
-    angle_pitch = ptz_pitch * PI / 180;
-    angle_yaw = ptz_yaw * PI / 180;
-    double dis;
-    double time = 0.01;
-    coordinate_transformation(x, y, z, angle_pitch, angle_yaw);
-    object_motion = Point3d(x, y, z);
-    if (object_coordinate.size() < 2) {
-        object_coordinate.emplace_back(object_motion);
+void Predictor::run(double &x, double &y, double &z) {
+    if (fabs(x) < 0.01 && fabs(y) < 0.01 && fabs(z) < 0.01) {
+        init();
     } else {
-        object_coordinate.erase(object_coordinate.begin());
-        object_coordinate.emplace_back(object_motion);
-        dis = point_distance(object_coordinate[0], object_coordinate[1]);
-        if (dis < 0.25 && dis > 0.03 && judgement()) {
-            object_accurate_speed = (object_coordinate[1] - object_coordinate[0]) / time;
-            x = object_coordinate[1].x + object_accurate_speed.x * time_for_excercise;
-            y = object_coordinate[1].y + object_accurate_speed.y * time_for_excercise;
-            z = object_coordinate[1].z + object_accurate_speed.z * time_for_excercise;
-        }
-    }
-    anti_coordinate_transformation(x, y, z, angle_pitch, angle_yaw);
-}
-
-void Predictor::normal_motion_prediction(double &x, double &y, double &z, double ptz_pitch, double ptz_yaw) {
-    double angle_pitch, angle_yaw;
-    angle_pitch = ptz_pitch * PI / 180;
-    angle_yaw = ptz_yaw * PI / 180;
-    int c;
-    double dis;
-    double time = 0.05;
-    coordinate_transformation(x, y, z, angle_pitch, angle_yaw);
-    object_motion = Point3d(x, y, z);
-    if (object_coordinate.size() < 10) {
-        object_coordinate.emplace_back(object_motion);
-    } else {
-        object_coordinate.erase(object_coordinate.begin());
-        object_coordinate.emplace_back(object_motion);
-        dis = point_distance(object_coordinate[8], object_coordinate[9]);
-        if (dis < 0.25 && dis > 0.017 && judgement()) {
-            for (c = 0; c <= 4; c++) {
-                object_inaccurate_speed[c] = (object_coordinate[c + 5] - object_coordinate[c]) / time;
-            }
-            object_accurate_speed = (object_inaccurate_speed[0] + object_inaccurate_speed[1] + object_inaccurate_speed[2] +
-                                     object_inaccurate_speed[3] + object_inaccurate_speed[4]) / 5;
-            x = object_coordinate[9].x + object_accurate_speed.x * time_for_excercise;
-            y = object_coordinate[9].y + object_accurate_speed.y * time_for_excercise;
-            z = object_coordinate[9].z + object_accurate_speed.z * time_for_excercise;
-        }
-    }
-    anti_coordinate_transformation(x, y, z, angle_pitch, angle_yaw);
-}
-
-void Predictor::coordinate_transformation(double &x, double &y, double &z, double ptz_pitch, double ptz_yaw) {
-    double absolute_x;
-    double absolute_y;
-    double absolute_z;
-    absolute_x = x * cos(ptz_yaw) - y * sin(ptz_pitch) * sin(ptz_yaw) - z * cos(ptz_pitch) * sin(ptz_yaw);
-    absolute_y = y * cos(ptz_pitch) - z * sin(ptz_pitch);
-    absolute_z = x * sin(ptz_yaw) + y * sin(ptz_pitch) * cos(ptz_yaw) + z * cos(ptz_pitch) * cos(ptz_yaw);
-    x = absolute_x;
-    y = absolute_y;
-    z = absolute_z;
-}
-
-void Predictor::anti_coordinate_transformation(double &x, double &y, double &z, double ptz_pitch, double ptz_yaw) {
-    double objective_x;
-    double objective_y;
-    double objective_z;
-    objective_x = x * cos(ptz_yaw) + z * sin(ptz_yaw);
-    objective_y = -x * sin(ptz_yaw) * sin(ptz_pitch) + y * cos(ptz_pitch) + z * cos(ptz_yaw) * sin(ptz_pitch);
-    objective_z = -x * sin(ptz_yaw) * cos(ptz_pitch) - y * sin(ptz_pitch) + z * cos(ptz_yaw) * cos(ptz_pitch);
-    x = objective_x;
-    y = objective_y;
-    z = objective_z;
-}
-
-double Predictor::point_distance(Point3d point1, Point3d point2) {
-    double distance;
-    distance = sqrt(((point2.x - point1.x) * (point2.x - point1.x) + (point2.y - point1.y) * (point2.y - point1.y) +
-                     (point2.z - point1.z) * (point2.z - point1.z)));
-    return distance;
-}
-
-bool Predictor::judgement() {
-    int i;
-    double count = 0;
-    for (i = 0; i < object_coordinate.size(); i++) {
-        if (object_coordinate[i] != Point3d(0, 0, 0)) {
-            count += 1;
-        }
-    }
-    if (count == object_coordinate.size()) {
-        return true;
+        x = x_filter.run(x);
+        y = y_filter.run(y);
+        z = z_filter.run(z);
+        // if (first) {
+        //     x_last = x;
+        //     y_last = y;
+        //     z_last = z;
+        //     first = 0;
+        // } else {
+        //     x += coeff * (x - x_last);
+        //     if (fabs(x - x_last) > 0.5) {
+        //         x = x_last;
+        //         x_last = 0.0;
+        //         first = 1;
+        //     } else {
+        //         x_last = x;
+        //     }
+        //
+        //     y += coeff * (y - y_last);
+        //     if (fabs(y - y_last) > 0.5) {
+        //         y = y_last;
+        //         y_last = 0.0;
+        //         first = 1;
+        //     } else {
+        //         y_last = y;
+        //     }
+        //
+        //     z += coeff * (z - z_last);
+        //     if (fabs(z - z_last) > 0.5) {
+        //         z = z_last;
+        //         z_last = 0.0;
+        //         first = 1;
+        //     } else {
+        //         z_last = z;
+        //     }
+        // }
     }
 }
 
-void Predictor::get_excercise_time(double x, double y, double v, double ptz_pitch) {
-    double time_square;
-    static const double g = 9.7988;
-    double delta_angle;
-    double x_bar;
-    double y_bar;
-    delta_angle = ptz_pitch * PI / 180;
-    x_bar = x * cos(delta_angle) - y * sin(delta_angle);
-    y_bar = x * sin(delta_angle) + y * cos(delta_angle);
-    time_square =
-            2.0 * ((y_bar * g + v * v) - sqrt(pow(g * y_bar + v * v, 2.0) - (x_bar * x_bar + y_bar * y_bar) * g * g)) /
-            (g * g);
-    time_for_excercise = sqrt(time_square) + 0.01;
-    if (isnan(time_for_excercise)) {
-        time_for_excercise = 0.04;
-    }
+KalmanFilter1d::KalmanFilter1d() {
+    x.resize(2);
+    z.resize(1);
+    A.resize(2, 2);
+    P.resize(2, 2);
+    Q.resize(2, 2);
+    R.resize(1, 1);
+    H.resize(1, 2);
+}
+
+KalmanFilter1d::~KalmanFilter1d() {
+
+}
+
+void KalmanFilter1d::init() {
+    delta_t = 0.1;
+    s_last = 0.0;
+    x.setZero();
+    z.setZero();
+    A << 1, delta_t, 0, 1;
+    P.setIdentity();
+    Q.setIdentity() * 200;
+    R.setIdentity() * 0.1;
+    H << 1, 1;
+}
+
+double KalmanFilter1d::run(double s) {
+    static double v, s_predict;
+    v = (s - s_last) / delta_t;
+    if (fabs(v) > 10.0)     v = 0.0;
+
+    s_last = s;
+    s_predict = s_last + 0.5 * (s_last - predict(s, v));
+    // cout << s_last << "  " << s_predict << "  " << v << "\n";
+    return s_predict;
+}
+
+double KalmanFilter1d::predict(double s, double v) {
+    static Eigen::MatrixXd At;
+    x(1) = v;
+    x = A * x;
+    At = A.transpose();
+    P = A * P * At + Q;
+
+    update(s);
+
+    return x(0);
+}
+
+void KalmanFilter1d::update(double s) {
+    static Eigen::MatrixXd temp1, temp2, Ht, Kk;
+    static Eigen::MatrixXd I = Eigen::MatrixXd::Identity(2,2);
+    Ht = H.transpose();
+    temp1 = H * P * Ht + R;
+    temp2 = temp1.inverse();
+    Kk = P * Ht * temp2;
+    z << s;
+    x = x + Kk * (z - H * x);
+    P = (I - Kk * H) * P;
 }

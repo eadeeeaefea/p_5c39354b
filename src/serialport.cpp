@@ -8,7 +8,6 @@
  *****************************************************************************/
 
 #include "serialport.h"
-
 #include <stdio.h>
 #include <unistd.h>
 #include <fcntl.h>
@@ -353,7 +352,7 @@ void SerialPort::reconfigurePort() {
     }
 }
 
-void SerialPort::sendData(int mode, double yaw, double pitch) {
+void SerialPort::sendData(const SendPack &send_pack) {
     if (!is_open_) {
         throw SerialException("Send data failed. Port is not opened.");
     }
@@ -367,9 +366,10 @@ void SerialPort::sendData(int mode, double yaw, double pitch) {
                             0xA5};       // frame tail
     int16_t *data_ptr = (int16_t *) (send_bytes + 2);
 
-    send_bytes[1] = static_cast<uint8_t>(mode);
-    data_ptr[0] = static_cast<int16_t>(yaw * 100);
-    data_ptr[1] = static_cast<int16_t>(pitch * 100);
+//    send_bytes[1] = static_cast<uint8_t>(mode);
+    send_bytes[1] = static_cast<uint8_t>(0x50);
+    data_ptr[0] = static_cast<int16_t>(send_pack.yaw * 100);
+    data_ptr[1] = static_cast<int16_t>(send_pack.pitch * 100);
     send_bytes[6] = 0x10;
     send_bytes[7] = static_cast<uint8_t>(send_bytes[1] + send_bytes[2] + send_bytes[3] +
                                          send_bytes[4] + send_bytes[5] + send_bytes[6]);
@@ -382,39 +382,78 @@ void SerialPort::sendData(int mode, double yaw, double pitch) {
     }
 }
 
-bool SerialPort::readData(int &enemy_color, int &mode, double &pitch, double &yaw) {
+bool SerialPort::readData(ReadPack &read_pack) {
     if (!is_open_) {
         throw SerialException("Read data failed. Port is not opened.");
     }
 
-    uint8_t read_bytes[9] = {0,};
+    uint8_t read_bytes[8] = {0,};
 
-    while (!(read_bytes[0] == 0x55) && !(read_bytes[8] == 0xA5)) {
-        for (int i = 0; i < 8; ++i) read_bytes[i] = read_bytes[i + 1];
-        if (::read(fd_, &read_bytes[8], 1) == 1) {
+    while (!(read_bytes[0] == 0x55) && !(read_bytes[7] == 0xA5)) {
+        for (int i = 0; i < 7; ++i) read_bytes[i] = read_bytes[i + 1];
+        if (::read(fd_, &read_bytes[7], 1) == 1) {
             // printf("Not read package. New byte: %x\n", send_bytes[8]);
         } else {
             throw SerialException("Read data failed.");
         }
     }
 
-    uint8_t check_sum = static_cast<uint8_t>(read_bytes[1] + read_bytes[2] +
-                                             read_bytes[3] + read_bytes[4] +
-                                             read_bytes[5] + read_bytes[6]);
-    if (check_sum == read_bytes[7]) {
-        enemy_color = read_bytes[1] > 10;
-        mode = static_cast<int>(read_bytes[2]);
+//    uint8_t check_sum = static_cast<uint8_t>(read_bytes[1] + read_bytes[2] +
+//                                             read_bytes[3] + read_bytes[4] +
+//                                             read_bytes[5] + read_bytes[6]);
+    if (1) {
+        read_pack.enemy_color = read_bytes[1] > 10;
+        read_pack.mode = static_cast<int>(read_bytes[2]);
         int16_t temp_pitch = (static_cast<int16_t>(read_bytes[3]) << 8) +
                              static_cast<int16_t>(read_bytes[4]);
         int16_t temp_yaw = (static_cast<int16_t>(read_bytes[5]) << 8) +
                            static_cast<int16_t>(read_bytes[6]);
-        pitch = static_cast<double>(temp_pitch) * 0.01;
-        yaw = static_cast<double>(temp_yaw) * 0.01;
+        read_pack.pitch = static_cast<double>(temp_pitch) * 0.02;
+        read_pack.yaw = static_cast<double>(temp_yaw) * 0.02;
 
         return true;
     } else {
         printf("check failed.\n");
 
         return false;
+    }
+}
+
+bool SerialPort::sendPlot(const PlotPack &plot_pack) {
+    if (!is_open_) {
+        throw SerialException("Send data failed. Port is not opened.");
+    }
+
+    uint8_t send_bytes[] = {0x31,        // frame head
+                            0x00,        // plot_type
+                            0x00,        // curve_num
+                            0x00, 0x00,  // value1
+                            0x00, 0x00,  // value2
+                            0x00, 0x00,  // value3
+                            0x00,        // checksum
+                            0xE4};       // frame tail
+    int16_t *data_ptr = (int16_t *) (send_bytes + 3);
+
+    uint8_t plot_type = 1;
+    uint8_t curve_num = 3;
+    double x = 23;
+    double y = 13;
+    double z = 44;
+
+    send_bytes[1] = plot_pack.plot_type;
+    send_bytes[2] = plot_pack.curve_num;
+    for (int i = 0; i < plot_pack.curve_num; ++i) {
+        data_ptr[i] = static_cast<int16_t>(plot_pack.plot_value[i]);
+    }
+    send_bytes[9] = static_cast<uint8_t>(send_bytes[1] + send_bytes[2] +
+                                         send_bytes[3] + send_bytes[4] +
+                                         send_bytes[5] + send_bytes[6] +
+                                         send_bytes[7] + send_bytes[8]);
+
+    if (::write(fd_, send_bytes, 11) == 11) {
+        printf("Send successfully.\n");
+        for (int i = 0; i < 11; ++i) printf("%d : %x\n", i, send_bytes[i]);
+    } else {
+        throw SerialException("Send data failed.");
     }
 }

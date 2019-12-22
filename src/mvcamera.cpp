@@ -14,7 +14,7 @@
 
 
 MVCamera::MVCamera() {
-    is_open_ = false;
+    is_open = false;
 }
 
 MVCamera::~MVCamera() {
@@ -47,8 +47,7 @@ void MVCamera::open(int frame_width,
 
     // 获得相机的特性描述结构体。该结构体中包含了相机可设置的各种参数的范围信息。决定了相关函数的参数
     CameraGetCapability(hCamera, &tCapability);
-    g_pRgbBuffer = (unsigned char *) malloc(
-            tCapability.sResolutionRange.iWidthMax * tCapability.sResolutionRange.iHeightMax * 3);
+    g_pRgbBuffer = (unsigned char*)malloc(tCapability.sResolutionRange.iWidthMax * tCapability.sResolutionRange.iHeightMax * 3);
     // 让SDK进入工作模式，开始接收来自相机发送的图像数据。如果当前相机是触发模式，则需要接收到触发帧以后才会更新图像
     CameraPlay(hCamera);
 
@@ -72,21 +71,21 @@ void MVCamera::open(int frame_width,
         CameraSetIspOutFormat(hCamera, CAMERA_MEDIA_TYPE_BGR8);  // 三通道
     }
 
-    is_open_ = true;
+    is_open = true;
 }
 
 bool MVCamera::isOpen() {
-    return is_open_;
+    return is_open;
 }
 
 void MVCamera::close() {
     CameraUnInit(hCamera);
     free(g_pRgbBuffer);
-    is_open_ = false;
+    is_open = false;
 }
 
 void MVCamera::getImage(cv::Mat &image) {
-    if (!is_open_) {
+    if (!is_open) {
         throw MVCameraException("Get image error. Camera is not opened.");
     }
 
@@ -107,7 +106,7 @@ void MVCamera::getImage(cv::Mat &image) {
 }
 
 cv::Mat MVCamera::getImage() {
-    if (!is_open_) {
+    if (!is_open) {
         throw MVCameraException("Get image error. Camera is not opened.");
     }
 
