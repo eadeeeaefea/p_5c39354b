@@ -10,7 +10,7 @@
 #define HERORM2020_PREDICTOR_H
 
 #include <Eigen/Dense>
-
+#include <unsupported/Eigen/FFT>
 
 class KalmanFilter1d {
 private:

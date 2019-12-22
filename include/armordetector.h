@@ -18,7 +18,6 @@
 #ifdef COMPILE_WITH_CUDA
 #include <opencv2/cudaarithm.hpp>
 #include <opencv2/cudaimgproc.hpp>
-#include <opencv2/cudafilters.hpp>
 #endif
 #ifdef RUNNING_TIME
 #include "timer.h"
