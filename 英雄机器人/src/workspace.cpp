@@ -36,8 +36,8 @@ void Workspace::init(){
 
 #ifdef PLOT_DATA
     //TODO: serial exception : repeatly check serial name
-    plot_pack_.plot_type = 3;
-    plot_pack_.curve_num = 3;
+    plot_pack_.plot_type = 2;
+    plot_pack_.curve_num = 1;
 #endif  //PLOT_DATA
 
     FileStorage file_storage(PARAM_PATH, FileStorage::READ);
@@ -190,17 +190,20 @@ void Workspace::imageProcessingFunc(){
 #ifdef USE_SERIAL
             serial_port.sendData(send_pack_);
 #endif
-
+            target_.x = 10.0;
+            target_.y = 20.0;
+            target_.z = 30.0;
 #ifdef PLOT_DATA
             plot_pack_.plot_value[0] = target_.x;
             plot_pack_.plot_value[1] = target_.y;
             plot_pack_.plot_value[2] = target_.z;
+            plot_serial.sendPlot(plot_pack_);
 #endif
-            // cout << "x: " << target_.x << "\t"
-            //      << "y: " << target_.y << "\t"
-            //      << "z: " << target_.z << "\n"
-            //      << "yaw: " << send_pack_.yaw << "\t"
-            //      << "pitch: " << send_pack_.pitch << endl;
+             cout << "x: " << target_.x << "\t"
+                  << "y: " << target_.y << "\t"
+                  << "z: " << target_.z << "\n"
+                  << "yaw: " << send_pack_.yaw << "\t"
+                  << "pitch: " << send_pack_.pitch << endl;
 #ifdef TRACKBAR
             namedWindow("current_frame", 1);
 
@@ -271,7 +274,9 @@ void Workspace::imageProcessingFunc(){
             if (!serial_port.isOpen())
                 exit(1);
         }
+#ifdef RUNNING_TIME
         clock.stop("图像处理");
+#endif
     }
 }
 
@@ -321,7 +326,7 @@ void Workspace::openSerialPort(){
             cout << "Open seiral " + port_name + " successfully.\n";  
         }
 #endif // USE_SERIAL
-        string plot_port = "/dev/ttyUSB1";
+        string plot_port = "/dev/ttyUSB2";
         plot_serial.open(plot_port);
         if(plot_serial.isOpen())
         {

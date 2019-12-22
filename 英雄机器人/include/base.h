@@ -10,7 +10,7 @@
 #define HERORM2020_BASE_H
 
 //显示各模块运行时间
-#define RUNNING_TIME
+//#define RUNNING_TIME
 
 //选择使用的颜色空间 BGR/HSV
 #define BGR
