@@ -7,37 +7,39 @@ set(OpenCV_DIR /usr/local/share/OpenCV)
 find_package(OpenCV REQUIRED)
 
 include_directories(./include
-    ${OpenCV_INCLUDE_DIRS}
-)
+        ${OpenCV_INCLUDE_DIRS}
+        )
 
 add_executable(HERORM2020
-    src/main.cpp
-    include/base.h
-    include/timer.h
-    src/timer.cpp
-    include/mvcamera.h
-    src/mvcamera.cpp
-    include/serialport.h
-    src/serialport.cpp
-    include/armordetector.h
-    src/armordetector.cpp
-    include/targetsolver.h
-    src/targetsolver.cpp
-    include/anglesolver.h
-    src/anglesolver.cpp
-    include/runesolver.h
-    src/runesolver.cpp
-    include/workspace.h
-    src/workspace.cpp
-    src/predictor.cpp
-    include/predictor.h
-    src/imageprocess.cpp
-    include/imageprocess.h
-)
+        src/main.cpp
+        include/base.h
+        include/timer.h
+        src/timer.cpp
+        include/mvcamera.h
+        src/mvcamera.cpp
+        include/serialport.h
+        src/serialport.cpp
+        include/armordetector.h
+        src/armordetector.cpp
+        include/targetsolver.h
+        src/targetsolver.cpp
+        include/anglesolver.h
+        src/anglesolver.cpp
+        include/runesolver.h
+        src/runesolver.cpp
+        include/workspace.h
+        src/workspace.cpp
+        src/predictor.cpp
+        include/predictor.h
+#        src/an_predictor.cpp
+#        include/an_predictor.h
+        src/cannode.cpp
+        include/cannode.h
+        )
 
 target_link_libraries(HERORM2020
-    ${OpenCV_LIBRARIES}
-    -pthread
-    -lMVSDK
-    /lib/libMVSDK.so
-)
+        ${OpenCV_LIBRARIES}
+        -pthread
+        -lMVSDK
+        /lib/libMVSDK.so
+        )
