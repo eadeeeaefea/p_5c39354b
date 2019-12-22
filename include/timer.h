@@ -14,21 +14,16 @@
 
 class Timer {
 private:
-    clock_t start_;
-    clock_t end_;
-    bool is_open_;
+    clock_t time_start;
+    clock_t time_end;
+    bool is_open;
 
 public:
     Timer();
-
     ~Timer();
-
     void start();
-
     double restart();
-
     void stop();
-
     double getTime();
 
 };

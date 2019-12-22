@@ -9,22 +9,24 @@
 #ifndef HERORM2020_WORKSPACE_H
 #define HERORM2020_WORKSPACE_H
 
+#include <unistd.h>
 #include <iostream>
 #include <vector>
 #include <thread>
 #include <mutex>
 #include <sstream>
-#include <unistd.h>
 #include <opencv2/opencv.hpp>
 
 #include "base.h"
+#include "mvcamera.h"
+#include "serialport.h"
 #include "armordetector.h"
 #include "targetsolver.h"
 #include "anglesolver.h"
 #include "runesolver.h"
-#include "mvcamera.h"
-#include "serialport.h"
 #include "predictor.h"
+//#include "an_predictor.h"
+#include "cannode.h"
 
 #ifdef RUNNING_TIME
 
@@ -35,19 +37,6 @@
 using namespace std;
 using namespace cv;
 
-
-typedef struct SendPack_t {
-    int mode;
-    double yaw;
-    double pitch;
-} SendPack;
-
-typedef struct ReadPack_t {
-    int enemy;  // 0-red, 1-blue
-    int mode;
-    double pitch;
-    double yaw;
-} ReadPack;
 
 class Workspace {
 private:
@@ -64,22 +53,29 @@ private:
     MVCamera mv_camera;
     SerialPort serial_port;
     RuneSolver rune_solver;
+    CanNode can_node;
+    //有两套Predictor代码通过include可以切换,此时用的是kalman预测
     Predictor predictor;
 
-    vector<Mat> image_buffer_;
-    int max_image_buffer_size_;
-    Mat current_frame_;
-    RotatedRect target_armor_;
-    Target target_;
-    SendPack send_pack_;
-    ReadPack read_pack_;
+
+    vector<Mat> image_buffer;
+    int max_image_buffer_size;
+    Mat current_frame;
+    RotatedRect target_armor;
+    Target target;
+    SendPack send_pack;
+    ReadPack read_pack;
+
+    // plot used
+    SerialPort plot_serial;
+    PlotPack plot_pack;
 
 public:
     Workspace();
 
     ~Workspace();
 
-    void init(const FileStorage &file_storage);
+    void init();
 
     void run();
 
@@ -90,7 +86,7 @@ private:
 
     void messageCommunicatingFunc();
 
-    void openSerial();
+    void openSerialPort();
 
 };
 

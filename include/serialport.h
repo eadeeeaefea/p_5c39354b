@@ -12,6 +12,7 @@
 #include <stdint.h>
 #include <string>
 #include <exception>
+#include "base.h"
 
 using std::string;
 using std::exception;
@@ -73,10 +74,11 @@ public:
 
     int getFlowControl();
 
-    void sendData(int mode, double yaw, double pitch);
+    void sendData(const SendPack &send_pack);
 
-    bool readData(int &enemy_color, int &mode, double &pitch, double &yaw);
+    bool readData(ReadPack &read_pack);
 
+    bool sendPlot(const PlotPack &plot_pack);
 private:
     void reconfigurePort();
 

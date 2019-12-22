@@ -9,42 +9,47 @@
 #ifndef HERORM2020_PREDICTOR_H
 #define HERORM2020_PREDICTOR_H
 
-#include "iostream"
-#include "opencv2/opencv.hpp"
+#include <Eigen/Dense>
 
-using namespace std;
-using namespace cv;
+
+class KalmanFilter1d {
+private:
+    Eigen::VectorXd x;
+    Eigen::VectorXd z;
+    Eigen::MatrixXd A;
+    Eigen::MatrixXd P;
+    Eigen::MatrixXd Q;
+    Eigen::MatrixXd R;
+    Eigen::MatrixXd H;
+    double delta_t, s_last;
+
+public:
+    KalmanFilter1d();
+    ~KalmanFilter1d();
+    void init();
+    double run(double s);
+
+private:
+    double predict(double s, double v);
+    void update(double z);
+
+};
 
 class Predictor {
 private:
-    vector<Point3d> object_coordinate;
-    Point3d object_inaccurate_speed[5];
-    Point3d object_accurate_speed;
-    Point3d object_motion;
-    double time_for_excercise;
+    KalmanFilter1d x_filter;
+    KalmanFilter1d y_filter;
+    KalmanFilter1d z_filter;
+    // double x_last, y_last, z_last;
+    // double coeff;
+    // bool first;
+
 public:
     Predictor();
-
     ~Predictor();
-
     void init();
+    void run(double &x, double &y, double &z);
 
-    void run(double &x, double &y, double &z, double ptz_pitch, double ptz_yaw);
-
-private:
-    void explosive_motion_prediction(double &x, double &y, double &z, double ptz_pitch, double ptz_yaw);
-
-    void normal_motion_prediction(double &x, double &y, double &z, double ptz_pitch, double ptz_yaw);
-
-    void coordinate_transformation(double &x, double &y, double &z, double ptz_pitch, double ptz_yaw);
-
-    void anti_coordinate_transformation(double &x, double &y, double &z, double ptz_pitch, double ptz_yaw);
-
-    double point_distance(Point3d point1, Point3d point2);
-
-    bool judgement();
-
-    void get_excercise_time(double x, double y, double v, double ptz_pitch);
 };
 
 
