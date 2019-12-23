@@ -190,9 +190,7 @@ void Workspace::imageProcessingFunc(){
 #ifdef USE_SERIAL
             serial_port.sendData(send_pack_);
 #endif
-            target_.x = 10.0;
-            target_.y = 20.0;
-            target_.z = 30.0;
+
 #ifdef PLOT_DATA
             plot_pack_.plot_value[0] = target_.x;
             plot_pack_.plot_value[1] = target_.y;
