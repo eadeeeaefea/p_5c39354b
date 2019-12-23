@@ -248,16 +248,20 @@ bool RuneSolver::findArrow() {
     RotatedRect temp_rect;
 #ifndef COMPILE_WITH_CUDA
     Mat temp_bin;
+    bin.copyTo(temp_bin);
+    Mat element = getStructuringElement(MORPH_RECT, Size(3, 3));
+    dilate(temp_bin, temp_bin, element, Point(-1, -1), 2);
 #else
     cv::cuda::GpuMat temp_bin_;
     cv::Mat temp_bin;
-#endif
     temp_bin_.upload(bin);
     Mat element = getStructuringElement(MORPH_RECT, Size(3, 3));
     Ptr<cv::cuda::Filter> dilateFilter = cv::cuda::createMorphologyFilter(MORPH_DILATE, CV_8U, element, Point(-1, -1),
                                                                           2);
     dilateFilter->apply(temp_bin_, temp_bin_);
     temp_bin_.download(temp_bin);
+#endif
+
     imshow("箭头预处理后", temp_bin);
 
     vector<vector<Point>> contours;
