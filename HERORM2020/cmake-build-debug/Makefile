@@ -123,6 +123,33 @@ HERORM2020/fast:
 	$(MAKE) -f CMakeFiles/HERORM2020.dir/build.make CMakeFiles/HERORM2020.dir/build
 .PHONY : HERORM2020/fast
 
+src/an_predictor.o: src/an_predictor.cpp.o
+
+.PHONY : src/an_predictor.o
+
+# target to build an object file
+src/an_predictor.cpp.o:
+	$(MAKE) -f CMakeFiles/HERORM2020.dir/build.make CMakeFiles/HERORM2020.dir/src/an_predictor.cpp.o
+.PHONY : src/an_predictor.cpp.o
+
+src/an_predictor.i: src/an_predictor.cpp.i
+
+.PHONY : src/an_predictor.i
+
+# target to preprocess a source file
+src/an_predictor.cpp.i:
+	$(MAKE) -f CMakeFiles/HERORM2020.dir/build.make CMakeFiles/HERORM2020.dir/src/an_predictor.cpp.i
+.PHONY : src/an_predictor.cpp.i
+
+src/an_predictor.s: src/an_predictor.cpp.s
+
+.PHONY : src/an_predictor.s
+
+# target to generate assembly for a file
+src/an_predictor.cpp.s:
+	$(MAKE) -f CMakeFiles/HERORM2020.dir/build.make CMakeFiles/HERORM2020.dir/src/an_predictor.cpp.s
+.PHONY : src/an_predictor.cpp.s
+
 src/anglesolver.o: src/anglesolver.cpp.o
 
 .PHONY : src/anglesolver.o
@@ -429,6 +456,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... HERORM2020"
 	@echo "... edit_cache"
+	@echo "... src/an_predictor.o"
+	@echo "... src/an_predictor.i"
+	@echo "... src/an_predictor.s"
 	@echo "... src/anglesolver.o"
 	@echo "... src/anglesolver.i"
 	@echo "... src/anglesolver.s"

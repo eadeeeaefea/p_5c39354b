@@ -23,7 +23,7 @@ void ArmorDetector::init(const FileStorage &file_storage) {
     // preprocess
 #ifdef DISTORTION_CORRECT
     file_storage["camera_matrix"] >> camera_matrix_;
-    file_storage["distortion_coeff"] >> distortion_coeff_;                                                                                     43333333333333
+    file_storage["distortion_coeff"] >> distortion_coeff_;
 #endif
 #ifdef BGR
     gray_thres_ = 20;
@@ -188,18 +188,18 @@ void ArmorDetector::Preprocess(const Mat &src,
     morphologyEx(processed_image, processed_image, MORPH_CLOSE, kernel_);
 
 #else  // use gpu
+    gpu_src_.upload(roi_image_);
 #ifdef DISTORTION_CORRECT
     initUndistortRectifyMap(camera_matrix_, distortion_coeff_, Mat(),
         getOptimalNewCameraMatrix(camera_matrix_, distortion_coeff_, roi_image_.size(), 1, roi_image_.size(), 0),
-        roi_image_.size(), CV_16SC2, map1_, map2_);
+        roi_image_.size(), CV_32FC1, map1_, map2_);
     gpu_map1_.upload(map1_);
     gpu_map2_.upload(map2_);
 
     cout<<"cuda remap start"<<endl;
-    cv::cuda::remap(roi_image_, roi_image_, gpu_map1_, gpu_map2_, INTER_LINEAR);
+    cv::cuda::remap(gpu_src_, gpu_src_,gpu_map1_, gpu_map2_, INTER_LINEAR);
     cout<<"cuda remap end"<<endl;
 #endif
-    gpu_src_.upload(roi_image_);
 #ifdef BGR
     cv::cuda::cvtColor(gpu_src_, gray_image_, COLOR_BGR2GRAY);
     cv::cuda::threshold(gray_image_, gray_image_, gray_thres_, 255, THRESH_BINARY);

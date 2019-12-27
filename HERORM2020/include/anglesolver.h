@@ -22,16 +22,25 @@
 class AngleSolver {
 private:
     double yaw_offset_, pitch_offset_,g;
+    double origin_pitch;
+    double origin_yaw;
 
 public:
     AngleSolver();
     ~AngleSolver();
     void init();
+    void run(double x, double y, double z, double v, double &yaw, double &pitch, double ptz_pitch);
+
+    void setOriginPitch(double pitch);
+    void setOriginYaw(double yaw);
+    double getOriginPitch();
+    double getOriginYaw();
+
     double get_yaw_offset();
     double get_pitch_offset();
     void set_yaw_offset(double yaw_offset);
     void set_pitch_offset(double pitch_offset);
-    void run(double x, double y, double z, double v, double &yaw, double &pitch, double ptz_pitch);
+
     //其他备用算法
     //转换坐标系加二分法计算函数
     void change_dichotomy(double x, double y, double z, double v,double& yaw, double& pitch, double ptz_pitch);

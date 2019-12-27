@@ -9,7 +9,7 @@
  *****************************************************************************/
 
 #include "anglesolver.h"
-
+//#define DEBUG
 using namespace std;
 
 
@@ -95,7 +95,6 @@ bool AngleSolver::parabolaSolve(double x, double y, double v, double &theta, dou
 
 }
 
-
 double AngleSolver::get_yaw_offset() {
     return yaw_offset_;
 }
@@ -111,6 +110,23 @@ void AngleSolver::set_yaw_offset(double yaw_offset) {
 
 void AngleSolver::set_pitch_offset(double pitch_offset) {
     pitch_offset_ = pitch_offset;
+}
+
+//runesolver
+double AngleSolver::getOriginPitch() {
+    return origin_pitch;
+}
+
+double AngleSolver::getOriginYaw() {
+    return origin_yaw;
+}
+
+void AngleSolver::setOriginPitch(double pitch) {
+    origin_pitch = pitch;
+}
+
+void AngleSolver::setOriginYaw(double yaw) {
+    origin_yaw = yaw;
 }
 
 //其他备用算法
@@ -190,8 +206,8 @@ void AngleSolver::change_dichotomy(double x, double y, double z, double v,
     //计算得pitch轴角度换算成角度，减去云台绝对角度才得到相对现有云台坐标系需调整角度，再加上偏移
     pitch=(pitch/PI)*180+pitch_offset_-ptz_pitch;
     //输出运算结果和运行时间
-    cout << "Anglesolver newrun:  yaw=" << yaw << "  pitch=" << pitch << endl;
-    cout << "Anglesolver newrun: " << timer.getTime() << "ms" << endl;
+    cout << "change_dichotomy:  yaw=" << yaw << "  pitch=" << pitch << endl;
+    cout << "change_dichotomy: " << timer.getTime() << "ms" << endl;
     timer.stop();
 }
 
@@ -263,9 +279,9 @@ void AngleSolver::dichotomy(double x, double y, double z, double v,
     }
     pitch = (pitch / PI) * 180 + pitch_offset_;//换算成角度
 
-    cout << "NewDichotomy:  yaw=" << yaw << "  pitch=" << pitch << endl;
+    cout << "Dichotomy:  yaw=" << yaw << "  pitch=" << pitch << endl;
     //输出结果和运行时间
-    cout << "NewDichotomy time: " << timer.getTime() << "ms" << endl;
+    cout << "Dichotomy time: " << timer.getTime() << "ms" << endl;
     timer.stop();
 }
 

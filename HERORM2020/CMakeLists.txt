@@ -31,6 +31,8 @@ add_executable(HERORM2020
     src/predictor.cpp
     include/cannode.h
     src/cannode.cpp
+    include/an_predictor.h
+    src/an_predictor.cpp
     include/workspace.h
     src/workspace.cpp
 )

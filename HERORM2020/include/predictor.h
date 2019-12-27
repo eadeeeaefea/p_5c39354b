@@ -9,7 +9,6 @@
 #ifndef HERORM2020_PREDICTOR_H
 #define HERORM2020_PREDICTOR_H
 
-
 class Predictor {
 private:
     double delta_t;
@@ -26,6 +25,5 @@ private:
     double uniformMotionSolve(double &x0, double x1);
 
 };
-
 
 #endif  // HERORM2020_PREDICTOR_H

@@ -25,7 +25,11 @@
 #include "anglesolver.h"
 #include "runesolver.h"
 #include "predictor.h"
+#include "an_predictor.h"
 #include "cannode.h"
+
+
+
 #ifdef RUNNING_TIME
 #include "timer.h"
 #endif
@@ -50,6 +54,8 @@ private:
     SerialPort serial_port;
     RuneSolver rune_solver;
     Predictor predictor;
+    HPredictor hpredictor;
+
     CanNode can_node;
 
     vector<Mat> image_buffer_;

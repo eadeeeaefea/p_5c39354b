@@ -20,8 +20,8 @@ Workspace::~Workspace() {
 }
 
 void Workspace::init() {
-#if (defined(USE_CAMERA) || defined(USE_SERIAL)) && defined(TEST)
-    cout << "wrong mode, TEST and USE_CAMERA or USE_SERIAL are mutually exclusive." << endl;
+#if (defined(USE_CAMERA) || defined(USE_SERIAL) || defined(USE_CAN)) && defined(TEST)
+    cout << "wrong mode, TEST and USE_CAMERA or USE_SERIAL or USE_CAN are mutually exclusive." << endl;
     exit(0);
 #endif
 #if defined(SAVE_VIDEO) && !defined(USE_CAMERA)
@@ -36,14 +36,14 @@ void Workspace::init() {
     cout << "wrong mode, ARMOR_ONLY and RUNE_ONLY are mutually exclusive.You can only choose one." << endl;
     exit(0);
 #endif
-    cout<<"init open"<<endl;
     FileStorage file_storage(PARAM_PATH, FileStorage::READ);
 
     armor_detector.init(file_storage);
     target_solver.init(file_storage);
     angle_solver.init();
     //;predictor.init();
-    rune_solver.init();
+    //hpredictor.init();
+    rune_solver.init(file_storage);
 #ifdef USE_CAMERA
     mv_camera.open(FRAME_WIDTH, FRAME_HEIGHT, EXPOSURE_TIME);
 #endif
@@ -64,6 +64,8 @@ void Workspace::init() {
     max_image_buffer_size_ = 10;
     read_pack_.enemy_color = 0;
     read_pack_.mode = 0;
+    send_pack_.yaw = 0.0;
+    send_pack_.pitch = 0.0;
 }
 
 void Workspace::run() {
@@ -196,30 +198,107 @@ void Workspace::imageProcessingFunc() {
                     armor_detector.run(current_frame_, read_pack_.enemy_color, target_armor_);
                     target_solver.run(target_armor_, target_);
                     //predictor.run(target_.x, target_.y, target_.z, target_.x, target_.y, target_.z);
+                    //hpredictor.run(target_.x, target_.y, target_.z,read_pack_.pitch,read_pack_.yaw);
                     angle_solver.run(target_.x, target_.y, target_.z, 20, send_pack_.yaw, send_pack_.pitch,read_pack_.pitch);
                     send_pack_.mode = 0;
 
                 } else if (read_pack_.mode == Mode::RUNE) {
 
-                    rune_solver.run(current_frame_, target_.x, target_.y, target_.z);
-                    angle_solver.run(target_.x, target_.y, target_.z, 28, send_pack_.yaw, send_pack_.pitch,read_pack_.pitch);
-                    send_pack_.mode = 1;
+                    if (current_frame_.empty()) continue;
+                    rune_solver.run(current_frame_, read_pack_.enemy_color, target_.x, target_.y, target_.z);
+
+
+                    if (rune_solver.shoot) {
+                        if (!rune_solver.isCalibrated) {
+                            angle_solver.setOriginPitch(read_pack_.pitch);
+                            angle_solver.setOriginYaw(read_pack_.yaw);
+                            rune_solver.isCalibrated = true;
+                        }
+                        cout << target_.x << "  " << target_.y << "  " << target_.z << endl;
+                        angle_solver.run(target_.x, target_.y, target_.z, 20, send_pack_.yaw, send_pack_.pitch,
+                                         read_pack_.pitch);
+                        putText(current_frame_, "send_pitch:" + to_string(send_pack_.pitch), Point(10, 150), 1,
+                                1.5,
+                                Scalar(255, 255, 255));
+                        putText(current_frame_, "send_yaw:" + to_string(send_pack_.yaw), Point(10, 200), 1, 1.5,
+                                Scalar(255, 255, 255));
+                        for (int i = 0; i < 3; ++i) {
+#ifdef USE_SERIAL
+                            send_pack_.mode = 1;
+                            send_pack_.yaw = send_pack_.yaw / 3;
+                            send_pack_.pitch = send_pack_.pitch / 3;
+                            serial_port.sendData(send_pack_);
+
+#endif
+#ifdef USE_CAN
+                            send_pack_.mode = 1;
+                            send_pack_.yaw = send_pack_.yaw / 3;
+                            send_pack_.pitch = send_pack_.pitch / 3;
+                            can_node.send(send_pack_);
+#endif
+                        }
+//                        send_pack.mode = 1;
+//                        serial_port.sendData(send_pack);
+                    } else if (rune_solver.isLoseAllTargets && rune_solver.isCalibrated) {
+                        cout << target_.x << "  " << target_.y << "  " << target_.z << endl;
+                        cout << "复位!\n";
+//                        waitKey();
+                        send_pack_.pitch = angle_solver.getOriginPitch() - read_pack_.pitch;
+                        send_pack_.yaw = angle_solver.getOriginYaw() - read_pack_.yaw;
+#ifdef SHOW_IMAGE
+                        putText(current_frame_, "O_pitch:" + to_string(angle_solver.getOriginPitch()),
+                                Point(10, 250),
+                                1, 1.5, Scalar(255, 255, 255));
+                        putText(current_frame_, "O_yaw:" + to_string(angle_solver.getOriginYaw()),
+                                Point(10, 300), 1,
+                                1.5, Scalar(255, 255, 255));
+                        putText(current_frame_, "send_pitch:" + to_string(send_pack_.pitch), Point(10, 150), 1,
+                                1.5,
+                                Scalar(255, 255, 255));
+                        putText(current_frame_, "send_yaw:" + to_string(send_pack_.yaw), Point(10, 200), 1, 1.5,
+                                Scalar(255, 255, 255));
+#endif
+                        for (int i = 0; i < 3; ++i) {
+#ifdef USE_SERIAL
+                            send_pack_.mode = 1;
+                            send_pack_.yaw = send_pack_.yaw / 3;
+                            send_pack_.pitch = send_pack_.pitch / 3;
+                            serial_port.sendData(send_pack_);
+#endif
+#ifdef USE_CAN
+                            send_pack.mode = 1;
+                            send_pack.yaw = send_pack.yaw / 3;
+                            send_pack.pitch = send_pack.pitch / 3;
+                            can_node.send(send_pack);
+#endif
+                        }
+//                        send_pack_.mode = 1;
+//                        serial_port.sendData(send_pack);
+                    }
+#ifdef SHOW_IMAGE
+                    putText(current_frame_, "read_pitch:" + to_string(read_pack_.pitch),
+                            Point(10, 350),
+                            1, 1.5, Scalar(255, 255, 255));
+                    putText(current_frame_, "read_yaw:" + to_string(read_pack_.yaw),
+                            Point(10, 400), 1,
+                            1.5, Scalar(255, 255, 255));
+#endif
 
                 } else {
                     continue;
                 }
-#ifdef USE_SERIAL
+#if defined(USE_SERIAL) && !defined(RUNE_ONLY) && !defined(TEST)
                 serial_port.sendData(send_pack_);
 #endif
-
-#ifdef USE_CAN
-                can_node.send(send_pack_);
+#if defined(USE_CAN) && !defined(RUNE_ONLY) && !defined(TEST)
+                can_node.send(send_pack);
 #endif
 
 #ifdef PLOT_DATA
-                plot_pack_.plot_value[0] = target_.x;
-                plot_pack_.plot_value[1] = target_.y;
-                plot_pack_.plot_value[2] = target_.z;
+                plot_pack.plot_value[0] = target.x;
+                plot_pack.plot_value[1] = target.y;
+                plot_pack.plot_value[2] = target.z;
+                plot_serial.sendPlot(plot_pack);
 #endif
 
                 // cout << "x: " << target_.x << "\t"
@@ -295,6 +374,18 @@ void Workspace::messageCommunicatingFunc() {
         try
         {
             // serial_port.readData(read_pack_);
+            ///define ARMOE 和 define RUNEONLY 会被取消因为串口中有读mode的函数
+#ifdef ARMOR_ONLY
+            serial_port.readData(read_pack_);
+#endif
+#ifdef RUNE_ONLY
+            serial_port.readData(read_pack_);
+            //yaw轴坐标系转换
+            if (read_pack_.yaw < 180)
+               read_pack_.yaw = -read_pack_.yaw;
+            else
+                read_pack_.yaw = 360 - read_pack_.yaw;
+#endif
         }
         catch (SerialException &e1)
         {

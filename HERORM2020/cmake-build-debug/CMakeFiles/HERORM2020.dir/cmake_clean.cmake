@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/HERORM2020.dir/src/an_predictor.cpp.o"
   "CMakeFiles/HERORM2020.dir/src/anglesolver.cpp.o"
   "CMakeFiles/HERORM2020.dir/src/armordetector.cpp.o"
   "CMakeFiles/HERORM2020.dir/src/cannode.cpp.o"

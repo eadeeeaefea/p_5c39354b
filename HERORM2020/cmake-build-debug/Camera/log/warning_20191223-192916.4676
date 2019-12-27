@@ -1,0 +1,4 @@
+Log file created at: 2019/12/23 19:29:16
+Running on machine: zj-XPS-13-9370
+Log line format: [IWEF]mmdd hh:mm:ss.uuuuuu threadid file:line] msg
+W1223 19:29:16.905331  4681 MVCameraBase.cpp:97] Device:(name:MV-SUA33GC#0 sn:049080710033)Lost

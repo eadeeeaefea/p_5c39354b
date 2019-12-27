@@ -88,6 +88,9 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/home/zj/HERO/task/week16/HERORM2020/include/an_predictor.h">
+			<Option target="HERORM2020"/>
+		</Unit>
 		<Unit filename="/home/zj/HERO/task/week16/HERORM2020/include/anglesolver.h">
 			<Option target="HERORM2020"/>
 		</Unit>
@@ -119,6 +122,9 @@
 			<Option target="HERORM2020"/>
 		</Unit>
 		<Unit filename="/home/zj/HERO/task/week16/HERORM2020/include/workspace.h">
+			<Option target="HERORM2020"/>
+		</Unit>
+		<Unit filename="/home/zj/HERO/task/week16/HERORM2020/src/an_predictor.cpp">
 			<Option target="HERORM2020"/>
 		</Unit>
 		<Unit filename="/home/zj/HERO/task/week16/HERORM2020/src/anglesolver.cpp">
