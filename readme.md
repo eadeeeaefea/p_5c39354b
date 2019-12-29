@@ -34,3 +34,4 @@ Used for HERO-RM 20 Season sentinel robot
 * 2019.12.29
     * modify new protocol with stm32 in both CAN & serial
     * fix some logical errors of macro definition in workspace.cpp 
+    * fix bug of sendPlot in serialport.cpp

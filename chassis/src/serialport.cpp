@@ -514,15 +514,12 @@ bool SerialPort::sendPlot(const PlotPack &plot_pack)
 
     uint8_t plot_type = 1;
     uint8_t curve_num = 3;
-    double x = 23;
-    double y = 13;
-    double z = 44;
 
     send_bytes[1] = plot_pack.plot_type;
     send_bytes[2] = plot_pack.curve_num;
     for (int i = 0; i < plot_pack.curve_num; ++i)
     {
-        data_ptr[i] = static_cast<int16_t>(plot_pack.plot_value[i]);
+        data_ptr[i] = static_cast<int16_t>(plot_pack.plot_value[i] * 100);
     }
     send_bytes[9] = static_cast<uint8_t>(send_bytes[1] + send_bytes[2] +
                                          send_bytes[3] + send_bytes[4] +
