@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5.1)
-project(HERORM2020_GIMBAL)
+project(HERORM2020_TOP)
 
 set(CMAKE_CXX_STANDARD 14)
 set(OpenCV_DIR /usr/local/share/OpenCV)
@@ -10,7 +10,7 @@ include_directories(./include
     ${OpenCV_INCLUDE_DIRS}
 )
 
-add_executable(HERORM2020_CHASSIS
+add_executable(HERORM2020_TOP
     src/main.cpp
     include/base.h
     include/timer.h
@@ -35,7 +35,7 @@ add_executable(HERORM2020_CHASSIS
     src/cannode.cpp
 )
 
-target_link_libraries(HERORM2020_CHASSIS
+target_link_libraries(HERORM2020_TOP
     ${OpenCV_LIBRARIES}
     -pthread
     -lMVSDK

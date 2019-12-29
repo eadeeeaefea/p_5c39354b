@@ -10,18 +10,15 @@
 
 #include "workspace.h"
 
-
-Workspace::Workspace() 
+Workspace::Workspace()
 {
-
 }
 
-Workspace::~Workspace() 
+Workspace::~Workspace()
 {
-
 }
 
-void Workspace::init() 
+void Workspace::init()
 {
 #if (defined(USE_CAMERA) || defined(USE_SERIAL)) && (defined(TEST) && !defined(USE_CAN))
     cout << "wrong mode, TEST and USE_CAMERA or USE_SERIAL are mutually exclusive." << endl;
@@ -49,21 +46,20 @@ void Workspace::init()
 
 #ifdef USE_CAN
     can_node.init();
-#endif  
+#endif
 
 #ifdef PLOT_DATA
     //TODO: serial exception : repeatly check serial name
     plot_pack_.plot_type = 3;
-    plot_pack_.curve_num = 3;    
+    plot_pack_.curve_num = 3;
 #endif
 
     max_image_buffer_size_ = 10;
     read_pack_.enemy_color = 0;
     read_pack_.mode = 0;
-
 }
 
-void Workspace::run() 
+void Workspace::run()
 {
 #ifdef USE_CAMERA
     thread image_receiving_thread(&Workspace::imageReceivingFunc, this);
@@ -81,19 +77,19 @@ void Workspace::run()
 #if SAVE_VIDEO != 2
     image_processing_thread.join();
 #endif
-#ifdef USE_SERIAL
+#if defined(USE_SERIAL) || defined(USE_CAN)
     message_communicating_thread.join();
 #endif
 }
 
-void Workspace::imageReceivingFunc() 
+void Workspace::imageReceivingFunc()
 {
 #ifdef SAVE_VIDEO
     Mat image;
-    VideoWriter writer(VIDEO_SAVED_PATH, VideoWriter::fourcc('M','J','P','G'), 30, Size(FRAME_WIDTH,FRAME_HEIGHT));
+    VideoWriter writer(VIDEO_SAVED_PATH, VideoWriter::fourcc('M', 'J', 'P', 'G'), 30, Size(FRAME_WIDTH, FRAME_HEIGHT));
 #endif
 
-    while (1) 
+    while (1)
     {
         try
         {
@@ -102,9 +98,10 @@ void Workspace::imageReceivingFunc()
             writer.write(image);
 #if SAVE_VIDEO == 2
             imshow("current", image);
-            if (waitKey(30) == 27)  exit(0);
+            if (waitKey(30) == 27)
+                exit(0);
 #elif SAVE_VIDEO == 1
-            if (image_buffer_.size() < max_image_buffer_size_) 
+            if (image_buffer_.size() < max_image_buffer_size_)
             {
                 image_buffer_.push_back(image);
             }
@@ -112,39 +109,41 @@ void Workspace::imageReceivingFunc()
             cout << "wrong SAVE_VIDEO value, make sure SAVE_VIDEO = 1 or 2." << endll;
             exit(0);
 #endif
-#endif    // SAVE_VIDEO
+#endif // SAVE_VIDEO
 
 #if defined(USE_CAMERA) && !defined(SAVE_VIDEO)
-            if (image_buffer_.size() < max_image_buffer_size_) 
+            if (image_buffer_.size() < max_image_buffer_size_)
             {
                 image_buffer_.push_back(mv_camera.getImage());
             }
 #endif
-        } 
-        catch (MVCameraException &e1) 
+        }
+        catch (MVCameraException &e1)
         {
             // cout << "Camera error." << endl;
             mv_camera.close();
             sleep(1);
-            for (int i = 0; i < 10; ++i) 
+            for (int i = 0; i < 10; ++i)
             {
-                try 
+                try
                 {
                     mv_camera.open(FRAME_WIDTH, FRAME_HEIGHT, EXPOSURE_TIME);
-                    if (mv_camera.isOpen())    break;
-                } 
-                catch (MVCameraException& e2) 
+                    if (mv_camera.isOpen())
+                        break;
+                }
+                catch (MVCameraException &e2)
                 {
                     cout << "Try to open camera error." << endl;
                     sleep(1);
                 }
             }
-            if (!mv_camera.isOpen())    exit(1);
+            if (!mv_camera.isOpen())
+                exit(1);
         }
     }
 }
 
-void Workspace::imageProcessingFunc() 
+void Workspace::imageProcessingFunc()
 {
 #ifdef SHOW_IMAGE
     Mat src;
@@ -160,17 +159,17 @@ void Workspace::imageProcessingFunc()
     cout << "wrong TEST value, make sure TEST = 1 or 2" << endl;
     exit(0);
 #endif
-#endif    // TEST
+#endif // TEST
 
-    while (1) 
+    while (1)
     {
-        try 
+        try
         {
 #ifdef USE_CAMERA
-            if (!image_buffer_.empty()) 
+            if (!image_buffer_.empty())
             {
 #else
-            if (true) 
+            if (true)
             {
 #endif
 
@@ -189,11 +188,12 @@ void Workspace::imageProcessingFunc()
                 cout << "lock time: " << mutex_timer.getTime() << "ms" << endl;
                 mutex_timer.stop();
 #endif
-#endif    // USE_CAMERA
+#endif // USE_CAMERA
 
 #if TEST == 2
                 cap >> current_frame_;
-                if (current_frame_.empty())     exit(0);
+                if (current_frame_.empty())
+                    exit(0);
 #endif
 
 #ifdef SHOW_IMAGE
@@ -211,9 +211,10 @@ void Workspace::imageProcessingFunc()
 #ifdef ENEMY_COLOR
                 read_pack_.enemy_color = ENEMY_COLOR;
 #endif
-                if (current_frame_.empty())     continue;
+                if (current_frame_.empty())
+                    continue;
 
-                if (read_pack_.mode == Mode::ARMOR) 
+                if (read_pack_.mode == Mode::ARMOR)
                 {
 
                     armor_detector.run(current_frame_, read_pack_.enemy_color, target_armor_);
@@ -221,17 +222,15 @@ void Workspace::imageProcessingFunc()
                     // predictor.run(target_.x, target_.y, target_.z, target_.x, target_.y, target_.z);
                     angle_solver.run(target_.x, target_.y, target_.z, 20, send_pack_.yaw, send_pack_.pitch);
                     send_pack_.mode = 0;
-
-                } 
-                else if (read_pack_.mode == Mode::RUNE) 
+                }
+                else if (read_pack_.mode == Mode::RUNE)
                 {
 
                     rune_solver.run(current_frame_, target_.x, target_.y, target_.z);
                     angle_solver.run(target_.x, target_.y, target_.z, 28, send_pack_.yaw, send_pack_.pitch);
                     send_pack_.mode = 1;
-
-                } 
-                else 
+                }
+                else
                 {
                     continue;
                 }
@@ -267,71 +266,77 @@ void Workspace::imageProcessingFunc()
 #endif
 #ifdef SHOW_IMAGE
                 ostr << "yaw: " << send_pack_.yaw;
-                putText(src, ostr.str(), Point(20,30), CV_FONT_NORMAL, 1, Scalar(0,255,0));
+                putText(src, ostr.str(), Point(20, 30), CV_FONT_NORMAL, 1, Scalar(0, 255, 0));
                 ostr.str("");
                 ostr << "pitch: " << send_pack_.pitch;
-                putText(src, ostr.str(), Point(20,60), CV_FONT_NORMAL, 1, Scalar(0,255,0));
+                putText(src, ostr.str(), Point(20, 60), CV_FONT_NORMAL, 1, Scalar(0, 255, 0));
                 ostr.str("");
                 ostr << "x: " << target_.x;
-                putText(src, ostr.str(), Point(20,90), CV_FONT_NORMAL, 1, Scalar(0,255,0));
+                putText(src, ostr.str(), Point(20, 90), CV_FONT_NORMAL, 1, Scalar(0, 255, 0));
                 ostr.str("");
                 ostr << "y: " << target_.y;
-                putText(src, ostr.str(), Point(20,120), CV_FONT_NORMAL, 1, Scalar(0,255,0));
+                putText(src, ostr.str(), Point(20, 120), CV_FONT_NORMAL, 1, Scalar(0, 255, 0));
                 ostr.str("");
                 ostr << "z: " << target_.z;
-                putText(src, ostr.str(), Point(20,150), CV_FONT_NORMAL, 1, Scalar(0,255,0));
+                putText(src, ostr.str(), Point(20, 150), CV_FONT_NORMAL, 1, Scalar(0, 255, 0));
                 ostr.str("");
 
                 drawRotatedRect(src, target_armor_);
                 imshow("current_frame", src);
 #ifdef USE_CAMERA
-                if (waitKey(1) == 27)  exit(0);
+                if (waitKey(1) == 27)
+                    exit(0);
 #endif
 #if TEST == 1
-                if (waitKey(0) == 27)     exit(0);
+                if (waitKey(0) == 27)
+                    exit(0);
 #elif TEST == 2
-                if (waitKey(30) == 27)     break;
+                if (waitKey(30) == 27)
+                    break;
 #endif
-#endif    // SHOW_IMAGE
-            } 
-            else 
+#endif // SHOW_IMAGE
+            }
+            else
             {
                 continue;
             }
-        } 
-        catch (SerialException &e1) 
+        }
+        catch (SerialException &e1)
         {
             cout << "Serial port send error." << endl;
-            if (serial_port.isOpen())  serial_port.close();
+            if (serial_port.isOpen())
+                serial_port.close();
             sleep(1);
-            for (int i = 0; i < 10; ++i) 
+            for (int i = 0; i < 10; ++i)
             {
-                try 
+                try
                 {
                     openSerialPort();
-                    if (serial_port.isOpen()) break;
-                } 
-                catch (SerialException &e2) 
+                    if (serial_port.isOpen())
+                        break;
+                }
+                catch (SerialException &e2)
                 {
                     cout << "Try to open serial port error." << endl;
                     sleep(1);
                 }
             }
-            if (!serial_port.isOpen())    exit(1);
+            if (!serial_port.isOpen())
+                exit(1);
         }
     }
 }
 
-void Workspace::messageCommunicatingFunc() 
+void Workspace::messageCommunicatingFunc()
 {
 #ifdef USE_SERIAL
-    while (1) 
+    while (1)
     {
-        try 
+        try
         {
             // serial_port.readData(read_pack_);
-        } 
-        catch (SerialException &e1) 
+        }
+        catch (SerialException &e1)
         {
             // cout << "Serial port read error." << endl;
             // 因已在imageProcessing线程中作了串口重启，为防止重启冲突造成程序bug，这里只接异常而不处理
@@ -352,15 +357,14 @@ void Workspace::messageCommunicatingFunc()
 #endif
 
 #ifdef USE_CAN
-    while(true)
+    while (true)
     {
         can_node.receive(read_pack_);
     }
 #endif
-
 }
 
-void Workspace::openSerialPort() 
+void Workspace::openSerialPort()
 {
 #ifdef PLOT_DATA
     try
@@ -368,20 +372,20 @@ void Workspace::openSerialPort()
 #ifdef USE_SERIAL
         string port_name = "/dev/ttyUSB0";
         serial_port.open(port_name);
-        if(serial_port.isOpen())
+        if (serial_port.isOpen())
         {
-            cout << "Open seiral " + port_name + " successfully.\n";  
+            cout << "Open seiral " + port_name + " successfully.\n";
         }
 #endif
         string plot_port = "/dev/ttyUSB1";
         plot_serial.open(plot_port);
-        if(plot_serial.isOpen())
+        if (plot_serial.isOpen())
         {
             cout << "Open plot_serial " + plot_port + " successfully.\n";
             return;
         }
     }
-    catch(const SerialException &e)
+    catch (const SerialException &e)
     {
         std::cerr << e.what() << '\n';
     }
@@ -389,19 +393,19 @@ void Workspace::openSerialPort()
 #ifdef USE_SERIAL
     string port_name;
     int count = 0;
-    while (count < 3) 
+    while (count < 3)
     {
-        try 
+        try
         {
             port_name = "/dev/ttyUSB" + to_string(count++);
             serial_port.open(port_name);
-            if (serial_port.isOpen())  
+            if (serial_port.isOpen())
             {
                 cout << "Open serial successfully in " << port_name << "." << endl;
                 return;
             }
-        } 
-        catch (SerialException &e) 
+        }
+        catch (SerialException &e)
         {
             cout << "Open " << port_name << " failed." << endl;
         }

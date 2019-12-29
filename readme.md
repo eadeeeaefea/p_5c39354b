@@ -29,3 +29,8 @@ Used for HERO-RM 20 Season sentinel robot
       * raise right before using 
         * `chmod 666 AppRun` 
     * remove some redundant folder
+<br></br>
+
+* 2019.12.29
+    * modify new protocol with stm32 in both CAN & serial
+    * fix some logical errors of macro definition in workspace.cpp 

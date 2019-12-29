@@ -1,0 +1,4 @@
+Log file created at: 2019/12/06 20:39:13
+Running on machine: lrt-Z2-Air-Series-GK5CN5X
+Log line format: [IWEF]mmdd hh:mm:ss.uuuuuu threadid file:line] msg
+E1206 20:39:13.596004 10391 MVCAMAPI.cpp:309] CameraInit Failed, err:-19,Version:2.1.0.5,FriendlyName:,SN:#¤QZï
