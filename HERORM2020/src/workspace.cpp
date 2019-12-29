@@ -266,10 +266,10 @@ void Workspace::imageProcessingFunc() {
                             serial_port.sendData(send_pack_);
 #endif
 #ifdef USE_CAN
-                            send_pack.mode = 1;
-                            send_pack.yaw = send_pack.yaw / 3;
-                            send_pack.pitch = send_pack.pitch / 3;
-                            can_node.send(send_pack);
+                            send_pack_.mode = 1;
+                            send_pack_.yaw = send_pack_.yaw / 3;
+                            send_pack_.pitch = send_pack_.pitch / 3;
+                            can_node.send(send_pack_);
 #endif
                         }
 //                        send_pack_.mode = 1;
@@ -295,10 +295,10 @@ void Workspace::imageProcessingFunc() {
 #endif
 
 #ifdef PLOT_DATA
-                plot_pack.plot_value[0] = target.x;
-                plot_pack.plot_value[1] = target.y;
-                plot_pack.plot_value[2] = target.z;
-                plot_serial.sendPlot(plot_pack);
+                plot_pack_.plot_value[0] = target_.x;
+                plot_pack_.plot_value[1] = target_.y;
+                plot_pack_.plot_value[2] = target_.z;
+                plot_serial.sendPlot(plot_pack_);
 #endif
 
                 // cout << "x: " << target_.x << "\t"

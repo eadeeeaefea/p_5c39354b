@@ -1,8 +1,6 @@
 /******************************************************************************
  Copyright© HITwh HERO-RoboMaster2020 Group
-
  Author: Lu Zhan
-
  Detail:
  *****************************************************************************/
 
@@ -247,26 +245,26 @@ bool RuneSolver::findArrow() {
     float ratio;
     RotatedRect temp_rect;
 #ifndef COMPILE_WITH_CUDA
-    Mat temp_bin_;
-    bin.copyTo(temp_bin_);
+    Mat temp_bin;
+    bin.copyTo(temp_bin);
     Mat element = getStructuringElement(MORPH_RECT, Size(3, 3));
-    dilate(temp_bin_, temp_bin_, element, Point(-1, -1), 2);
+    dilate(temp_bin, temp_bin, element, Point(-1, -1), 2);
 #else
     cv::cuda::GpuMat temp_bin_;
     cv::Mat temp_bin;
-
     temp_bin_.upload(bin);
     Mat element = getStructuringElement(MORPH_RECT, Size(3, 3));
     Ptr<cv::cuda::Filter> dilateFilter = cv::cuda::createMorphologyFilter(MORPH_DILATE, CV_8U, element, Point(-1, -1),
                                                                           2);
     dilateFilter->apply(temp_bin_, temp_bin_);
-    temp_bin_.download(temp_bin_);
+    temp_bin_.download(temp_bin);
 #endif
-    imshow("箭头预处理后", temp_bin_);
+
+    imshow("箭头预处理后", temp_bin);
 
     vector<vector<Point>> contours;
     vector<Point> target_contour;       //目标轮廓
-    findContours(temp_bin_, contours, RETR_EXTERNAL, CHAIN_APPROX_NONE);
+    findContours(temp_bin, contours, RETR_EXTERNAL, CHAIN_APPROX_NONE);
     cout << "箭头轮廓总数:  " << contours.size() << '\n';
     //筛选目标的箭头区域
     for (size_t i = 0; i < contours.size(); ++i) {

@@ -7,6 +7,7 @@
  *****************************************************************************/
 
 #include "serialport.h"
+
 #include <stdio.h>
 #include <unistd.h>
 #include <fcntl.h>
@@ -17,8 +18,8 @@
 
 using std::string;
 
-
-SerialPort::SerialPort() {
+SerialPort::SerialPort()
+{
     fd_ = -1;
     is_open_ = false;
 }
@@ -28,7 +29,8 @@ SerialPort::SerialPort(const string &port_name,
                        int byte_size,
                        int parity,
                        int stop_bit,
-                       int flow_control) {
+                       int flow_control)
+{
     port_name_ = port_name;
     baud_rate_ = baud_rate;
     byte_size_ = byte_size;
@@ -38,22 +40,27 @@ SerialPort::SerialPort(const string &port_name,
     is_open_ = false;
 }
 
-SerialPort::~SerialPort() {
+SerialPort::~SerialPort()
+{
     close();
 }
 
-void SerialPort::open() {
-    if (port_name_.empty()) {
+void SerialPort::open()
+{
+    if (port_name_.empty())
+    {
         throw SerialException("Open port failed. Port name is empty.");
     }
 
-    if (is_open_) {
+    if (is_open_)
+    {
         throw SerialException("Open port failed. Port is already opened.");
     }
 
     fd_ = ::open(port_name_.c_str(), O_RDWR | O_NOCTTY | O_NONBLOCK);
 
-    if (fd_ == -1) {
+    if (fd_ == -1)
+    {
         throw SerialException("Open port failed. Bad file description.");
     }
 
@@ -66,7 +73,8 @@ void SerialPort::open(const string &port_name,
                       int byte_size,
                       int parity,
                       int stop_bit,
-                      int flow_control) {
+                      int flow_control)
+{
     port_name_ = port_name;
     baud_rate_ = baud_rate;
     byte_size_ = byte_size;
@@ -74,17 +82,20 @@ void SerialPort::open(const string &port_name,
     stop_bit_ = stop_bit;
     flow_control_ = flow_control;
 
-    if (port_name_.empty()) {
+    if (port_name_.empty())
+    {
         throw SerialException("Open port failed. Port name is empty.");
     }
 
-    if (is_open_) {
+    if (is_open_)
+    {
         throw SerialException("Open port failed. Port is already opened.");
     }
 
     fd_ = ::open(port_name_.c_str(), O_RDWR | O_NOCTTY | O_NONBLOCK);
 
-    if (fd_ == -1) {
+    if (fd_ == -1)
+    {
         throw SerialException("Open port failed. Bad file description.");
     }
 
@@ -92,112 +103,152 @@ void SerialPort::open(const string &port_name,
     is_open_ = true;
 }
 
-bool SerialPort::isOpen() {
+bool SerialPort::isOpen()
+{
     return is_open_;
 }
 
-void SerialPort::close() {
-    if (is_open_) {
-        if (fd_ < 0) {
+void SerialPort::close()
+{
+    if (is_open_)
+    {
+        if (fd_ < 0)
+        {
             throw SerialException("Close port failed. Bad file(open) description.");
-        } else {
+        }
+        else
+        {
             int ret = ::close(fd_);
-            if (ret == 0) {
+            if (ret == 0)
+            {
                 fd_ = -1;
                 is_open_ = false;
-            } else {
+            }
+            else
+            {
                 throw SerialException("Close port failed. Bad file(close) description.");
             }
         }
-    } else {
+    }
+    else
+    {
         throw SerialException("Close port failed. Port is not opened.");
     }
 }
 
-void SerialPort::setBaudRate(long baud_rate) {
-    if (is_open_) {
+void SerialPort::setBaudRate(long baud_rate)
+{
+    if (is_open_)
+    {
         baud_rate_ = baud_rate;
         reconfigurePort();
-    } else {
+    }
+    else
+    {
         throw SerialException("Set baud rate failed. Port is not opened.");
     }
 }
 
-long SerialPort::getBaudRate() {
+long SerialPort::getBaudRate()
+{
     return baud_rate_;
 }
 
-void SerialPort::setByteSize(int byte_size) {
-    if (is_open_) {
+void SerialPort::setByteSize(int byte_size)
+{
+    if (is_open_)
+    {
         byte_size_ = byte_size;
         reconfigurePort();
-    } else {
+    }
+    else
+    {
         throw SerialException("Set byte size failed. Port is not opened.");
     }
 }
 
-int SerialPort::getByteSize() {
+int SerialPort::getByteSize()
+{
     return byte_size_;
 }
 
-void SerialPort::setParity(int parity) {
-    if (is_open_) {
+void SerialPort::setParity(int parity)
+{
+    if (is_open_)
+    {
         parity_ = parity;
         reconfigurePort();
-    } else {
+    }
+    else
+    {
         throw SerialException("Set parity failed. Port is not opened.");
     }
 }
 
-int SerialPort::getParity() {
+int SerialPort::getParity()
+{
     return parity_;
 }
 
-void SerialPort::setStopBit(int stop_bit) {
-    if (is_open_) {
+void SerialPort::setStopBit(int stop_bit)
+{
+    if (is_open_)
+    {
         stop_bit_ = stop_bit;
         reconfigurePort();
-    } else {
+    }
+    else
+    {
         throw SerialException("Set stop bit failed. Port is not opened.");
     }
 }
 
-int SerialPort::getStopBit() {
+int SerialPort::getStopBit()
+{
     return stop_bit_;
 }
 
-void SerialPort::setFlowControl(int flow_control) {
-    if (is_open_) {
+void SerialPort::setFlowControl(int flow_control)
+{
+    if (is_open_)
+    {
         flow_control_ = flow_control;
         reconfigurePort();
-    } else {
+    }
+    else
+    {
         throw SerialException("Set flow control failed. Port is not opened.");
     }
 }
 
-int SerialPort::getFlowControl() {
+int SerialPort::getFlowControl()
+{
     return flow_control_;
 }
 
-void SerialPort::reconfigurePort() {
-    if (fd_ == -1) {
+void SerialPort::reconfigurePort()
+{
+    if (fd_ == -1)
+    {
         throw SerialException("Configure port failed. Bad file description.");
     }
 
     struct termios options;
 
-    if (::tcgetattr(fd_, &options) < 0) {
+    if (::tcgetattr(fd_, &options) < 0)
+    {
         throw SerialException("tcgetattr error.");
     }
 
-    options.c_cflag |= (tcflag_t) (CLOCAL | CREAD);
+    options.c_cflag |= (tcflag_t)(CLOCAL | CREAD);
     options.c_lflag &= (tcflag_t) ~(ICANON | ECHO | ECHOE | ECHOK | ECHONL | ISIG);
     options.c_oflag &= (tcflag_t) ~(OPOST);
     options.c_iflag &= (tcflag_t) ~(INLCR | IGNCR | ICRNL | IGNBRK | ISTRIP | INPCK);
 
     // setup baud rate
     speed_t baud;
-    switch (baud_rate_) {
+    switch (baud_rate_)
+    {
         case 0:
             baud = B0;
             break;
@@ -273,8 +324,9 @@ void SerialPort::reconfigurePort() {
     ::cfsetospeed(&options, baud);
 
     // setup byte size
-    options.c_cflag &= (tcflag_t) ~CSIZE;
-    switch (byte_size_) {
+    options.c_cflag &= (tcflag_t)~CSIZE;
+    switch (byte_size_)
+    {
         case 5:
             options.c_cflag |= CS5;
             break;
@@ -294,7 +346,8 @@ void SerialPort::reconfigurePort() {
     }
 
     // setup parity
-    switch (parity_) {
+    switch (parity_)
+    {
         case 0:
             options.c_cflag &= (tcflag_t) ~(PARENB | PARODD);
             break;
@@ -312,16 +365,17 @@ void SerialPort::reconfigurePort() {
     }
 
     // setup stop bit
-    switch (stop_bit_) {
+    switch (stop_bit_)
+    {
         case 1:
-            options.c_cflag &= (tcflag_t) ~CSTOPB;
+            options.c_cflag &= (tcflag_t)~CSTOPB;
             break;
         case 2:
             options.c_cflag |= CSTOPB;
             break;
         case 3:
             options.c_cflag |= CSTOPB;
-            break;  // one point five
+            break; // one point five
         default:
             printf("Invalid stop bit. Input stop bit is %d.\n", stop_bit_);
             throw SerialException("Set stop bit failed.");
@@ -330,8 +384,9 @@ void SerialPort::reconfigurePort() {
 
     // setup flow control
     options.c_iflag &= (tcflag_t) ~(IXON | IXOFF | IXANY);
-    options.c_cflag &= (tcflag_t) ~CRTSCTS;
-    switch (flow_control_) {
+    options.c_cflag &= (tcflag_t)~CRTSCTS;
+    switch (flow_control_)
+    {
         case 0:
             break;
         case 1:
@@ -346,113 +401,141 @@ void SerialPort::reconfigurePort() {
             break;
     }
 
-    if (::tcsetattr(fd_, TCSANOW, &options) != 0) {
+    if (::tcsetattr(fd_, TCSANOW, &options) != 0)
+    {
         throw SerialException("Set port failed.");
     }
 }
 
-void SerialPort::sendData(const SendPack &send_pack) {
-    if (!is_open_) {
+void SerialPort::sendData(const SendPack &send_pack)
+{
+    if (!is_open_)
+    {
         throw SerialException("Send data failed. Port is not opened.");
     }
 
-    uint8_t send_bytes[] = {0x55,        // frame head
-                            0x00,        // mode
-                            0x00, 0x00,  // yaw
-                            0x00, 0x00,  // pitch
-                            0x00,        // distance
-                            0x00,        // check sum
-                            0xA5};       // frame tail
-    int16_t *data_ptr = (int16_t *) (send_bytes + 2);
+    /*
+    0: head 0xAA
+    1: mode  0 --> auto  1 --> rune
+    2, 3 --> yaw
+    4, 5 --> pitch
+    6 --> velocity
+    7: tail 0x55
+    */
+    uint8_t send_bytes[] = {0xAA,       // frame head
+                            0x00,       // mode
+                            0x00, 0x00, // yaw
+                            0x00, 0x00, // pitch
+                            0x00,       // speed(remain unused)
+                            0x55};      // frame tail
+    int16_t *data_ptr = (int16_t *)(send_bytes + 2);
 
-//    send_bytes[1] = static_cast<uint8_t>(mode);
-    send_bytes[1] = static_cast<uint8_t>(0x50);
+    send_bytes[1] = static_cast<uint8_t>(send_pack.mode);
     data_ptr[0] = static_cast<int16_t>(send_pack.yaw * 100);
     data_ptr[1] = static_cast<int16_t>(send_pack.pitch * 100);
     send_bytes[6] = 0x10;
-    send_bytes[7] = static_cast<uint8_t>(send_bytes[1] + send_bytes[2] + send_bytes[3] +
-                                         send_bytes[4] + send_bytes[5] + send_bytes[6]);
 
-    if (::write(fd_, send_bytes, 9) == 9) {
+    if (::write(fd_, send_bytes, 8) == 8)
+    {
         // printf("Send successfully.\n");
         // for (int i = 0; i < 8; ++i)  printf("%x\n", send_bytes[i]);
-    } else {
+    }
+    else
+    {
         throw SerialException("Send data failed.");
     }
 }
 
-bool SerialPort::readData(ReadPack &read_pack) {
-    if (!is_open_) {
+bool SerialPort::readData(ReadPack &read_pack)
+{
+    if (!is_open_)
+    {
         throw SerialException("Read data failed. Port is not opened.");
     }
 
-    uint8_t read_bytes[8] = {0,};
+    uint8_t read_bytes[8] = {
+            0,
+    };
 
-    while (!(read_bytes[0] == 0x55) && !(read_bytes[7] == 0xA5)) {
-        for (int i = 0; i < 7; ++i) read_bytes[i] = read_bytes[i + 1];
-        if (::read(fd_, &read_bytes[7], 1) == 1) {
+    while (!(read_bytes[0] == 0xAA) && !(read_bytes[7] == 0x55))
+    {
+        for (int i = 0; i < 7; ++i)
+            read_bytes[i] = read_bytes[i + 1];
+        if (::read(fd_, &read_bytes[7], 1) == 1)
+        {
             // printf("Not read package. New byte: %x\n", send_bytes[8]);
-        } else {
+        }
+        else
+        {
             throw SerialException("Read data failed.");
         }
     }
 
-//    uint8_t check_sum = static_cast<uint8_t>(read_bytes[1] + read_bytes[2] +
-//                                             read_bytes[3] + read_bytes[4] +
-//                                             read_bytes[5] + read_bytes[6]);
-    if (1) {
-        read_pack.enemy_color = read_bytes[1] > 10;
-        read_pack.mode = static_cast<int>(read_bytes[2]);
-        int16_t temp_pitch = (static_cast<int16_t>(read_bytes[3]) << 8) +
-                             static_cast<int16_t>(read_bytes[4]);
-        int16_t temp_yaw = (static_cast<int16_t>(read_bytes[5]) << 8) +
-                           static_cast<int16_t>(read_bytes[6]);
-        read_pack.pitch = static_cast<double>(temp_pitch) * 0.02;
-        read_pack.yaw = static_cast<double>(temp_yaw) * 0.02;
+    /*
+    0: head 0xAA
+    1: ID: < 10 --> red  > 10 --> blue  &  mode  0 --> rune  1 --> auto
+    2, 3 --> yaw
+    4, 5 --> pitch
+    6 --> velocity
+    7: tail 0x55
+    */
 
-        return true;
-    } else {
-        printf("check failed.\n");
+    read_pack.mode = read_bytes[1] > 10;
+    read_pack.enemy_color = (read_bytes[1] % 10) == 0 ? Mode::ARMOR : Mode::RUNE;
+    int16_t temp_pitch = (static_cast<int16_t>(read_bytes[2]) << 8) +
+                         static_cast<int16_t>(read_bytes[3]);
+    int16_t temp_yaw = (static_cast<int16_t>(read_bytes[4]) << 8) +
+                       static_cast<int16_t>(read_bytes[5]);
 
-        return false;
-    }
+    read_pack.pitch = static_cast<double>(temp_pitch) * 0.01;
+    read_pack.yaw = static_cast<double>(temp_yaw) * 0.01;
+    read_pack.bullet_speed = static_cast<double>(read_bytes[6]);
+
+    return true;
 }
 
-bool SerialPort::sendPlot(const PlotPack &plot_pack) {
-    if (!is_open_) {
+bool SerialPort::sendPlot(const PlotPack &plot_pack)
+{
+    if (!is_open_)
+    {
         throw SerialException("Send data failed. Port is not opened.");
     }
 
-    uint8_t send_bytes[] = {0x31,        // frame head
-                            0x00,        // plot_type
-                            0x00,        // curve_num
-                            0x00, 0x00,  // value1
-                            0x00, 0x00,  // value2
-                            0x00, 0x00,  // value3
-                            0x00,        // checksum
-                            0xE4};       // frame tail
-    int16_t *data_ptr = (int16_t *) (send_bytes + 3);
+    uint8_t send_bytes[] = {0x31,       // frame head
+                            0x00,       // plot_type
+                            0x00,       // curve_num
+                            0x00, 0x00, // value1
+                            0x00, 0x00, // value2
+                            0x00, 0x00, // value3
+                            0x00,       // checksum
+                            0xE4};      // frame tail
+    int16_t *data_ptr = (int16_t *)(send_bytes + 3);
 
     uint8_t plot_type = 1;
     uint8_t curve_num = 3;
-    double x = 23;
-    double y = 13;
-    double z = 44;
+    //double x = 23;
+    //double y = 13;
+    //double z = 44;
 
     send_bytes[1] = plot_pack.plot_type;
     send_bytes[2] = plot_pack.curve_num;
-    for (int i = 0; i < plot_pack.curve_num; ++i) {
-        data_ptr[i] = static_cast<int16_t>(plot_pack.plot_value[i]);
+    for (int i = 0; i < plot_pack.curve_num; ++i)
+    {
+        data_ptr[i] = static_cast<int16_t>(plot_pack.plot_value[i] * 100);
     }
     send_bytes[9] = static_cast<uint8_t>(send_bytes[1] + send_bytes[2] +
                                          send_bytes[3] + send_bytes[4] +
                                          send_bytes[5] + send_bytes[6] +
                                          send_bytes[7] + send_bytes[8]);
 
-    if (::write(fd_, send_bytes, 11) == 11) {
+    if (::write(fd_, send_bytes, 11) == 11)
+    {
         printf("Send successfully.\n");
-        for (int i = 0; i < 11; ++i) printf("%d : %x\n", i, send_bytes[i]);
-    } else {
+        for (int i = 0; i < 11; ++i)
+            printf("%d : %x\n", i, send_bytes[i]);
+    }
+    else
+    {
         throw SerialException("Send data failed.");
     }
 }

@@ -10,9 +10,9 @@
 #include <sys/socket.h>
 #include <linux/can.h>
 #include <linux/can/raw.h>
+
 #include "base.h"
 
-// #define USE_CAN  0
 #define ID_NUM  1
 
 #ifdef USE_CAN
@@ -21,8 +21,8 @@
     #define DOWN "ip link set down can0"   // close device
     #define COMMAND "ip link set can0 type can bitrate 1000000 dbitrate 2000000 berr-reporting on fd on"  // enable and set bitrate
 #elif USE_CAN == 1
-    #define UP "ip link set up can1"   
-    #define DOWN "ip link set down can1"  
+    #define UP "ip link set up can1"
+    #define DOWN "ip link set down can1"
     #define COMMAND "ip link set can1 type can bitrate 1000000 dbitrate 2000000 berr-reporting on fd on"
 #endif
 #endif // USE_CAN
@@ -42,7 +42,7 @@ private:
     int skt_;    // socket
     int mode_;
     std::string dev_name;
-    
+
     // remained for multiple ids
     unsigned int id_rcv_[ID_NUM] = {0x301};
     unsigned int id_snd_[ID_NUM] = {0x302};

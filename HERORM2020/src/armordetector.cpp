@@ -218,9 +218,9 @@ void ArmorDetector::Preprocess(const Mat &src,
     cv::cuda::cvtColor(gpu_src_, hsv_image_, COLOR_BGR2HSV);
 
     if (enemy_color) {
-        cv::cuda::inRange(hsv_image_, Scalar(minH_blue_, minS_blue_, minV_blue_), Scalar(maxH_blue_, maxS_blue_, maxV_blue_), gpu_dst_);
+        inRange(hsv_image_, Scalar(minH_blue_, minS_blue_, minV_blue_), Scalar(maxH_blue_, maxS_blue_, maxV_blue_), gpu_dst_);
     } else {
-        cv::cuda::inRange(hsv_image_, Scalar(minH_red_, minS_red_, minV_red_), Scalar(maxH_red_, maxS_red_, maxV_red_), gpu_dst_);
+        inRange(hsv_image_, Scalar(minH_red_, minS_red_, minV_red_), Scalar(maxH_red_, maxS_red_, maxV_red_), gpu_dst_);
     }
 #endif
 #ifdef TRACKBAR
