@@ -53,16 +53,16 @@ bool CanNode::init() {
         std::cout << dev_name << " sockopt error.\n";
         status = false;
     }
-    mode_ = 2;
+//    mode_ = 2;
 
     return status;
 }
 
 bool CanNode::send(const SendPack &send_pack) {
-    if (mode_ == 2) {
-        std::cout << "Sending pauses.\n";
-        return true;
-    }
+//    if (mode_ == 2) {
+//        std::cout << "Sending pauses.\n";
+//        return true;
+//    }
 
     bool res = false;
     Frame frame{0};
