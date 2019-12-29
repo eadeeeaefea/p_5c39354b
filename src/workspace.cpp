@@ -79,7 +79,7 @@ void Workspace::run() {
 #if SAVE_VIDEO != 2
     image_processing_thread.join();
 #endif
-#ifdef USE_SERIAL
+#if defined(USE_SERIAL) || defined(USE_CAN)
     message_communicating_thread.join();
 #endif
 }
@@ -290,8 +290,11 @@ void Workspace::imageProcessingFunc() {
 #if defined(USE_SERIAL) && !defined(RUNE_ONLY) && !defined(TEST)
                 serial_port.sendData(send_pack);
 #endif
-#if defined(USE_CAN) && !defined(RUNE_ONLY) && !defined(TEST)
+#if defined(USE_CAN) && !defined(RUNE_ONLY)
+                send_pack.yaw = 1.5;
+                send_pack.pitch = 1.3;
                 can_node.send(send_pack);
+//                cout << "sucessfully" << endl;
 #endif
 #ifdef PLOT_DATA
                 plot_pack.plot_value[0] = target.x;
