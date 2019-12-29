@@ -53,6 +53,7 @@ typedef struct {
     int mode;
     double pitch;
     double yaw;
+    double bullet_speed;
 } ReadPack;
 
 typedef struct {
