@@ -200,7 +200,7 @@ void Workspace::imageProcessingFunc() {
 //                    cout << target.x << "," << target.y << "," << target.z << endl;
 //                    predictor.run(target.x, target.y, target.z);
 //                    cout << target.x << "," << target.y << "," << target.z << endl;
-                    angle_solver.run(target.x, target.y, target.z, 20, send_pack.yaw, send_pack.pitch, read_pack.pitch);
+                    angle_solver.run(target.x, target.y, target.z, read_pack.bullet_speed, send_pack.yaw, send_pack.pitch, read_pack.pitch);
                     cout << "pitch: " << read_pack.pitch << endl;
                     send_pack.mode = 0;
 
@@ -217,7 +217,7 @@ void Workspace::imageProcessingFunc() {
                             rune_solver.isCalibrated = true;
                         }
                         cout << target.x << "  " << target.y << "  " << target.z << endl;
-                        angle_solver.run(target.x, target.y, target.z, 20, send_pack.yaw, send_pack.pitch,
+                        angle_solver.run(target.x, target.y, target.z, read_pack.bullet_speed, send_pack.yaw, send_pack.pitch,
                                          read_pack.pitch);
                         putText(current_frame, "send_pitch:" + to_string(send_pack.pitch), Point(10, 150), 1,
                                 1.5,
