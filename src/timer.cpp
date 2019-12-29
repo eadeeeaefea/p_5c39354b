@@ -1,5 +1,5 @@
 /******************************************************************************
- Copyright© HITwh HERO-Robomaster2020 Group
+ Copyright© HITwh HERO-RoboMaster2020 Group
 
  Author: Zhou Yuxin on 2018.10.10
 
@@ -11,9 +11,9 @@
 
 
 Timer::Timer() {
-    start_ = 0.0;
-    end_ = 0.0;
-    is_open_ = false;
+    time_start = 0.0;
+    time_end = 0.0;
+    is_open = false;
 }
 
 Timer::~Timer() {
@@ -21,29 +21,29 @@ Timer::~Timer() {
 }
 
 void Timer::start() {
-    start_ = clock();
-    is_open_ = true;
+    time_start = clock();
+    is_open = true;
 }
 
 double Timer::restart() {
     double temp_time = getTime();
-    start_ = clock();
+    time_start = clock();
     return temp_time;
 }
 
 void Timer::stop() {
-    start_ = 0.0;
-    is_open_ = false;
+    time_start = 0.0;
+    is_open = false;
 }
 
 double Timer::getTime() {
-    if (!is_open_) {
+    if (!is_open) {
         printf("Get time failed. Timer is not opened.\n");
         return 0.0;
     }
 
     double delta_time;
-    end_ = clock();
-    delta_time = static_cast<double>(end_ - start_) * 1000.0 / CLOCKS_PER_SEC;
+    time_end = clock();
+    delta_time = static_cast<double>(time_end - time_start) * 1000.0 / CLOCKS_PER_SEC;
     return delta_time;
 }

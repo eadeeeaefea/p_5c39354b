@@ -1,5 +1,5 @@
 /******************************************************************************
- Copyright© HITwh HERO-Robomaster2020 Group
+ Copyright© HITwh HERO-RoboMaster2020 Group
 
  Author: Wang Xiaoyan on 2019.9.20
 
@@ -20,8 +20,8 @@ AngleSolver::~AngleSolver() {
 }
 
 void AngleSolver::init() {
-    yaw_offset_ = 0.0;
-    pitch_offset_ = 0.0;
+    yaw_offset = 0.0;
+    pitch_offset = 0.0;
 }
 
 void AngleSolver::run(double x, double y, double z, double v,
@@ -32,8 +32,8 @@ void AngleSolver::run(double x, double y, double z, double v,
 #endif
 
     if (parabolaSolve(sqrt(x*x+z*z), y, v, pitch)) {
-        pitch = -pitch + pitch_offset_;
-        yaw = atan(x / z) / PI * 180 + yaw_offset_;
+        pitch += pitch_offset;
+        yaw = atan(x / z) / PI * 180 + yaw_offset;
     } else {
         pitch = 0.0;
         yaw = 0.0;
@@ -46,19 +46,20 @@ void AngleSolver::run(double x, double y, double z, double v,
 }
 
 double AngleSolver::get_yaw_offset() {
-    return yaw_offset_;
+    return yaw_offset;
 }
 
 double AngleSolver::get_pitch_offset() {
-    return pitch_offset_;
+    return pitch_offset;
 }
 
-void AngleSolver::set_yaw_offset(double yaw_offset) {
-    yaw_offset_ = yaw_offset;
+void AngleSolver::set_yaw_offset(double offset) {
+    yaw_offset = offset;
+
 }
 
-void AngleSolver::set_pitch_offset(double pitch_offset) {
-    pitch_offset_ = pitch_offset;
+void AngleSolver::set_pitch_offset(double offset) {
+    pitch_offset = offset;
 }
 
 bool AngleSolver::parabolaSolve(double x, double y, double v, double &theta) {
@@ -114,7 +115,7 @@ double AngleSolver::parabolaDeltaY(double x, double y, double v, double theta) {
     double vx = v * cos(theta);
     double vy = v * sin(theta);
     double t = x / vx;
-    double delta_y = vy * t + 0.5 * g * t * t - y;  // 云台坐标系y轴向下，g向下，故g的符号为正
+    double delta_y = vy * t - 0.5 * g * t * t - y;
     // double a = ((-k) / m) * pow(m*g/k, 0.5);
     // double b = atan(vy / pow(m*g/k, 0.5));
     // double t = (m / k / vx) * exp(k*x/m - 1);

@@ -1,5 +1,5 @@
 /******************************************************************************
- Copyright© HITwh HERO-Robomaster2020 Group
+ Copyright© HITwh HERO-RoboMaster2020 Group
 
  Author: Ma Yuemeng & Song Haodi
 
@@ -20,7 +20,7 @@
 
 class AngleSolver {
 private:
-    double yaw_offset_, pitch_offset_;
+    double yaw_offset, pitch_offset;
 
 public:
     AngleSolver();
@@ -29,8 +29,8 @@ public:
     void run(double x, double y, double z, double v, double &yaw, double &pitch);
     double get_yaw_offset();
     double get_pitch_offset();
-    void set_yaw_offset(double yaw_offset);
-    void set_pitch_offset(double pitch_offset);
+    void set_yaw_offset(double offset);
+    void set_pitch_offset(double offset);
 
 private:
     bool parabolaSolve(double x, double y, double v, double &theta);

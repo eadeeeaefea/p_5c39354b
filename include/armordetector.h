@@ -3,6 +3,8 @@
 
  Author: Wang Xiaoyan on 2019.9.20
 
+ Update: Wang Xiaoyan on 2019.12.19
+
  Detail:
  *****************************************************************************/
 
@@ -27,52 +29,33 @@ using namespace cv;
 
 class ArmorDetector {
 private:
-    // preprocess
 #ifdef DISTORTION_CORRECT
-    Mat camera_matrix_;
-    Mat distortion_coeff_;
-    Mat map1_, map2_;
-#ifdef COMPILE_WITH_CUDA
-    cv::cuda::GpuMat gpu_map1_, gpu_map2_;
-#endif
-#endif
-#ifndef COMPILE_WITH_CUDA  // cpu only
-    Mat gray_image_, subtract_image_, kernel_;
-    vector<Mat> channels_;
-#else  // use gpu
-    cv::cuda::GpuMat gpu_src_, gpu_dst_;
-    cv::cuda::GpuMat gray_image_, subtract_image_, kernel_;
-    vector<cv::cuda::GpuMat> channels_;
-#endif
-    Mat roi_image_;
-    int gray_thres_, subtract_thres_, kernel_size_;
-    Mat original_image_, processed_image_;
+    Mat camera_matrix;
+    Mat distortion_coeff;
+#endif  // DISTORTION_CORRECT
+#ifndef COMPILE_WITH_CUDA
+    Mat kernel;
+#else
+    cv::Ptr<cv::cuda::Filter> kernel;
+#endif  // COMPILE_WITH_CUDA
+#ifdef BGR
+    int gray_thres, subtract_thres;
+#endif  // BGR
+#ifdef HSV
+    int minH_red,  maxH_red,  minS_red,  maxS_red,  minV_red,  maxV_red;
+    int minH_blue, maxH_blue, minS_blue, maxS_blue, minV_blue, maxV_blue;
+#endif  // HSV
 
-    // contours
-    vector<Vec4i> hierarchy_;
-    vector<vector<Point> > contours_;
-    RotatedRect temp_rrect_;
-    vector<RotatedRect> lightbars_;
+    int kernel_size;
+    double min_aspect_ratio, max_aspect_ratio;
+    double min_length_ratio, max_length_ratio;
+    double max_lightbar_delta, max_armor_angle, max_armor_lightbar_delta;
 
-    // find armors
-    double armor_width_, armor_height_, current_ratio_;
-    double length_ratio_;
-    double lightbar_angle_delta_, armor_angle_, armor_lightbar_delta_;
-    bool temp_result_;
-    double temp_score_;
-    vector<int> subscript_;
-    Point2f left_center_, right_center_;
-    Point2f left_vertices_[4], right_vertices_[4];
-    vector<Point2f> armor_vertices_;
-    double min_ratio_, max_ratio_;
-    double min_len_ratio_, max_len_ratio_;
-    double max_lightbar_angle_, max_armor_angle_, max_armor_lightbar_delta_;
-    vector<RotatedRect> armors_;
-    vector<double> scores_;
+    Mat processed_image, roi_image;
 
 #ifdef ROI_ENABLE
-    Rect roi_rect_;
-#endif
+    Rect roi_rect;
+#endif  // ROI_ENABLE
 
 public:
     ArmorDetector();
@@ -87,8 +70,8 @@ public:
 #endif
 
 private:
-    void Preprocess(const Mat &src, const int enemy_color, Mat &processed_image);
-    void findTarget(const Mat &processed_image, RotatedRect &target_armor);
+    void Preprocess(const Mat &src, const int enemy_color, Mat &dst);
+    void findTarget(const Mat &dst, RotatedRect &target_armor);
     void findArmors(vector<RotatedRect> &lightbars,
                     vector<RotatedRect> &armors,
                     vector<double> &scores);
@@ -99,6 +82,8 @@ private:
     void preventROIExceed(int &x, int &y, int &width, int &height);
 
 };
+
+void drawRotatedRect(Mat &src, RotatedRect &rect);
 
 
 #endif  // HERORM2020_ARMORDETECTOR_H

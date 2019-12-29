@@ -1,5 +1,5 @@
 /******************************************************************************
- Copyright© HITwh HERO-Robomaster2020 Group
+ Copyright© HITwh HERO-RoboMaster2020 Group
 
  Author: Wang Xiaoyan on 2019.6.30
 
@@ -14,7 +14,7 @@
 
 
 MVCamera::MVCamera() {
-    is_open_ = false;
+    is_open = false;
 }
 
 MVCamera::~MVCamera() {
@@ -71,21 +71,21 @@ void MVCamera::open(int frame_width,
         CameraSetIspOutFormat(hCamera, CAMERA_MEDIA_TYPE_BGR8);  // 三通道
     }
 
-    is_open_ = true;
+    is_open = true;
 }
 
 bool MVCamera::isOpen() {
-    return is_open_;
+    return is_open;
 }
 
 void MVCamera::close() {
     CameraUnInit(hCamera);
     free(g_pRgbBuffer);
-    is_open_ = false;
+    is_open = false;
 }
 
 void MVCamera::getImage(cv::Mat &image) {
-    if (!is_open_) {
+    if (!is_open) {
         throw MVCameraException("Get image error. Camera is not opened.");
     }
 
@@ -106,7 +106,7 @@ void MVCamera::getImage(cv::Mat &image) {
 }
 
 cv::Mat MVCamera::getImage() {
-    if (!is_open_) {
+    if (!is_open) {
         throw MVCameraException("Get image error. Camera is not opened.");
     }
 

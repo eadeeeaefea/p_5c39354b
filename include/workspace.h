@@ -1,5 +1,5 @@
 /******************************************************************************
- Copyright© HITwh HERO-Robomaster2020 Group
+ Copyright© HITwh HERO-RoboMaster2020 Group
 
  Author: Wang Xiaoyan on 2019.9.20
 
@@ -9,21 +9,22 @@
 #ifndef HERORM2020_WORKSPACE_H
 #define HERORM2020_WORKSPACE_H
 
+#include <unistd.h>
 #include <iostream>
 #include <vector>
 #include <thread>
 #include <mutex>
 #include <sstream>
-#include <unistd.h>
 #include <opencv2/opencv.hpp>
 
 #include "base.h"
+#include "mvcamera.h"
+#include "serialport.h"
 #include "armordetector.h"
 #include "targetsolver.h"
 #include "anglesolver.h"
 #include "runesolver.h"
-#include "mvcamera.h"
-#include "serialport.h"
+#include "predictor.h"
 #ifdef RUNNING_TIME
 #include "timer.h"
 #endif
@@ -31,16 +32,6 @@
 using namespace std;
 using namespace cv;
 
-
-typedef struct SendPack_t {
-    double yaw;
-    double pitch;
-}SendPack;
-
-typedef struct ReadPack_t {
-    int enemy;  // 0-red, 1-blue
-    int mode;
-}ReadPack;
 
 class Workspace {
 private:
@@ -57,26 +48,27 @@ private:
     MVCamera mv_camera;
     SerialPort serial_port;
     RuneSolver rune_solver;
+    Predictor predictor;
 
-    vector<Mat> image_buffer_;
-    int max_image_buffer_size_;
-    Mat current_frame_;
-    RotatedRect target_armor_;
-    Target target_;
-    SendPack send_pack_;
-    ReadPack read_pack_;
+    vector<Mat> image_buffer;
+    int max_image_buffer_size;
+    Mat current_frame;
+    RotatedRect target_armor;
+    Target target;
+    SendPack send_pack;
+    ReadPack read_pack;
 
 public:
     Workspace();
     ~Workspace();
-    void init(const FileStorage &file_storage);
+    void init();
     void run();
 
 private:
     void imageReceivingFunc();
     void imageProcessingFunc();
     void messageCommunicatingFunc();
-    void openSerial();
+    void openSerialPort();
 
 };
 

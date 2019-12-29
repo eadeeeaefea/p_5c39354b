@@ -1,5 +1,5 @@
 /******************************************************************************
- Copyright© HITwh HERO-Robomaster2020 Group
+ Copyright© HITwh HERO-RoboMaster2020 Group
 
  Author: Wang Xiaoyan on 2019.9.20
 
@@ -27,9 +27,9 @@ typedef struct Target_t {
 
 class TargetSolver {
 private:
-    Mat camera_matrix_, distortion_coeff_;
-    int solve_algorithm_;
-    Mat rotate_mat_, trans_mat_;
+    Mat camera_matrix, distortion_coeff;
+    int solve_algorithm;
+    Mat rotate_mat, trans_mat;
 
 public:
     TargetSolver();
@@ -40,8 +40,8 @@ public:
 private:
     void solvePnP4Points(const RotatedRect &rect,
                          const bool is_big_armor,
-                         Mat &rotate_mat,
-                         Mat &trans_mat);
+                         Mat &rotate,
+                         Mat &trans);
     void camera2ptzTransform(const Mat &camera_position, Target &ptz_position);
 
 };

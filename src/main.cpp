@@ -1,5 +1,5 @@
 /******************************************************************************
- Copyright© HITwh HERO-Robomaster2020 Group
+ Copyright© HITwh HERO-RoboMaster2020 Group
 
  Author: Wang Xiaoyan on 2019.9.22
 
@@ -13,9 +13,8 @@
 int main(int argc, char **argv) {
 
     Workspace workspace;
-    cv::FileStorage file_storage(PARAM_PATH, FileStorage::READ);
 
-    workspace.init(file_storage);
+    workspace.init();
 
     workspace.run();
 
