@@ -40,10 +40,10 @@ using namespace cv;
 
 class Workspace {
 private:
-    enum Mode {
-        ARMOR,
-        RUNE
-    };
+//    enum Mode {
+//        ARMOR,
+//        RUNE
+//    };
 
     mutex image_buffer_mutex;
 

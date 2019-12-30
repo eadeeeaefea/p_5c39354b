@@ -62,4 +62,8 @@ typedef struct {
     double plot_value[3];
 } PlotPack;
 
+enum Mode {
+    ARMOR,
+    RUNE
+};
 #endif  // HERORM2020_BASE_H

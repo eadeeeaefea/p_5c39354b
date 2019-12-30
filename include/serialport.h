@@ -21,10 +21,10 @@ using std::exception;
 
 class SerialPort {
 private:
-    enum Mode {
-        ARMOR,
-        RUNE
-    };
+//    enum Mode {
+//        ARMOR,
+//        RUNE
+//    };
     string port_name_;
     long baud_rate_;
     int byte_size_;

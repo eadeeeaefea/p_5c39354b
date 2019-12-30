@@ -42,7 +42,7 @@ typedef enum {
     MODE_SMALL,
     MODE_BIG,
     MODE_RANDOM
-} Mode;
+} RuneMode;
 
 class RuneSolver {
 public:
@@ -86,7 +86,7 @@ private:
     cv::cuda::GpuMat src_;
     cv::cuda::GpuMat bin_;
 #endif
-    Mode mode;
+    RuneMode mode;
     cv::RotatedRect target_RuneSolver;                      //当前帧能量板的最小包围矩形
     cv::RotatedRect predicted_RuneSolver;                   //预测的能量板的最小包围矩形
     cv::RotatedRect target_arrow;                       //当前帧箭头
