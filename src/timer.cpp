@@ -11,9 +11,9 @@
 
 
 Timer::Timer() {
-    time_start = 0.0;
-    time_end = 0.0;
-    is_open = false;
+    start_ = 0.0;
+    end_ = 0.0;
+    is_open_ = false;
 }
 
 Timer::~Timer() {
@@ -21,29 +21,29 @@ Timer::~Timer() {
 }
 
 void Timer::start() {
-    time_start = clock();
-    is_open = true;
+    start_ = clock();
+    is_open_ = true;
 }
 
 double Timer::restart() {
     double temp_time = getTime();
-    time_start = clock();
+    start_ = clock();
     return temp_time;
 }
 
 void Timer::stop() {
-    time_start = 0.0;
-    is_open = false;
+    start_ = 0.0;
+    is_open_ = false;
 }
 
 double Timer::getTime() {
-    if (!is_open) {
+    if (!is_open_) {
         printf("Get time failed. Timer is not opened.\n");
         return 0.0;
     }
 
     double delta_time;
-    time_end = clock();
-    delta_time = static_cast<double>(time_end - time_start) * 1000.0 / CLOCKS_PER_SEC;
+    end_ = clock();
+    delta_time = static_cast<double>(end_ - start_) * 1000.0 / CLOCKS_PER_SEC;
     return delta_time;
 }

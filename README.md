@@ -47,3 +47,7 @@ make
     - 按照新编程规范（类变量同普通变量命名）更新代码
     - 更新armordetector的编写，精简代码
     - 更新基于kalmanfilter的预测代码
+
+- 2019.12.30
+    - 更新anglesolver的算法
+    - 加入CAN通信和上位机发送数据模块

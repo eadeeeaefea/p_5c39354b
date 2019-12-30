@@ -19,17 +19,18 @@
 using std::string;
 using std::exception;
 
+#define CAMERA_COUNT 2
 
 class MVCamera {
 private:
     unsigned char*      g_pRgbBuffer;     // 处理后图像输出的缓冲区
     int                 hCamera;          // 相机的句柄
-    tSdkCameraDevInfo   tCameraEnumList;  // 工业摄像头设备列表数组
+    tSdkCameraDevInfo   tCameraEnumList[CAMERA_COUNT];  // 工业摄像头设备列表数组
     tSdkCameraCapbility tCapability;      // 相机特性描述的结构体
     tSdkFrameHead       sFrameInfo;       // 图像的帧头信息
     unsigned char*      pbyBuffer;        // 指向图像的数据的缓冲区
 
-    bool is_open;
+    bool is_open_;
 
 public:
     MVCamera();
@@ -47,18 +48,23 @@ public:
     void getImage(cv::Mat &image);
     cv::Mat getImage();
 
+private:
+    bool eqString(const char* s1, const char* s2, int len);
+
 };
 
-class MVCameraException : public exception {
+class MVCameraException : public exception 
+{
 private:
-    string e_what;
+    string e_what_;
 
 public:
     MVCameraException() {}
-    MVCameraException(const string &error) : e_what(error) {}
+    MVCameraException(const string &error) : e_what_(error) {}
     virtual ~MVCameraException() throw() {}
-    virtual const char *what() const throw() {
-        return e_what.c_str();
+    virtual const char *what() const throw() 
+    {
+        return e_what_.c_str();
     }
 
 };

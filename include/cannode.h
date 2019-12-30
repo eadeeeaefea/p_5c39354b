@@ -13,17 +13,17 @@
 
 #include "base.h"
 
-#define ID_NUM  1
+#define ID_NUM 1
 
 #ifdef USE_CAN
 #if USE_CAN == 0
-    #define UP "ip link set up can0"   // open device
-    #define DOWN "ip link set down can0"   // close device
-    #define COMMAND "ip link set can0 type can bitrate 1000000 dbitrate 2000000 berr-reporting on fd on"  // enable and set bitrate
+#define UP "ip link set up can0"                                                                     // open device
+#define DOWN "ip link set down can0"                                                                 // close device
+#define COMMAND "ip link set can0 type can bitrate 1000000 dbitrate 2000000 berr-reporting on fd on" // enable and set bitrate
 #elif USE_CAN == 1
-    #define UP "ip link set up can1"   
-    #define DOWN "ip link set down can1"  
-    #define COMMAND "ip link set can1 type can bitrate 1000000 dbitrate 2000000 berr-reporting on fd on"
+#define UP "ip link set up can1"
+#define DOWN "ip link set down can1"
+#define COMMAND "ip link set can1 type can bitrate 1000000 dbitrate 2000000 berr-reporting on fd on"
 #endif
 #endif // USE_CAN
 
@@ -33,16 +33,16 @@ public:
     typedef struct sockaddr_can SockAddr_Can;
     typedef struct ifreq Ifreq;
     typedef struct can_filter Filter;
-    typedef struct can_frame Frame;    // send frame
+    typedef struct can_frame Frame; // send frame
 
 private:
     SockAddr_Can addr_;
     Ifreq ifr_;
     Filter cfilter_[ID_NUM];
-    int skt_;    // socket
+    int skt_; // socket
     int mode_;
-    std::string dev_name;
-    
+    std::string dev_name_;
+
     // remained for multiple ids
     unsigned int id_rcv_[ID_NUM] = {0x301};
     unsigned int id_snd_[ID_NUM] = {0x302};
@@ -57,6 +57,5 @@ public:
 private:
     bool unpack(const Frame &frame, ReadPack &read_pack);
 };
-
 
 #endif // HERORM2020_CANNODE_HPP

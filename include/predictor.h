@@ -9,46 +9,21 @@
 #ifndef HERORM2020_PREDICTOR_H
 #define HERORM2020_PREDICTOR_H
 
-#include <Eigen/Dense>
-#include <unsupported/Eigen/FFT>
-
-class KalmanFilter1d {
-private:
-    Eigen::VectorXd x;
-    Eigen::VectorXd z;
-    Eigen::MatrixXd A;
-    Eigen::MatrixXd P;
-    Eigen::MatrixXd Q;
-    Eigen::MatrixXd R;
-    Eigen::MatrixXd H;
-    double delta_t, s_last;
-
-public:
-    KalmanFilter1d();
-    ~KalmanFilter1d();
-    void init();
-    double run(double s);
-
-private:
-    double predict(double s, double v);
-    void update(double z);
-
-};
 
 class Predictor {
 private:
-    KalmanFilter1d x_filter;
-    KalmanFilter1d y_filter;
-    KalmanFilter1d z_filter;
-    // double x_last, y_last, z_last;
-    // double coeff;
-    // bool first;
+    double delta_t;
+    double x_last, y_last, z_last;
 
 public:
     Predictor();
     ~Predictor();
     void init();
-    void run(double &x, double &y, double &z);
+    void run(double  x_current, double  y_current, double  z_current,
+             double &x_predict, double &y_predict, double &z_predict);
+
+private:
+    double uniformMotionSolve(double &x0, double x1);
 
 };
 

@@ -25,6 +25,8 @@
 #include "anglesolver.h"
 #include "runesolver.h"
 #include "predictor.h"
+#include "cannode.h"
+
 #ifdef RUNNING_TIME
 #include "timer.h"
 #endif
@@ -33,13 +35,9 @@ using namespace std;
 using namespace cv;
 
 
-class Workspace {
+class Workspace 
+{
 private:
-    enum Mode {
-        ARMOR,
-        RUNE
-    };
-
     mutex image_buffer_mutex;
 
     ArmorDetector armor_detector;
@@ -49,14 +47,19 @@ private:
     SerialPort serial_port;
     RuneSolver rune_solver;
     Predictor predictor;
+    CanNode can_node;
 
-    vector<Mat> image_buffer;
-    int max_image_buffer_size;
-    Mat current_frame;
-    RotatedRect target_armor;
-    Target target;
-    SendPack send_pack;
-    ReadPack read_pack;
+    vector<Mat> image_buffer_;
+    int max_image_buffer_size_;
+    Mat current_frame_;
+    RotatedRect target_armor_;
+    Target target_;
+    SendPack send_pack_;
+    ReadPack read_pack_;
+
+    // plot used
+    SerialPort plot_serial;
+    PlotPack plot_pack_;
 
 public:
     Workspace();
