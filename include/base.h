@@ -40,7 +40,7 @@
 #define FRAME_WIDTH   640
 #define FRAME_HEIGHT  480
 #define EXPOSURE_TIME 1000
-#define PARAM_PATH "../param/param1.xml"    // 开自启时需改为绝对路径
+#define PARAM_PATH "../param/param.xml"    // 开自启时需改为绝对路径
 
 typedef struct {
     int mode;
