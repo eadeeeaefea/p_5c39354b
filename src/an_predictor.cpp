@@ -6,7 +6,7 @@
  Detail:
  *****************************************************************************/
 
-#include "predictor.h"
+#include "an_predictor.h"
 #include "base.h"
 #include <cmath>
 #include <iostream>
