@@ -20,16 +20,17 @@ ArmorDetector::~ArmorDetector() {
 }
 
 void ArmorDetector::init(const FileStorage &file_storage) {
-    // preprocess
 #ifdef DISTORTION_CORRECT
     file_storage["camera_matrix"] >> camera_matrix_;
     file_storage["distortion_coeff"] >> distortion_coeff_;
 #endif
+
 #ifdef BGR
     gray_thres_ = 20;
     subtract_thres_ = 40;
     kernel_size_ = 3;
 #endif
+
 #ifdef HSV
     minH_red_ = 0;    maxH_red_ = 180;
     minS_red_ = 200;  maxS_red_ = 255;
@@ -39,6 +40,7 @@ void ArmorDetector::init(const FileStorage &file_storage) {
     minV_blue_ = 200; maxV_blue_ = 255;
     kernel_size_ = 5;
 #endif
+
 #ifndef COMPILE_WITH_CUDA
     kernel_ = getStructuringElement(MORPH_RECT, Size(kernel_size_,kernel_size_));
 #else
@@ -84,10 +86,14 @@ void ArmorDetector::run(const Mat &src,
 #endif
     createTrackbar("kernel_size", "processed", &kernel_size_, 15, 0, 0);
 #endif
+
 #ifdef SHOW_IMAGE
     src.copyTo(original_image_);
 #endif
+
+    //图像预处理
     Preprocess(src, enemy_color, processed_image_);
+
 #ifdef TRACKBAR
     namedWindow("original", 1);
 
@@ -119,6 +125,7 @@ void ArmorDetector::run(const Mat &src,
     createTrackbar("max_armor_lightbar_delta", "original", &max_armor_lightbar_delta, 500, 0, 0);
     max_armor_lightbar_delta_ = static_cast<double>(max_armor_lightbar_delta) / 10;
 #endif
+
     findTarget(processed_image_, target_armor);
 
 #ifdef SHOW_IMAGE
@@ -237,6 +244,7 @@ void ArmorDetector::findTarget(const Mat &processed_image, RotatedRect &target_a
 #ifdef RUNNING_TIME
     Timer timer;
 #endif
+
     lightbars_.clear();
     findContours(processed_image, contours_, hierarchy_, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE);
     for (int i = 0; i < contours_.size(); ++i) {
@@ -260,6 +268,7 @@ void ArmorDetector::findTarget(const Mat &processed_image, RotatedRect &target_a
         roi_rect_ = Rect();
     }
 #endif
+
 #ifdef RUNNING_TIME
     timer.stop("找到灯条");
 #endif

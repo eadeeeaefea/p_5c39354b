@@ -21,7 +21,7 @@ TargetSolver::~TargetSolver() {
 void TargetSolver::init(const FileStorage &file_storage) {
     file_storage["camera_matrix"] >> camera_matrix_;
     file_storage["distortion_coeff"] >> distortion_coeff_;
-    solve_algorithm_ = SOLVEPNP_EPNP;
+    solve_algorithm_ = SOLVEPNP_ITERATIVE;
 }
 
 void TargetSolver::run(const RotatedRect &armor, Target &target) {
@@ -45,7 +45,7 @@ void TargetSolver::run(const RotatedRect &armor, Target &target) {
     camera2ptzTransform(trans_mat_, target);
 
 #ifdef RUNNING_TIME
-    timer.stop("PNP");
+    timer.stop("PNP解算");
 #endif
 }
 
@@ -96,14 +96,14 @@ void TargetSolver::solvePnP4Points(const RotatedRect &rect,
     points3d.push_back(Point3f(half_w, half_h, 0));
     points3d.push_back(Point3f(-half_w, half_h, 0));
 
-    // calculating speed: P3P > EPNP > Iterative
+    //计算速度: P3P > EPNP > Iterative
     solvePnP(points3d, points2d, camera_matrix_, distortion_coeff_, rotate_mat, trans_mat, false, solve_algorithm_);
     // Rodrigues(rotate_mat, rotate_mat);  // 使用旋转矩阵时需将注释去掉
 }
 
 void TargetSolver::camera2ptzTransform(const Mat &camera_position,
                                        Target &ptz_position) {
-    ptz_position.x = camera_position.at<double>(0,0) / 1000;
-    ptz_position.y = (camera_position.at<double>(1,0) - 49.19) / 1000;
-    ptz_position.z = (camera_position.at<double>(2,0) + 115.62) / 1000;
+    ptz_position.x = (camera_position.at<double>(0,0) + 50.00) / 1000;
+    ptz_position.y = (camera_position.at<double>(1,0) - 65.00) / 1000;
+    ptz_position.z = (camera_position.at<double>(2,0) + 10.00) / 1000;
 }

@@ -66,7 +66,14 @@ public:
 
     void setFlowControl(int flow_control);
     int getFlowControl();
-
+    /*
+    0: head 0xAA
+    1: mode  0 --> auto  1 --> rune
+    2, 3 --> yaw
+    4, 5 --> pitch
+    6 --> velocity
+    7: tail 0x55
+    */
     void sendData(const SendPack &send_pack);
     bool readData(ReadPack &read_pack);
 

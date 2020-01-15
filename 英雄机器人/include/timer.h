@@ -44,6 +44,3 @@ public:
     }
 };
 #endif //HERORM2020_HERO_TIMER_H
-
-
-

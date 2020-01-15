@@ -14,8 +14,8 @@ int main(){
     workspace.run();
 
     return 0;
-////    VideoIO videoIO("../素材/素材2.avi");
-////    VideoIO videoIO("/dev/video0");
+    VideoIO videoIO("../素材/素材2.avi");
+//    VideoIO videoIO("/dev/video0");
 ////    VideoIO videoIO;
 ////    MVCamera mvCamera;
 //    Energy energy;

@@ -64,7 +64,14 @@ public:
     void run();
 
 private:
-
+    /***************************************************************
+      *  @brief     图片接收线程
+      *  @param     无
+      *  @note      无
+      *  @Sample usage:
+      *  thread image_receiving_thread(&Workspace::imageReceivingFunc, this);
+      *  image_receiving_thread.join();
+    **************************************************************/
     void imageReceivingFunc();
 
     void imageProcessingFunc();

@@ -18,6 +18,7 @@
 #include <opencv2/cudaarithm.hpp>
 #include <opencv2/cudaimgproc.hpp>
 #endif
+
 #ifdef RUNNING_TIME
 #include "timer.h"
 #endif
@@ -28,7 +29,6 @@ using namespace cv;
 
 class ArmorDetector {
 private:
-    // preprocess
 #ifdef DISTORTION_CORRECT
     Mat camera_matrix_;
     Mat distortion_coeff_;
@@ -37,6 +37,7 @@ private:
     cv::cuda::GpuMat gpu_map1_, gpu_map2_;
 #endif
 #endif
+
 #ifndef COMPILE_WITH_CUDA  // cpu only
     Mat kernel_;
 #ifdef BGR
@@ -57,11 +58,14 @@ private:
     cv::cuda::GpuMat hsv_image_;
 #endif
 #endif
+
     Mat roi_image_, original_image_, processed_image_;
     int kernel_size_;
+
 #ifdef BGR
     int gray_thres_, subtract_thres_;
 #endif
+
 #ifdef HSV
     int minH_red_,  maxH_red_,  minS_red_,  maxS_red_,  minV_red_,  maxV_red_;
     int minH_blue_, maxH_blue_, minS_blue_, maxS_blue_, minV_blue_, maxV_blue_;
@@ -96,27 +100,87 @@ private:
 public:
     ArmorDetector();
     ~ArmorDetector();
+
+    /***************************************************************
+     *  @brief  初始化
+     *  @param  file_storage:XML文件名
+     *  @note   无
+     *  @Sample usage:  armor_detector.init(file_storage);
+    ***************************************************************/
     void init(const FileStorage &file_storage);
+
+    /***************************************************************
+     *  @brief  流程控制
+     *  @param  src:源图像
+     *  @param  enemy_color:敌方颜色
+     *  @param  target_armor:目标装甲板的外接矩形
+     *  @note   无
+     *  @Sample usage:  armor_detector.run(current_frame_, read_pack_.enemy_color, target_armor_);
+    ***************************************************************/
     void run(const Mat &src,
              const int enemy_color,  // 0-red, 1-blue
              RotatedRect &target_armor);
+
 #ifdef ROI_ENABLE
     Rect get_roi_rect();
     void set_roi_rect(const Rect &rect);
 #endif
 
 private:
+    /***************************************************************
+     *  @brief  图像预处理
+     *  @param  src:源图像
+     *  @param  enemy_color:敌方颜色
+     *  @param  processed_image:处理后的图像
+     *  @note   无
+     *  @Sample usage:  Preprocess(src, enemy_color, processed_image_);
+    ***************************************************************/
     void Preprocess(const Mat &src, const int enemy_color, Mat &processed_image);
+
+    /***************************************************************
+     *  @brief  寻找灯条
+     *  @param  processed_image:处理后的图像
+     *  @param  target_armor:目标装甲板的外接矩形
+     *  @note   无
+     *  @Sample usage:  findTarget(processed_image_, target_armor);
+    ***************************************************************/
     void findTarget(const Mat &processed_image, RotatedRect &target_armor);
+
+    /***************************************************************
+     *  @brief  两两配对灯条,筛选装甲板
+     *  @param  lightbars:灯条数组
+     *  @param  armors:候选装甲板数组
+     *  @param  scores:候选装甲板匹配度得分数组
+     *  @note   无
+     *  @Sample usage:  findArmors(lightbars_, armors_, scores_);
+    ***************************************************************/
     void findArmors(vector<RotatedRect> &lightbars,
                     vector<RotatedRect> &armors,
                     vector<double> &scores);
+
+    /***************************************************************
+     *  @brief  选出目标装甲板
+     *  @param  armors:候选装甲板数组
+     *  @param  scores:候选装甲板匹配度得分数组
+     *  @param  target_armor:目标装甲板的外接矩形
+     *  @note   得分最低的即为目标
+     *  @Sample usage:  selectTarget(armors_, scores_, target_armor);
+    ***************************************************************/
     void selectTarget(const vector<RotatedRect> &armors,
                       const vector<double> &scores,
                       RotatedRect &target_armor);
-    void adjustRotatedRect(RotatedRect &rect);
-    void preventROIExceed(int &x, int &y, int &width, int &height);
 
+    /***************************************************************
+     *  @brief  矩形标准化
+     *  @param  rect:原矩形
+     *  @note   标准矩形满足 height>width
+     *  @Sample usage:  adjustRotatedRect(lightbars[i]);
+    ***************************************************************/
+    void adjustRotatedRect(RotatedRect &rect);
+
+#ifdef ROI_ENABLE
+    void preventROIExceed(int &x, int &y, int &width, int &height);
+#endif  // ROI_ENABLE
 };
 
 #endif  // HERORM2020_ARMORDETECTOR_H

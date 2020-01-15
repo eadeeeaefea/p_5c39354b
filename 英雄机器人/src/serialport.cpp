@@ -16,7 +16,8 @@
 #include <sys/signal.h>
 #include <errno.h>
 #include <termios.h>
-
+#include <iostream>
+#include <iomanip>
 using std::string;
 
 
@@ -284,59 +285,98 @@ void SerialPort::sendData(const SendPack &send_pack) {
         throw SerialException("Send data failed. Port is not opened.");
     }
 
-    uint8_t send_bytes[] = {0x55,        // frame head
+    uint8_t send_bytes[] = {0xAA,        // frame head
                             0x00,        // mode
                             0x00, 0x00,  // yaw
                             0x00, 0x00,  // pitch
-                            0x00,        // distance
-                            0x00,        // check sum
+			                0x00,	     // speed
                             0xA5};       // frame tail
     int16_t *data_ptr = (int16_t *)(send_bytes + 2);
 
     send_bytes[1] = static_cast<uint8_t>(send_pack.mode);
-    data_ptr[0] = static_cast<int16_t>(send_pack.yaw * 100);
-    data_ptr[1] = static_cast<int16_t>(send_pack.pitch * 100);
+//    std::cout<<"模式"<<send_pack.mode<<std::endl;
+//    std::cout<<"模式:"<<std::hex<<send_bytes[1]<<std::endl;
+    data_ptr[0] = static_cast<int16_t>(send_pack.yaw * 50);
+    data_ptr[1] = static_cast<int16_t>(send_pack.pitch * 50);
     send_bytes[6] = 0x10;
-    send_bytes[7] = static_cast<uint8_t>(send_bytes[1] + send_bytes[2] + send_bytes[3] +
-                                         send_bytes[4] + send_bytes[5] + send_bytes[6]);
 
-    if (::write(fd_, send_bytes, 9) == 9) {
-        // printf("Send successfully.\n");
-        // for (int i = 0; i < 8; ++i)  printf("%x\n", send_bytes[i]);
-    } else {
+    if (::write(fd_, send_bytes, 8) == 8)
+    {
+//         printf("Send successfully.\n");
+//         for (int i = 0; i < 8; ++i)  printf("%x\n", send_bytes[i]);
+    }
+    else
+    {
         throw SerialException("Send data failed.");
     }
 }
 
-bool SerialPort::readData(ReadPack &read_pack) {
-    if (!is_open_) {
+bool SerialPort::readData(ReadPack &read_pack)
+{
+    if (!is_open_)
+    {
         throw SerialException("Read data failed. Port is not opened.");
     }
 
-    uint8_t read_bytes[9] = {0, };
+    uint8_t read_bytes[8] = {
+        0,
+    };
 
-    while (!(read_bytes[0] == 0x55) && !(read_bytes[8] == 0xA5)) {
-        for (int i = 0; i < 8; ++i)  read_bytes[i] = read_bytes[i+1];
-        if (::read(fd_, &read_bytes[8], 1) == 1) {
+    while (!(read_bytes[0] == 0xAA) && !(read_bytes[7] == 0x55))
+    {
+        for (int i = 0; i < 7; ++i)
+            read_bytes[i] = read_bytes[i + 1];
+        if (::read(fd_, &read_bytes[7], 1) == 1)
+        {
             // printf("Not read package. New byte: %x\n", send_bytes[8]);
-        } else {
+        }
+        else
+        {
             throw SerialException("Read data failed.");
         }
     }
 
-//    uint8_t check_sum = static_cast<uint8_t>(read_bytes[1] + read_bytes[2] +
-//                                             read_bytes[3] + read_bytes[4] +
-//                                             read_bytes[5] + read_bytes[6]);
-//
-    //无校验
-    read_pack.enemy_color = read_bytes[1] > 10;
-    read_pack.mode = static_cast<int>(read_bytes[2]);
-    int16_t temp_pitch = (static_cast<int16_t>(read_bytes[3]) << 8) +
-                          static_cast<int16_t>(read_bytes[4]);
-    int16_t temp_yaw = (static_cast<int16_t>(read_bytes[5]) << 8) +
-                        static_cast<int16_t>(read_bytes[6]);
-    read_pack.pitch = static_cast<double>(temp_pitch) * 0.01;
-    read_pack.yaw = static_cast<double>(temp_yaw) * 0.01;
+    /*
+    0: head 0xAA
+    1: ID: < 10 --> red  > 10 --> blue  &  mode  0 --> rune  1 --> auto
+    2, 3 --> yaw
+    4, 5 --> pitch
+    6 --> velocity
+    7: tail 0x55
+    */
+
+//    printf("第一位:%d\n", read_bytes[1]);
+    //颜色和模式工共用一个字节.
+    //高位表示颜色,大于10表示红色,小于10表示蓝色
+    //低位表示模式,0表示神符,1表示自瞄
+    switch (read_bytes[1]){
+        case 0x11:
+            read_pack.enemy_color = RED;
+            read_pack.mode = ARMOR;
+            break;
+        case 0x10:
+            read_pack.enemy_color = RED;
+            read_pack.mode = RUNE;
+            break;
+        case 0x01:
+            read_pack.enemy_color = BLUE;
+            read_pack.mode = ARMOR;
+            break;
+        case 0x00:
+            read_pack.enemy_color = BLUE;
+            read_pack.mode = RUNE;
+            break;
+    }
+
+    int16_t temp_pitch = (static_cast<int16_t>(read_bytes[2]) << 8) +
+                         static_cast<int16_t>(read_bytes[3]);
+    int16_t temp_yaw = (static_cast<int16_t>(read_bytes[4]) << 8) +
+                       static_cast<int16_t>(read_bytes[5]);
+                std::cout<<"yaw:"<<temp_yaw<<std::endl;
+                std::cout<<"pitch:"<<temp_pitch<<std::endl;
+    read_pack.pitch = static_cast<double>(temp_pitch) * 0.02;
+    read_pack.yaw = static_cast<double>(temp_yaw) * 0.02;
+    read_pack.speed = static_cast<double>(read_bytes[6]);
 
     return true;
 }

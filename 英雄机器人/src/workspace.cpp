@@ -108,7 +108,7 @@ void Workspace::imageReceivingFunc(){
             // cout << "Camera error." << endl;
             mv_camera.close();
             sleep(1);
-            for (int i = 0; i < 10; ++i){
+            for (int i = 0; i < 100; ++i){
                 try{
                     mv_camera.open(FRAME_WIDTH, FRAME_HEIGHT, EXPOSURE_TIME);
                     if (mv_camera.isOpen())
@@ -168,6 +168,7 @@ void Workspace::imageProcessingFunc(){
 
 #ifdef ARMOR_ONLY
             read_pack_.mode = Mode::ARMOR;
+            send_pack_.mode = Mode::ARMOR;
 #endif
 
 #ifdef ENEMY_COLOR
@@ -181,11 +182,10 @@ void Workspace::imageProcessingFunc(){
                 armor_detector.run(current_frame_, read_pack_.enemy_color, target_armor_);
                 target_solver.run(target_armor_, target_);
                 // predictor.run(target_.x, target_.y, target_.z, target_.x, target_.y, target_.z);
-                angle_solver.run(target_.x, target_.y, target_.z, 20, send_pack_.yaw, send_pack_.pitch, read_pack_.pitch);
-                send_pack_.mode = 0;
+                angle_solver.run(target_.x, target_.y, target_.z, 13.8, send_pack_.yaw, send_pack_.pitch, read_pack_.pitch);
             }else
             {
-                continue;
+//                continue;
             }
 #ifdef USE_SERIAL
             serial_port.sendData(send_pack_);
@@ -197,11 +197,12 @@ void Workspace::imageProcessingFunc(){
             plot_pack_.plot_value[2] = target_.z;
             plot_serial.sendPlot(plot_pack_);
 #endif
-             cout << "x: " << target_.x << "\t"
-                  << "y: " << target_.y << "\t"
-                  << "z: " << target_.z << "\n"
-                  << "yaw: " << send_pack_.yaw << "\t"
-                  << "pitch: " << send_pack_.pitch << endl;
+//            cout<<"---------发送------------"<<endl;
+//             cout << "x: " << target_.x << "\t"
+//                  << "y: " << target_.y << "\t"
+//                  << "z: " << target_.z << "\n"
+//                  << "yaw: " << send_pack_.yaw << "\t"
+//                  << "pitch: " << send_pack_.pitch << endl;
 #ifdef TRACKBAR
             namedWindow("current_frame", 1);
 
@@ -234,7 +235,12 @@ void Workspace::imageProcessingFunc(){
             ostr << "z: " << target_.z;
             putText(src, ostr.str(), Point(20,150), CV_FONT_NORMAL, 1, Scalar(0,255,0));
             ostr.str("");
-
+            ostr << "read_pitch: " << read_pack_.pitch;
+            putText(src, ostr.str(), Point(20,180), CV_FONT_NORMAL, 1, Scalar(0,255,0));
+            ostr.str("");
+            ostr << "read_yaw: " << read_pack_.yaw;
+            putText(src, ostr.str(), Point(20,210), CV_FONT_NORMAL, 1, Scalar(0,255,0));
+            ostr.str("");
             drawRotatedRect(src, target_armor_);
             imshow("current_frame", src);
 #endif // SHOW_IMAGE
@@ -255,10 +261,11 @@ void Workspace::imageProcessingFunc(){
 
         }catch (SerialException &e1)
         {
+
             cout << "Serial port send error." << endl;
             if (serial_port.isOpen())  serial_port.close();
             sleep(1);
-            for (int i = 0; i < 10; ++i){
+            for (int i = 0; i < 100; ++i){throw e1;
                 try{
                     openSerialPort();
                     if (serial_port.isOpen())
@@ -269,8 +276,10 @@ void Workspace::imageProcessingFunc(){
                     sleep(1);
                 }
             }
-            if (!serial_port.isOpen())
+            if (!serial_port.isOpen()) {
+                throw e1;
                 exit(1);
+            }
         }
 #ifdef RUNNING_TIME
         clock.stop("图像处理");
@@ -288,10 +297,18 @@ void Workspace::messageCommunicatingFunc(){
 #ifdef USE_SERIAL
     while (1){
         try{
-             serial_port.readData(read_pack_);
+                serial_port.readData(read_pack_);
+                send_pack_.mode = read_pack_.mode;
+//                cout<<"颜色:"<<read_pack_.enemy_color<<endl;
+//                cout<<"yaw:"<<read_pack_.yaw<<endl;
+//                cout<<"pitch:"<<read_pack_.pitch<<endl;
+//                cout<<"速度:"<<read_pack_.speed<<endl;
+//                cout<<"模式:"<<hex<<read_pack_.mode<<endl;
+//                cout<<"------------"<<endl;
         }catch (SerialException &e1)
         {
-            // cout << "Serial port read error." << endl;
+            // cout << "Serial port read error." << e;
+            // \ndl;
             // 因已在imageProcessing线程中作了串口重启，为防止重启冲突造成程序bug，这里只接异常而不处理
             // if (serial_port.isOpen())  serial_port.close();
             // sleep(1);

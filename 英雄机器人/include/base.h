@@ -9,6 +9,9 @@
 #ifndef HERORM2020_BASE_H
 #define HERORM2020_BASE_H
 
+#define RED (0)
+#define BLUE (1)
+
 //显示各模块运行时间
 //#define RUNNING_TIME
 
@@ -35,7 +38,6 @@
 
 //使用摄像头
 #define USE_CAMERA
-
 //使用串口
 #define USE_SERIAL
 
@@ -59,19 +61,19 @@
 #define VIDEO_SAVED_PATH "output.avi"
 
 //手动决定目标颜色,比赛时必须将其注释
-#define ENEMY_COLOR 0
+#define ENEMY_COLOR RED
 
 //保持装甲板模式
 #define ARMOR_ONLY
 
 //常量定义
-#define PI 3.141592654
-#define g 9.7988
+#define PI (3.141592654)
+#define g (9.7988)
 
 //相机配置
-#define FRAME_WIDTH   640
-#define FRAME_HEIGHT  480
-#define EXPOSURE_TIME 800
+#define FRAME_WIDTH   (640)
+#define FRAME_HEIGHT  (480)
+#define EXPOSURE_TIME (600)
 
 //配置文件路径
 #define PARAM_PATH "../param/param.xml"
@@ -89,6 +91,7 @@ typedef struct
     int mode;
     double pitch;
     double yaw;
+    double speed;
 }ReadPack;
 
 typedef struct
