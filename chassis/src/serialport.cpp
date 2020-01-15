@@ -492,6 +492,10 @@ bool SerialPort::readData(ReadPack &read_pack)
     read_pack.yaw = static_cast<double>(temp_yaw) * 0.01;
     read_pack.bullet_speed = static_cast<double>(read_bytes[6]);
 
+    // printf("READ pitch:%lf yaw:%lf\n", read_pack.pitch, read_pack.yaw);
+//    printf("READ mode:%d color:%d\n", read_pack.mode, read_pack.enemy_color);
+    // printf("READ speed:%d\n", read_pack.bullet_speed);
+
     return true;
 }
 
@@ -514,12 +518,15 @@ bool SerialPort::sendPlot(const PlotPack &plot_pack)
 
     uint8_t plot_type = 1;
     uint8_t curve_num = 3;
+    double x = 23;
+    double y = 13;
+    double z = 44;
 
     send_bytes[1] = plot_pack.plot_type;
     send_bytes[2] = plot_pack.curve_num;
     for (int i = 0; i < plot_pack.curve_num; ++i)
     {
-        data_ptr[i] = static_cast<int16_t>(plot_pack.plot_value[i] * 100);
+        data_ptr[i] = static_cast<int16_t>(plot_pack.plot_value[i]);
     }
     send_bytes[9] = static_cast<uint8_t>(send_bytes[1] + send_bytes[2] +
                                          send_bytes[3] + send_bytes[4] +

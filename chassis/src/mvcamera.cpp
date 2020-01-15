@@ -31,7 +31,7 @@ void MVCamera::open(int frame_width,
                     int contrast)
 {
     int status = -1;
-    int cameraCounts = 1;
+    int cameraCounts = 2;
     int channel = 3;
 
     CameraSdkInit(0);
@@ -46,10 +46,18 @@ void MVCamera::open(int frame_width,
     int i = 0;
     for (; i < CAMERA_COUNT; ++i)
     {
-        if (eqString("049080710034", tCameraEnumList[i].acSn, 13))
+        printf("%s\n", tCameraEnumList[i].acSn);
+        if (eqString("049021310005", tCameraEnumList[i].acSn, 13))
             break;
     }
-
+/*
+    i = 0;
+    for (; i < CAMERA_COUNT; ++i)
+    {
+        printf("%s\n", tCameraEnumList[i].acSn);
+            break;
+    }    
+*/
     if (i == CAMERA_COUNT)
     {
         throw MVCameraException("Cannot find valid acSn");

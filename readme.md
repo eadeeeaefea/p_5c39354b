@@ -35,3 +35,15 @@ Used for HERO-RM 20 Season sentinel robot
     * modify new protocol with stm32 in both CAN & serial
     * fix some logical errors of macro definition in workspace.cpp 
     * fix bug of sendPlot in serialport.cpp
+<br></br>
+
+* 2020.1.15
+    * this version serves as first-generation sentinel code
+    * remove **CAN** module coz not used
+    * change `openSerial()` function in `workspace.cpp` 
+        * *reason*: there are two serial ports used on sentinel
+        * *method*: use **udev** module in Linux to remap two serials seperately
+    * optimize **TRACKBAR** logic
+        * *reason:* mostly, we do not use trackbar in armordetector while coping with robots
+        * *method:* like TEST macro definition in `bast.h`, define **TRACKBAR** in three ways
+        * 0 --> offset only;  1 --> armordetector only; 2 --> both

@@ -20,7 +20,7 @@ Workspace::~Workspace()
 
 void Workspace::init()
 {
-#if (defined(USE_CAMERA) || defined(USE_SERIAL)) && (defined(TEST) && !defined(USE_CAN))
+#if (defined(USE_CAMERA) || defined(USE_SERIAL)) && defined(TEST)
     cout << "wrong mode, TEST and USE_CAMERA or USE_SERIAL are mutually exclusive." << endl;
     exit(0);
 #endif
@@ -44,16 +44,11 @@ void Workspace::init()
     openSerialPort();
 #endif
 
-#ifdef USE_CAN
-    can_node.init();
-#endif
-
 #ifdef PLOT_DATA
     //TODO: serial exception : repeatly check serial name
     plot_pack_.plot_type = 3;
     plot_pack_.curve_num = 3;
 #endif
-
     max_image_buffer_size_ = 10;
     read_pack_.enemy_color = 0;
     read_pack_.mode = 0;
@@ -67,7 +62,7 @@ void Workspace::run()
 #if SAVE_VIDEO != 2
     thread image_processing_thread(&Workspace::imageProcessingFunc, this);
 #endif
-#if defined(USE_SERIAL) || defined(USE_CAN)
+#if defined(USE_SERIAL)
     thread message_communicating_thread(&Workspace::messageCommunicatingFunc, this);
 #endif
 
@@ -77,7 +72,7 @@ void Workspace::run()
 #if SAVE_VIDEO != 2
     image_processing_thread.join();
 #endif
-#if defined(USE_SERIAL) || defined(USE_CAN)
+#if defined(USE_SERIAL)
     message_communicating_thread.join();
 #endif
 }
@@ -161,8 +156,16 @@ void Workspace::imageProcessingFunc()
 #endif
 #endif // TEST
 
+#ifdef RUNNING_TIME
+    Timer timer;
+    timer.start();
+#endif
+
     while (1)
     {
+#ifdef RUNNING_TIME
+        timer.start();
+#endif
         try
         {
 #ifdef USE_CAMERA
@@ -177,6 +180,7 @@ void Workspace::imageProcessingFunc()
 #ifdef RUNNING_TIME
                 static Timer mutex_timer;
                 mutex_timer.start();
+                cout << "before cap >>: " << timer.getTime() << "ms\n";
 #endif
                 image_buffer_mutex.lock();
 
@@ -196,6 +200,10 @@ void Workspace::imageProcessingFunc()
                     exit(0);
 #endif
 
+#ifdef RUNNING_TIME
+                cout << "after cap >>: " << timer.getTime() << "ms\n";
+#endif
+
 #ifdef SHOW_IMAGE
                 src = current_frame_.clone();
 #endif
@@ -213,33 +221,37 @@ void Workspace::imageProcessingFunc()
 #endif
                 if (current_frame_.empty())
                     continue;
-
+#ifdef RUNNING_TIME
+                cout << "before process: " << timer.getTime() << "ms\n";
+#endif
                 if (read_pack_.mode == Mode::ARMOR)
                 {
 
                     armor_detector.run(current_frame_, read_pack_.enemy_color, target_armor_);
                     target_solver.run(target_armor_, target_);
                     // predictor.run(target_.x, target_.y, target_.z, target_.x, target_.y, target_.z);
-                    angle_solver.run(target_.x, target_.y, target_.z, 20, send_pack_.yaw, send_pack_.pitch);
+                    angle_solver.run(target_.x, target_.y, target_.z, 30, send_pack_.yaw,
+                                     send_pack_.pitch, read_pack_.pitch);
                     send_pack_.mode = 0;
                 }
                 else if (read_pack_.mode == Mode::RUNE)
                 {
 
                     rune_solver.run(current_frame_, target_.x, target_.y, target_.z);
-                    angle_solver.run(target_.x, target_.y, target_.z, 28, send_pack_.yaw, send_pack_.pitch);
+                    angle_solver.run(target_.x, target_.y, target_.z, 28, send_pack_.yaw,
+                                     send_pack_.pitch, read_pack_.pitch);
                     send_pack_.mode = 1;
                 }
                 else
                 {
                     continue;
                 }
-#ifdef USE_SERIAL
-                serial_port.sendData(send_pack_);
+#ifdef RUNNING_TIME
+                cout << "after process: " << timer.getTime() << "ms\n";
 #endif
 
-#ifdef USE_CAN
-                can_node.send(send_pack_);
+#ifdef USE_SERIAL
+                serial_port.sendData(send_pack_);
 #endif
 
 #ifdef PLOT_DATA
@@ -253,6 +265,7 @@ void Workspace::imageProcessingFunc()
                 //      << "yaw: " << send_pack_.yaw << "\t"
                 //      << "pitch: " << send_pack_.pitch << endl;
 #ifdef TRACKBAR
+#if TRACKBAR != 1
                 namedWindow("current_frame", 1);
 
                 static int yaw_offset = static_cast<int>(angle_solver.get_yaw_offset() * 100.0);
@@ -260,9 +273,10 @@ void Workspace::imageProcessingFunc()
                 angle_solver.set_yaw_offset(static_cast<double>(yaw_offset) / 100.0);
 
                 static int pitch_offset = static_cast<int>(angle_solver.get_pitch_offset() * 100.0);
-                createTrackbar("pitch_offset", "current_frame", &pitch_offset, 500, 0, 0);
+                createTrackbar("pitch_offset", "current_frame", &pitch_offset, 1000, 0, 0);
                 angle_solver.set_pitch_offset(static_cast<double>(pitch_offset) / 100.0);
 
+#endif
 #endif
 #ifdef SHOW_IMAGE
                 ostr << "yaw: " << send_pack_.yaw;
@@ -324,6 +338,10 @@ void Workspace::imageProcessingFunc()
             if (!serial_port.isOpen())
                 exit(1);
         }
+#ifdef RUNNING_TIME
+        cout << "workspace running time: " << timer.getTime() << endl;
+        timer.stop();
+#endif
     }
 }
 
@@ -334,7 +352,7 @@ void Workspace::messageCommunicatingFunc()
     {
         try
         {
-            // serial_port.readData(read_pack_);
+            serial_port.readData(read_pack_);
         }
         catch (SerialException &e1)
         {
@@ -355,13 +373,6 @@ void Workspace::messageCommunicatingFunc()
         }
     }
 #endif
-
-#ifdef USE_CAN
-    while (true)
-    {
-        can_node.receive(read_pack_);
-    }
-#endif
 }
 
 void Workspace::openSerialPort()
@@ -370,14 +381,14 @@ void Workspace::openSerialPort()
     try
     {
 #ifdef USE_SERIAL
-        string port_name = "/dev/ttyUSB0";
+        string port_name = "/dev/top_serial";
         serial_port.open(port_name);
         if (serial_port.isOpen())
         {
             cout << "Open seiral " + port_name + " successfully.\n";
         }
 #endif
-        string plot_port = "/dev/ttyUSB1";
+        string plot_port = "/dev/plot_serial";
         plot_serial.open(plot_port);
         if (plot_serial.isOpen())
         {
@@ -389,15 +400,14 @@ void Workspace::openSerialPort()
     {
         std::cerr << e.what() << '\n';
     }
-#else
-#ifdef USE_SERIAL
+#elif defined(USE_SERIAL)
     string port_name;
     int count = 0;
     while (count < 3)
     {
         try
         {
-            port_name = "/dev/ttyUSB" + to_string(count++);
+            port_name = "/dev/top_serial";
             serial_port.open(port_name);
             if (serial_port.isOpen())
             {
@@ -411,6 +421,5 @@ void Workspace::openSerialPort()
         }
     }
     throw SerialException("Open serial failed. Port is not in /dev/ttyUSB0-2");
-#endif // USE_SERIAL
 #endif // PLOT_DATA
 }

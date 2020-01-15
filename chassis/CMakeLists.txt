@@ -31,8 +31,6 @@ add_executable(HERORM2020_TOP
     src/predictor.cpp
     include/workspace.h
     src/workspace.cpp
-    include/cannode.h
-    src/cannode.cpp
 )
 
 target_link_libraries(HERORM2020_TOP

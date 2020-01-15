@@ -12,24 +12,25 @@
 // #define PLOT_DATA
 // #define RUNNING_TIME
 #define SHOW_IMAGE
-// #define TRACKBAR    // 使用时需取消SHOW_IMAGE的注释
+/* 0 --> offset only  1--> armordetector only  2 --> both */
+#define TRACKBAR 1
+// 使用时需取消SHOW_IMAGE的注释
 
-#define COMPILE_WITH_CUDA
+// #define COMPILE_WITH_CUDA
 // #define DISTORTION_CORRECT
 #define BGR // 不可与HSV同时使用
 // #define HSV    // 不可与BGR同时使用
 #define ROI_ENABLE
 
 #define USE_CAMERA
-// #define USE_SERIAL
-#define USE_CAN 1
-// #define TEST 1    // 1-image, 2-video
+#define USE_SERIAL
+// #define TEST 2 // 1-image, 2-video
 #define IMAGE_PATH "1.jpg"
 #define VIDEO_PATH "1.avi"
-// #define SAVE_VIDEO 2    // 1-save video and run other programs, 2-save video only
+// #define SAVE_VIDEO 1 // 1-save video and run other programs, 2-save video only
 #define VIDEO_SAVED_PATH "1.avi"
 
-#define ENEMY_COLOR 0 // 调试时使用，比赛时必须将其注释
+// #define ENEMY_COLOR 0 // 调试时使用，比赛时必须将其注释
 #define ARMOR_ONLY
 // #define RUNE_ONLY
 

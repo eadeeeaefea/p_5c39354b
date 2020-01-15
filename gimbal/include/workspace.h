@@ -25,7 +25,6 @@
 #include "anglesolver.h"
 #include "runesolver.h"
 #include "predictor.h"
-#include "cannode.h"
 
 #ifdef RUNNING_TIME
 #include "timer.h"
@@ -34,8 +33,7 @@
 using namespace std;
 using namespace cv;
 
-
-class Workspace 
+class Workspace
 {
 private:
     mutex image_buffer_mutex;
@@ -47,7 +45,6 @@ private:
     SerialPort serial_port;
     RuneSolver rune_solver;
     Predictor predictor;
-    CanNode can_node;
 
     vector<Mat> image_buffer_;
     int max_image_buffer_size_;
@@ -72,8 +69,6 @@ private:
     void imageProcessingFunc();
     void messageCommunicatingFunc();
     void openSerialPort();
-
 };
 
-
-#endif  // HERORM2020_WORKSPACE_H
+#endif // HERORM2020_WORKSPACE_H

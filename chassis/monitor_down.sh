@@ -4,15 +4,16 @@
 ### Ubuntu 16.04: rc.local
 ### Ubuntu 18.04: systemd
 
-cd HERORM2020/build
-make clean && make -j4
+cd /home/hero/RM2020/chassis/build
+ls
+make clean && make
 
 count=0
 while [ true ]; do
-    status=`ps -ef | grep HERORM2020 | grep -v grep | wc -l`
+    status=`ps -ef | grep HERORM2020_DOWN | grep -v grep | wc -l`
     if [ $status -eq 0 ]; then
-        echo "HERORM2020 is not running. Restarting..."
-        ./HERORM2020
+        echo "HERORM2020_DOWN is not running. Restarting..."
+        ./HERORM2020_DOWN
         count=count+1
         if [ $count -gt 10 ]; then
             reboot
