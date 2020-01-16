@@ -27,14 +27,16 @@ add_executable(HERORM2020
         src/anglesolver.cpp
         include/runesolver.h
         src/runesolver.cpp
+#       include/dimension_runesolver.h
+#       src/dimension_runesolver.cpp
         include/workspace.h
         src/workspace.cpp
-        src/predictor.cpp
-        include/predictor.h
-#        src/an_predictor.cpp
-#        include/an_predictor.h
+#        src/predictor.cpp
+#        include/predictor.h
         src/cannode.cpp
         include/cannode.h
+        include/universal_prediction.h
+        src/universal_prediction.cpp
         )
 
 target_link_libraries(HERORM2020
