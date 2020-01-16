@@ -52,31 +52,61 @@ public:
 private:
     //常量定义
     const float EXP = 0.5;
-    //拟合圆半径范围
-    static const int MIN_RADIUS = 80;
-    static const int MAX_RADIUS = 90;
     //能量板范围
-    static const int MIN_RuneSolver_AREA = 650;
-    static const int MAX_RuneSolver_AREA = 1500;
+    static const int MIN_RuneSolver_AREA = 500;
+    static const int MAX_RuneSolver_AREA = 1700;
     const float MIN_RuneSolver_RATIO = 1.0f;
-    const float MAX_RuneSolver_RATIO = 2.0f;
+    const float MAX_RuneSolver_RATIO = 2.5f;
     //箭头范围
     static const int MIN_ARROW_AREA = 1450;
-    static const int MAX_ARROW_AREA = 3050;
+    static const int MAX_ARROW_AREA = 4000;
     const float MIN_ARROW_RATIO = 1.5f;
     const float MAX_ARROW_RATIO = 2.6f;
     //PNP解算 能量板实际尺寸
     const float RuneSolver_HALF_LENGTH = 135.0f;
     const float RuneSolver_HALF_WIDTH = 65.0f;
 
-    const int QUEUE_SIZE = 50;
+    const int QUEUE_SIZE = 100;
     //变量部分
-    std::vector<cv::Point3f> object_Points;     //世界坐标系下的坐标
-    std::vector<cv::Point2f> image_Points;      //图像坐标系z下的坐标
+    std::vector<cv::Point3f> object_Points;     //世界坐标系下的坐标//PNP
+    std::vector<cv::Point2f> image_Points;      //图像坐标系z下的坐标//PNP
+    std::vector<cv::Point3f> runesolver_points; //相机坐标系下的runesolver中心的坐标
+    cv::Point3f runecenter; //世界坐标系下的坐标
+    cv::Point3f center;
+    double delta; //最后两帧的角度差
+    cv::Point3f normal_vector; // 法向量
+    double offset_delta = 0; //人为的调参值
+
     cv::Mat rotated_vector;                     //旋转向量
     cv::Mat translation_matrix;                 //平移矩阵
     cv::Mat CAMERA_MATRIX;                      //相机内参矩阵
     cv::Mat DISTCOEFFS;//相机畸变参数
+    //平面拟合,https://blog.csdn.net/AlonewaitingNew/article/details/95217730
+//    cv::Mat MatrixcoefficientA = cv::Mat(3, 3, CV_32F, Scalar(0)); //矩阵系数A
+//    cv::Mat MatrixcoefficientB = cv::Mat(3, 1, CV_32F, Scalar(0)); //矩阵系数B
+//    cv::Mat flat_result = cv::Mat(3, 1, CV_32F, Scalar(0)); //平面拟合的结果
+    //球面拟合
+//    cv::Mat SphericalmatrixA = cv::Mat(3, 3, CV_32F, Scalar(0)); //矩阵系数A
+//    cv::Mat SphericalmatrixB = cv::Mat(3, 1, CV_32F, Scalar(0)); //矩阵系数B
+//    cv::Mat spherical_result = cv::Mat(3, 1, CV_32F, Scalar(0));
+//    double meanx2 = 0, meanx = 0, meanx3 = 0;
+//    double meany2 = 0, meany = 0, meany3 = 0;
+//    double meanz2 = 0, meanz = 0, meanz3 = 0;
+//    double meanxy = 0, meanxz = 0, meanyz = 0;
+//    double meanx2y = 0, meanx2z = 0;
+//    double meany2x = 0, meany2z = 0;
+//    double meanz2x = 0, meanz2y = 0;
+    //参数
+//    float A; //平面参数
+//    float B;
+//    float C;
+//    float x0; //球心坐标
+//    float y0;
+//    float z0;
+    //预测
+    cv::Mat predictmatrixA = cv::Mat(2, 2, CV_32F, Scalar(0));
+    cv::Mat predictmatrixB = cv::Mat(2, 1, CV_32F, Scalar(0)); //预测矩阵系数
+    cv::Mat result_point = cv::Mat(2, 1, CV_32F, Scalar(0));
 #ifndef COMPILE_WITH_CUDA
     cv::Mat src;
     cv::Mat bin;
@@ -88,22 +118,12 @@ private:
 #endif
     RuneMode mode;
     cv::RotatedRect target_RuneSolver;                      //当前帧能量板的最小包围矩形
-    cv::RotatedRect predicted_RuneSolver;                   //预测的能量板的最小包围矩形
     cv::RotatedRect target_arrow;                       //当前帧箭头
     bool isFindRuneSolver;                                  //标志位：是否已找到当前帧中的能量板
     bool isFindArrow;                                   //标志位：是否已找到当前帧中的箭头
     bool isFindCenterR;                                 //标志位：是否已找到风车中心R,每次激活能量机关只需要识别一次即可
     std::vector<cv::Point> RuneSolver_centers;              //箭头中心点坐标队列
     std::vector<cv::Point> arrow_centers;               //箭头中心点坐标队列
-    cv::Point ellipse_center;                            //拟合椭圆圆心坐标
-    cv::Point current_center;                           //当前帧椭圆圆心坐标
-    double ellipse_Xaxis;                               //拟合椭圆X半长轴
-    double ellipse_Yaxis;                               //拟合椭圆Y半长轴
-
-    //预测
-    std::vector<double> angle_array;
-    const float ANGLE_OFFSET = 40.0f;
-    Direction direction;
 public:
     RuneSolver();
 
@@ -111,13 +131,9 @@ public:
 
     void init(const FileStorage &file_storage);
 
-    void run(const Mat &image, const int enemy_color, double &x, double &y, double &z);
+    void run(const Mat &image, const int enemy_color, double &x, double &y, double &z, double ptz_pitch,double ptz_yaw);
 
 private:
-    template<typename T>
-    float getDistance(T p1, T p2) {
-        return sqrt(pow(p1.x - p2.x, 2.0f) + pow(p1.y - p2.y, 2.0f));
-    };
 
     void preprocess(const int enemy_color);
 
@@ -129,19 +145,16 @@ private:
 
     void updateQueue();
 
-    void solveCurrentCenter();
+    void coordinate_transformation(double &x, double &y, double &z, double ptz_pitch, double ptz_yaw);
 
-    bool findCenterR();
+    void anti_coordinate_transformation(double &x, double &y, double &z, double ptz_pitch, double ptz_yaw);
 
-//    bool calculate();
-    bool calculate_ellipse();
-
-    float toPolarCoordinates(const cv::Point &temp_point, const cv::Point &origin_point);     //计算极坐标系下的角度
-    void judgeDirection();                              //判断方向
-    void predicting();                                  //预测位置
-    bool solveDirection();
 
     void solveRealPostiton(const cv::RotatedRect aim);
+
+    bool fit(); //平面拟合返回的值为z = a * x + b * y + c,球拟合返回值为(x0, y0, z0)
+
+    bool predict(); //预测点的队列
 
 };
 
