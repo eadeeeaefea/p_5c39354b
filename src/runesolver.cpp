@@ -17,7 +17,7 @@ RuneSolver::RuneSolver() {
     angle_array.reserve(50);
     direction = DIR_DEFAULT;
     mode = MODE_DEFAULT;
-    object_Points.reserve(5);
+    object_Points.reserve(50);
 }
 
 RuneSolver::~RuneSolver() {
@@ -131,8 +131,8 @@ void RuneSolver::run(const Mat &image, const int enemy_color, double &x, double 
     solveRealPostiton(predicted_RuneSolver);
 
     x = translation_matrix.at<double>(0, 0) / 1000;
-    y = (translation_matrix.at<double>(1, 0) - 49.19) / 1000;
-    z = (translation_matrix.at<double>(2, 0) + 115.62) / 1000;
+    y = (translation_matrix.at<double>(1, 0) - 51.4469) / 1000;
+    z = (translation_matrix.at<double>(2, 0) + 140.7033) / 1000;
     shoot = true;
 }
 
@@ -169,36 +169,45 @@ bool RuneSolver::findRuneSolver() {
     Mat temp_bin;
     bin.copyTo(temp_bin);
 
-    Mat element = getStructuringElement(MORPH_RECT, Size(3, 3));
+    Mat element = getStructuringElement(MORPH_RECT, Size(1, 1));
     dilate(temp_bin, temp_bin, element, Point(-1, -1), 2);
-
-
+#ifdef SHOW_IMAGE
+    imshow("填充前", temp_bin);
+#endif
     floodFill(temp_bin, Point(1, 1), Scalar(255), 0, FLOODFILL_FIXED_RANGE);
+#ifdef SHOW_IMAGE
+    imshow("填充后", temp_bin);
+#endif
 
     element = getStructuringElement(MORPH_RECT, Size(5, 5));
     erode(temp_bin, temp_bin, element, Point(-1, -1), 3);
+#ifdef SHOW_IMAGE
+    imshow("复原后", temp_bin);
+#endif
 #else
     cv::cuda::GpuMat temp_bin_;
     cv::Mat temp_bin;
     temp_bin_.upload(bin);
-    Mat element = getStructuringElement(MORPH_RECT, Size(3, 3));
+    Mat element = getStructuringElement(MORPH_RECT, Size(1, 1));
     Ptr<cv::cuda::Filter> dilateFilter = cv::cuda::createMorphologyFilter(MORPH_DILATE, CV_8U, element, Point(-1, -1),
                                                                           2);
     dilateFilter->apply(temp_bin_, temp_bin_);
     temp_bin_.download(temp_bin);
-
+#ifdef SHOW_IMAGE
+    imshow("填充前", temp_bin);
+#endif
     floodFill(temp_bin, Point(1, 1), Scalar(255), 0, FLOODFILL_FIXED_RANGE);
-
+#ifdef SHOW_IMAGE
+    imshow("填充后", temp_bin);
+#endif
     temp_bin_.upload(temp_bin);
     element = getStructuringElement(MORPH_RECT, Size(5, 5));
     Ptr<cv::cuda::Filter> erodeFilter = cv::cuda::createMorphologyFilter(MORPH_ERODE, CV_8U, element, Point(-1, -1), 2);
     erodeFilter->apply(temp_bin_, temp_bin_);
     temp_bin_.download(temp_bin);
-#endif
 #ifdef SHOW_IMAGE
-    imshow("填充前", temp_bin);
-    imshow("填充后", temp_bin);
     imshow("复原后", temp_bin);
+#endif
 #endif
     vector<vector<Point>> contours;
     vector<Point> target_contour;       //目标轮廓
@@ -261,9 +270,9 @@ bool RuneSolver::findArrow() {
     dilateFilter->apply(temp_bin_, temp_bin_);
     temp_bin_.download(temp_bin);
 #endif
-
+#ifdef SHOW_IMAGE
     imshow("箭头预处理后", temp_bin);
-
+#endif
     vector<vector<Point>> contours;
     vector<Point> target_contour;       //目标轮廓
     findContours(temp_bin, contours, RETR_EXTERNAL, CHAIN_APPROX_NONE);
@@ -484,7 +493,8 @@ bool RuneSolver::calculate_ellipse() {
 void RuneSolver::solveCurrentCenter() {
     Point2f unitVector;             //单位向量
     float theta = toPolarCoordinates(target_RuneSolver.center, target_arrow.center) * PI / 180;
-    float radius = sqrt(pow(ellipse_Xaxis * cos(theta), 2.0) + pow(ellipse_Yaxis * sin(theta), 2.0));
+    // float radius = sqrt(pow(ellipse_Xaxis * cos(theta), 2.0) + pow(ellipse_Yaxis * sin(theta), 2.0));
+    float radius = ellipse_Xaxis * ellipse_Yaxis / sqrt(ellipse_Yaxis * ellipse_Yaxis * cos(theta) * cos(theta) + ellipse_Xaxis * ellipse_Xaxis * sin(theta) * sin(theta));
     unitVector = target_arrow.center - target_RuneSolver.center;
     unitVector /= getDistance(target_arrow.center, target_RuneSolver.center);
     current_center = unitVector * radius + target_RuneSolver.center;
@@ -608,8 +618,11 @@ void RuneSolver::predicting() {
     }
     if (next_angle > 360) next_angle -= 360;
     if (next_angle < 0) next_angle += 360;
-    dx = cos(next_angle * PI / 180) * ellipse_Xaxis;
-    dy = sin(next_angle * PI / 180) * ellipse_Yaxis;
+    // dx = cos(next_angle * PI / 180) * ellipse_Xaxis;
+    // dy = sin(next_angle * PI / 180) * ellipse_Yaxis;
+    float radius = ellipse_Xaxis * ellipse_Yaxis / sqrt(ellipse_Yaxis * ellipse_Yaxis * cos(next_angle) * cos(next_angle) + ellipse_Xaxis * ellipse_Xaxis * sin(next_angle) * sin(next_angle));
+    dx = radius * cos(next_angle * PI / 180);
+    dy = radius * sin(next_angle * PI / 180);
 
     cout << "next_angle = " << next_angle << '\n';
     cout << "dx,dy:" << dx << "   " << dy << '\n';

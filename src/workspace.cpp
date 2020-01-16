@@ -158,7 +158,7 @@ void Workspace::imageProcessingFunc() {
 #ifdef USE_CAMERA
             if (!image_buffer.empty()) {
 #else
-                if (1) {
+            if (1) {
 #endif  // USE_CAMERA
 #ifdef USE_CAMERA
 #ifdef RUNNING_TIME
@@ -178,7 +178,7 @@ void Workspace::imageProcessingFunc() {
 #endif  // USE_CAMERA
 #if TEST == 2
                 cap >> current_frame;
-                if (current_frame.empty())     exit(0);
+                if (current_frame.empty()) exit(0);
 #endif
 #ifdef SHOW_IMAGE
                 src = current_frame.clone();
@@ -200,99 +200,89 @@ void Workspace::imageProcessingFunc() {
 //                    cout << target.x << "," << target.y << "," << target.z << endl;
 //                    predictor.run(target.x, target.y, target.z);
 //                    cout << target.x << "," << target.y << "," << target.z << endl;
-                    angle_solver.run(target.x, target.y, target.z, read_pack.bullet_speed, send_pack.yaw, send_pack.pitch, read_pack.pitch);
-                    cout << "pitch: " << read_pack.pitch << endl;
+                    angle_solver.run(target.x, target.y, target.z, 20, send_pack.yaw,
+                                     send_pack.pitch, read_pack.pitch);
+//                    cout << "pitch: " << read_pack.pitch << endl;
                     send_pack.mode = 0;
 
                 } else if (read_pack.mode == Mode::RUNE) {
 
-                    if (current_frame.empty()) continue;
-                    rune_solver.run(current_frame, read_pack.enemy_color, target.x, target.y, target.z);
-
-
-                    if (rune_solver.shoot) {
-                        if (!rune_solver.isCalibrated) {
-                            angle_solver.setOriginPitch(read_pack.pitch);
-                            angle_solver.setOriginYaw(read_pack.yaw);
-                            rune_solver.isCalibrated = true;
-                        }
-                        cout << target.x << "  " << target.y << "  " << target.z << endl;
-                        angle_solver.run(target.x, target.y, target.z, read_pack.bullet_speed, send_pack.yaw, send_pack.pitch,
-                                         read_pack.pitch);
-                        putText(current_frame, "send_pitch:" + to_string(send_pack.pitch), Point(10, 150), 1,
-                                1.5,
-                                Scalar(255, 255, 255));
-                        putText(current_frame, "send_yaw:" + to_string(send_pack.yaw), Point(10, 200), 1, 1.5,
-                                Scalar(255, 255, 255));
-                        for (int i = 0; i < 3; ++i) {
-#ifdef USE_SERIAL
-                            send_pack.mode = 1;
-                            send_pack.yaw = send_pack.yaw / 3;
-                            send_pack.pitch = send_pack.pitch / 3;
-                            serial_port.sendData(send_pack);
-
-#endif
-#ifdef USE_CAN
-                            send_pack.mode = 1;
-                            send_pack.yaw = send_pack.yaw / 3;
-                            send_pack.pitch = send_pack.pitch / 3;
-                            can_node.send(send_pack);
-#endif
-                        }
+//                    if (current_frame.empty()) continue;
+//                    rune_solver.run(current_frame, read_pack.enemy_color, target.x, target.y, target.z);
+//
+//
+//                    if (rune_solver.shoot) {
+//                        if (!rune_solver.isCalibrated) {
+//                            angle_solver.setOriginPitch(read_pack.pitch);
+//                            angle_solver.setOriginYaw(read_pack.yaw);
+//                            rune_solver.isCalibrated = true;
+//                        }
+////                        cout << target.x << "  " << target.y << "  " << target.z << endl;
+//                          cout<<"ptz pitch :"<<read_pack.pitch<<endl;
+//                        angle_solver.run(target.x, target.y, target.z, read_pack.bullet_speed, send_pack.yaw,
+//                                         send_pack.pitch,
+//                                         read_pack.pitch);
+//#ifdef SHOW_IMAGE
+//                        putText(current_frame, "send_pitch:" + to_string(send_pack.pitch), Point(10, 150), 1,
+//                                1.5,
+//                                Scalar(255, 255, 255));
+//                        putText(current_frame, "send_yaw:" + to_string(send_pack.yaw), Point(10, 200), 1, 1.5,
+//                                Scalar(255, 255, 255));
+//#endif
 //                        send_pack.mode = 1;
+//#ifdef USE_SERIAL
 //                        serial_port.sendData(send_pack);
-                    } else if (rune_solver.isLoseAllTargets && rune_solver.isCalibrated) {
-                        cout << target.x << "  " << target.y << "  " << target.z << endl;
-                        cout << "复位!\n";
-                        send_pack.pitch = angle_solver.getOriginPitch() - read_pack.pitch;
-                        send_pack.yaw = angle_solver.getOriginYaw() - read_pack.yaw;
-#ifdef SHOW_IMAGE
-                        putText(current_frame, "O_pitch:" + to_string(angle_solver.getOriginPitch()),
-                                Point(10, 250),
-                                1, 1.5, Scalar(255, 255, 255));
-                        putText(current_frame, "O_yaw:" + to_string(angle_solver.getOriginYaw()),
-                                Point(10, 300), 1,
-                                1.5, Scalar(255, 255, 255));
-                        putText(current_frame, "send_pitch:" + to_string(send_pack.pitch), Point(10, 150), 1,
-                                1.5,
-                                Scalar(255, 255, 255));
-                        putText(current_frame, "send_yaw:" + to_string(send_pack.yaw), Point(10, 200), 1, 1.5,
-                                Scalar(255, 255, 255));
-#endif
-                        for (int i = 0; i < 3; ++i) {
-#ifdef USE_SERIAL
-                            send_pack.mode = 1;
-                            send_pack.yaw = send_pack.yaw / 3;
-                            send_pack.pitch = send_pack.pitch / 3;
-                            serial_port.sendData(send_pack);
-#endif
-#ifdef USE_CAN
-                            send_pack.mode = 1;
-                            send_pack.yaw = send_pack.yaw / 3;
-                            send_pack.pitch = send_pack.pitch / 3;
-                            can_node.send(send_pack);
-#endif
-                        }
-//                        send_pack.mode = 1;
+//#endif
+//#ifdef USE_CAN
+//                        can_node.send(send_pack);
+//#endif
+//                    } else if (rune_solver.isLoseAllTargets && rune_solver.isCalibrated) {
+//                        cout << target.x << "  " << target.y << "  " << target.z << endl;
+//                        cout << "复位!\n";
+//#ifdef SHOW_IMAGE
+//                        putText(current_frame, "O_pitch:" + to_string(angle_solver.getOriginPitch()),
+//                                Point(10, 250),
+//                                1, 1.5, Scalar(255, 255, 255));
+//                        putText(current_frame, "O_yaw:" + to_string(angle_solver.getOriginYaw()),
+//                                Point(10, 300), 1,
+//                                1.5, Scalar(255, 255, 255));
+//                        putText(current_frame, "send_pitch:" + to_string(send_pack.pitch), Point(10, 150), 1,
+//                                1.5,
+//                                Scalar(255, 255, 255));
+//                        putText(current_frame, "send_yaw:" + to_string(send_pack.yaw), Point(10, 200), 1, 1.5,
+//                                Scalar(255, 255, 255));
+//#endif
+//#ifdef USE_SERIAL
+//                        send_pack.pitch = angle_solver.getOriginPitch() - read_pack.pitch;
+//                        send_pack.yaw = angle_solver.getOriginYaw() - read_pack.yaw;
 //                        serial_port.sendData(send_pack);
-                    }
-#ifdef SHOW_IMAGE
-                    putText(current_frame, "read_pitch:" + to_string(read_pack.pitch),
-                            Point(10, 350),
-                            1, 1.5, Scalar(255, 255, 255));
-                    putText(current_frame, "read_yaw:" + to_string(read_pack.yaw),
-                            Point(10, 400), 1,
-                            1.5, Scalar(255, 255, 255));
-#endif
+//#endif
+//#ifdef USE_CAN
+//                        send_pack.pitch = angle_solver.getOriginPitch() - read_pack.pitch;
+//                        send_pack.yaw = angle_solver.getOriginYaw() - read_pack.yaw;
+//                        can_node.send(send_pack);
+//#endif
+//                    }
+//#ifdef SHOW_IMAGE
+//                    putText(current_frame, "read_pitch:" + to_string(read_pack.pitch),
+//                            Point(10, 350),
+//                            1, 1.5, Scalar(255, 255, 255));
+//                    putText(current_frame, "read_yaw:" + to_string(read_pack.yaw),
+//                            Point(10, 400), 1,
+//                            1.5, Scalar(255, 255, 255));
+//#endif
+                    rune_solver.run(current_frame, read_pack.enemy_color, target.x, target.y, target.z, 10, 10);
+                    angle_solver.run(target.x, target.y, target.z, 20, send_pack.yaw,
+                                     send_pack.pitch, read_pack.pitch);
                 } else {
                     continue;
                 }
-#if defined(USE_SERIAL) && !defined(RUNE_ONLY) && !defined(TEST)
+#if defined(USE_SERIAL) && !defined(TEST)
                 serial_port.sendData(send_pack);
 #endif
-#if defined(USE_CAN) && !defined(RUNE_ONLY)
-                send_pack.yaw = 1.5;
-                send_pack.pitch = 1.3;
+#if defined(USE_CAN) && !defined(TEST)
+//                send_pack.yaw = 1.5;
+//                send_pack.pitch = 1.3;
                 can_node.send(send_pack);
 //                cout << "sucessfully" << endl;
 #endif
@@ -302,11 +292,11 @@ void Workspace::imageProcessingFunc() {
                 plot_pack.plot_value[2] = target.z;
                 plot_serial.sendPlot(plot_pack);
 #endif
-                 cout << "x: " << target.x << "\t"
-                      << "y: " << target.y << "\t"
-                      << "z: " << target.z << "\n"
-                      << "yaw: " << send_pack.yaw << "\t"
-                      << "pitch: " << send_pack.pitch << endl;
+                cout << "x: " << target.x << "\t"
+                     << "y: " << target.y << "\t"
+                     << "z: " << target.z << "\n"
+                     << "yaw: " << send_pack.yaw << "\t"
+                     << "pitch: " << send_pack.pitch << endl;
 #ifdef TRACKBAR
                 namedWindow("current_frame", 1);
 
@@ -344,7 +334,7 @@ void Workspace::imageProcessingFunc() {
 #if TEST == 1
                 if (waitKey(0) == 27)     exit(0);
 #elif TEST == 2
-                if (waitKey(30) == 27)     break;
+                if (waitKey(30) == 27) break;
 #endif
 #endif  // SHOW_IMAGE
 #ifdef RUNNING_TIME
@@ -406,9 +396,18 @@ void Workspace::messageCommunicatingFunc() {
     }
 #endif
 #ifdef USE_CAN
-    while(true){
+#ifdef ARMOR_ONLY
+    while (true) {
         can_node.receive(read_pack);
     }
+#endif
+#ifdef RUNE_ONLY
+    while (true) {
+        can_node.receive(read_pack);
+        if(read_pack.yaw > 180)
+            read_pack.yaw = read_pack.yaw - 360;
+    }
+#endif
 #endif
 
 }
