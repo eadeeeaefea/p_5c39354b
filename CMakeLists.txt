@@ -27,8 +27,6 @@ add_executable(HERORM2020
         src/anglesolver.cpp
         include/runesolver.h
         src/runesolver.cpp
-#       include/dimension_runesolver.h
-#       src/dimension_runesolver.cpp
         include/workspace.h
         src/workspace.cpp
 #        src/predictor.cpp
