@@ -14,9 +14,9 @@
 
 class Timer {
 private:
-    clock_t time_start;
-    clock_t time_end;
-    bool is_open;
+    clock_t start_;
+    clock_t end_;
+    bool is_open_;
 
 public:
     Timer();

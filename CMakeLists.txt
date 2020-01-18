@@ -29,6 +29,8 @@ add_executable(HERORM2020
     src/runesolver.cpp
     include/workspace.h
     src/workspace.cpp
+    include/cannode.h
+    src/cannode.cpp
     include/predictor.h
     src/predictor.cpp
 )
