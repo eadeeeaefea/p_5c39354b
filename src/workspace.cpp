@@ -203,16 +203,11 @@ void Workspace::imageProcessingFunc()
 #ifdef ARMOR_ONLY
                 read_pack_.mode = Mode::ARMOR;
 #endif
-
-#ifdef RUNE_ONLY
-                read_pack_.mode = Mode::RUNE;
-#endif
-
 #ifdef ENEMY_COLOR
                 read_pack_.enemy_color = ENEMY_COLOR;
 #endif
                 if (current_frame_.empty())
-                    continue;
+                    continue;//不连摄像头且不放视频无法通信
 
                 if (read_pack_.mode == Mode::ARMOR)
                 {
@@ -223,13 +218,6 @@ void Workspace::imageProcessingFunc()
                     angle_solver.run(target_.x, target_.y, target_.z, 20, send_pack_.yaw, send_pack_.pitch, read_pack_.pitch);
                     send_pack_.mode = 0;
                 }
-                else if (read_pack_.mode == Mode::RUNE)
-                {
-
-                    rune_solver.run(current_frame_, target_.x, target_.y, target_.z);
-                    angle_solver.run(target_.x, target_.y, target_.z, 28, send_pack_.yaw, send_pack_.pitch, read_pack_.pitch);
-                    send_pack_.mode = 1;
-                }
                 else
                 {
                     continue;
@@ -239,7 +227,7 @@ void Workspace::imageProcessingFunc()
 #endif
 
 #ifdef USE_CAN
-              //send_pack_.  =
+              //send_pack_.  =赋值函数
                 can_node.send(send_pack_);
 #endif
 

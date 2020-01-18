@@ -31,14 +31,13 @@
 
 #define ENEMY_COLOR 0 // 调试时使用，比赛时必须将其注释
 #define ARMOR_ONLY
-// #define RUNE_ONLY
 
 #define PI 3.141592654
 
 #define FRAME_WIDTH 640
 #define FRAME_HEIGHT 480
 #define EXPOSURE_TIME 400
-#define PARAM_PATH "../param/param.xml"
+#define PARAM_PATH "../param/param1.xml"
 
 typedef struct
 {
