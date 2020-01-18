@@ -19,9 +19,9 @@ TargetSolver::~TargetSolver() {
 }
 
 void TargetSolver::init(const FileStorage &file_storage) {
-    file_storage["camera_matrix"] >> camera_matrix_;
-    file_storage["distortion_coeff"] >> distortion_coeff_;
-    solve_algorithm_ = SOLVEPNP_EPNP;
+    file_storage["camera_matrix"] >> camera_matrix;
+    file_storage["distortion_coeff"] >> distortion_coeff;
+    solve_algorithm = SOLVEPNP_EPNP;
 }
 
 void TargetSolver::run(const RotatedRect &armor, Target &target) {
@@ -41,9 +41,9 @@ void TargetSolver::run(const RotatedRect &armor, Target &target) {
     double ratio = (armor.size.width > armor.size.height) ?
                    (armor.size.width / armor.size.height) :
                    (armor.size.height / armor.size.width);
-    is_big_armor = ratio > 5.0;
-    solvePnP4Points(armor, is_big_armor, rotate_mat_, trans_mat_);
-    camera2ptzTransform(trans_mat_, target);
+    is_big_armor = ratio > 4.8;
+    solvePnP4Points(armor, is_big_armor, rotate_mat, trans_mat);
+    camera2ptzTransform(trans_mat, target);
 
 #ifdef RUNNING_TIME
     cout << "solve target time: " << timer.getTime() << "ms" << endl;
@@ -53,10 +53,10 @@ void TargetSolver::run(const RotatedRect &armor, Target &target) {
 
 void TargetSolver::solvePnP4Points(const RotatedRect &rect,
                                    const bool is_big_armor,
-                                   Mat &rotate_mat,
-                                   Mat &trans_mat) {
-    Point2f vertices[4];
-    Point2f left_up, left_down, right_up, right_down;
+                                   Mat &rotate,
+                                   Mat &trans) {
+    static Point2f vertices[4];
+    static Point2f left_up, left_down, right_up, right_down;
     rect.points(vertices);
     sort(vertices, vertices + 4, [](const Point2f &p1, const Point2f &p2) {
            return p1.x < p2.x;
@@ -77,13 +77,14 @@ void TargetSolver::solvePnP4Points(const RotatedRect &rect,
        right_down = vertices[2];
     }
 
-    vector<Point2f> points2d;
+    static vector<Point2f> points2d;
+    points2d.clear();
     points2d.push_back(left_up);
     points2d.push_back(right_up);
     points2d.push_back(right_down);
     points2d.push_back(left_down);
 
-    double half_w, half_h;
+    static double half_w, half_h;
     if (is_big_armor) {
         half_w = 115.04;  // big_armor_width = 230.08
         half_h = 27.74;   // big_armor_height = 55.48
@@ -92,20 +93,21 @@ void TargetSolver::solvePnP4Points(const RotatedRect &rect,
         half_h = 27.74;   // small_armor_height = 55.48
     }
 
-    vector<Point3f> points3d;  // points3d中的点需和points2d中的点按顺序一一对应
+    static vector<Point3f> points3d;  // points3d中的点需和points2d中的点按顺序一一对应
+    points3d.clear();
     points3d.push_back(Point3f(-half_w, -half_h, 0));
     points3d.push_back(Point3f(half_w, -half_h, 0));
     points3d.push_back(Point3f(half_w, half_h, 0));
     points3d.push_back(Point3f(-half_w, half_h, 0));
 
     // calculating speed: P3P > EPNP > Iterative
-    solvePnP(points3d, points2d, camera_matrix_, distortion_coeff_, rotate_mat, trans_mat, false, solve_algorithm_);
+    solvePnP(points3d, points2d, camera_matrix, distortion_coeff, rotate, trans, false, solve_algorithm);
     // Rodrigues(rotate_mat, rotate_mat);  // 使用旋转矩阵时需将注释去掉
 }
 
 void TargetSolver::camera2ptzTransform(const Mat &camera_position,
                                        Target &ptz_position) {
     ptz_position.x = camera_position.at<double>(0,0) / 1000;
-    ptz_position.y = (camera_position.at<double>(1,0) - 49.19) / 1000;
-    ptz_position.z = (camera_position.at<double>(2,0) + 115.62) / 1000;
+    ptz_position.y = (camera_position.at<double>(1,0) - 51.4469) / 1000;  // 云台坐标系y向上
+    ptz_position.z = (camera_position.at<double>(2,0) + 140.7033) / 1000;
 }

@@ -14,7 +14,7 @@ bool CanNode::init() {
     bool status = true;
 
 #ifdef USE_CAN
-    #if USE_CAN == 0
+#if USE_CAN == 0
     dev_name = "can0";
 #elif USE_CAN == 1
     dev_name = "can1";
@@ -127,7 +127,7 @@ bool CanNode::unpack(const Frame &frame, ReadPack &read_pack) {
     int16_t temp_pitch = (static_cast<int16_t>(frame.data[2]) << 8) + static_cast<int16_t>(frame.data[3]);
     read_pack.pitch = static_cast<double>(temp_pitch * 0.01);
     int16_t temp_yaw = (static_cast<int16_t>(frame.data[4]) << 8) + static_cast<int16_t>(frame.data[5]);
-    read_pack.yaw = static_cast<double>(temp_yaw * 0.01);
+    read_pack.yaw = static_cast<double>(temp_yaw * 0.02);
 
     // printf("receiving: ");
     // for(int i = 0; i < 8; ++i)

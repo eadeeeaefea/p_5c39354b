@@ -1,6 +1,8 @@
 /******************************************************************************
  Copyright© HITwh HERO-RoboMaster2020 Group
+
  Author: Wang Xiaoyan on 2019.10.12
+
  Detail: 串口相关。实现串口相关参数的设定和初始化，并以协调好的通信协议进行数据的收发。
  *****************************************************************************/
 
@@ -19,6 +21,10 @@ using std::exception;
 
 class SerialPort {
 private:
+//    enum Mode {
+//        ARMOR,
+//        RUNE
+//    };
     string port_name_;
     long baud_rate_;
     int byte_size_;

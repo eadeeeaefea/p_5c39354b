@@ -1,7 +1,8 @@
-
 /******************************************************************************
  Copyright© HITwh HERO-RoboMaster2020 Group
+
  Author: Wang Xiaoyan on 2019.9.20
+
  Detail:
  *****************************************************************************/
 
@@ -68,10 +69,10 @@ private:
     const float RuneSolver_HALF_LENGTH = 135.0f;
     const float RuneSolver_HALF_WIDTH = 65.0f;
 
-    const int QUEUE_SIZE = 300;
+    const int QUEUE_SIZE = 50;
     //变量部分
     std::vector<cv::Point3f> object_Points;     //世界坐标系下的坐标
-    std::vector<cv::Point2f> image_Points;      //图像坐标系下的坐标
+    std::vector<cv::Point2f> image_Points;      //图像坐标系z下的坐标
     cv::Mat rotated_vector;                     //旋转向量
     cv::Mat translation_matrix;                 //平移矩阵
     cv::Mat CAMERA_MATRIX;                      //相机内参矩阵

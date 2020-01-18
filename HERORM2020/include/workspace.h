@@ -23,15 +23,16 @@
 #include "armordetector.h"
 #include "targetsolver.h"
 #include "anglesolver.h"
-#include "runesolver.h"
+//#include "runesolver.h"
+#include "dimension_runesolver.h"
 #include "predictor.h"
-#include "an_predictor.h"
+//#include "an_predictor.h"
 #include "cannode.h"
 
-
-
 #ifdef RUNNING_TIME
+
 #include "timer.h"
+
 #endif
 
 using namespace std;
@@ -40,10 +41,10 @@ using namespace cv;
 
 class Workspace {
 private:
-    enum Mode {
-        ARMOR,
-        RUNE
-    };
+//    enum Mode {
+//        ARMOR,
+//        RUNE
+//    };
 
     mutex image_buffer_mutex;
 
@@ -53,32 +54,39 @@ private:
     MVCamera mv_camera;
     SerialPort serial_port;
     RuneSolver rune_solver;
-    Predictor predictor;
-    HPredictor hpredictor;
-
     CanNode can_node;
+    //有两套Predictor代码通过include可以切换,此时用的是kalman预测
+    Predictor predictor;
 
-    vector<Mat> image_buffer_;
-    int max_image_buffer_size_;
-    Mat current_frame_;
-    RotatedRect target_armor_;
-    Target target_;
-    SendPack send_pack_;
-    ReadPack read_pack_;
+
+    vector<Mat> image_buffer;
+    int max_image_buffer_size;
+    Mat current_frame;
+    RotatedRect target_armor;
+    Target target;
+    SendPack send_pack;
+    ReadPack read_pack;
 
     // plot used
     SerialPort plot_serial;
-    PlotPack plot_pack_;
+    PlotPack plot_pack;
+
 public:
     Workspace();
+
     ~Workspace();
+
     void init();
+
     void run();
 
 private:
     void imageReceivingFunc();
+
     void imageProcessingFunc();
+
     void messageCommunicatingFunc();
+
     void openSerialPort();
 
 };

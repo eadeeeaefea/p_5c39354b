@@ -1,7 +1,8 @@
-
 /******************************************************************************
  Copyright© HITwh HERO-RoboMaster2020 Group
+
  Author: Wang Xiaoyan on 2019.10.12
+
  Detail: 实现串口相关参数的设定和初始化，并通过协调好的通信协议进行数据的打包和解包，完成数据
          的收发。
  *****************************************************************************/
@@ -513,9 +514,9 @@ bool SerialPort::sendPlot(const PlotPack &plot_pack)
 
     uint8_t plot_type = 1;
     uint8_t curve_num = 3;
-    //double x = 23;
-    //double y = 13;
-    //double z = 44;
+    double x = 23;
+    double y = 13;
+    double z = 44;
 
     send_bytes[1] = plot_pack.plot_type;
     send_bytes[2] = plot_pack.curve_num;
