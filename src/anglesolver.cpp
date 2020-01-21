@@ -34,13 +34,13 @@ void AngleSolver::run(double x, double y, double z, double v,
 #endif
 
     if (parabolaSolve(sqrt(x * x + z * z), y, v, pitch, ptz_pitch)) {
-        if (z > 2.5) {
-            pitch = -pitch - 0.65;
-            yaw = atan(x / z) / PI * 180 - 0.6;
-        } else {
+//        if (z > 2.5) {
+//            pitch = -pitch - 0.65;
+//            yaw = atan(x / z) / PI * 180 - 0.6;
+//        } else {
             pitch = -pitch;
             yaw = atan(x / z) / PI * 180;
-        }
+ //       }
     } else {
         pitch = 0.0;
         yaw = 0.0;
