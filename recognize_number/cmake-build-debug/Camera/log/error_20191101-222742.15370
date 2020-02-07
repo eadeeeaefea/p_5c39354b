@@ -1,0 +1,4 @@
+Log file created at: 2019/11/01 22:27:42
+Running on machine: zj-XPS-13-9370
+Log line format: [IWEF]mmdd hh:mm:ss.uuuuuu threadid file:line] msg
+E1101 22:27:42.026376 15370 MVCAMAPI.cpp:309] CameraInit Failed, err:-13,Version:2.1.0.6,FriendlyName:MV-SUA33GC#0,SN:049080710031
