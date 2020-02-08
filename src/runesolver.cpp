@@ -17,7 +17,7 @@ RuneSolver::RuneSolver() {
     direction = DIR_DEFAULT;
     mode = MODE_DEFAULT;
     object_Points.reserve(5);
-    writer.open("/home/stayalive/Documents/HERO/Hero2020_final/1.avi", 0, 25.0, Size(40, 40));
+//    writer.open("/home/stayalive/Documents/HERO/Hero2020_final/1.avi", 0, 25.0, Size(40, 40));
 }
 
 RuneSolver::~RuneSolver() {
@@ -106,10 +106,10 @@ void RuneSolver::run(const Mat &image, const int enemy_color, double v, double &
         send_pitch = send_yaw = 0;
     }
 
-    circle(src, hit_angle, 2, Scalar(255, 0, 0), 1, -1);
-    circle(src, predict_angle, 2, Scalar(0, 255, 0), 1, -1);
-    imshow("src", src);
-    writer << src(Rect(Point(90, 85), Point(130, 125)));
+//    circle(src, hit_angle, 2, Scalar(255, 0, 0), 1, -1);
+//    circle(src, predict_angle, 2, Scalar(0, 255, 0), 1, -1);
+//    imshow("src", src);
+//    writer << src(Rect(Point(90, 85), Point(130, 125)));
 //    if (waitKey(1) == 27) {
 //        exit(0);
 //    }
