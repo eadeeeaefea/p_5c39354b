@@ -40,7 +40,7 @@ void AngleSolver::run(double x, double y, double z, double v,
 //        } else {
             pitch = -pitch;
             yaw = atan(x / z) / PI * 180;
- //       }
+//        }
     } else {
         pitch = 0.0;
         yaw = 0.0;
