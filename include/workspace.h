@@ -23,10 +23,8 @@
 #include "armordetector.h"
 #include "targetsolver.h"
 #include "anglesolver.h"
-//#include "runesolver.h"
-#include "dimension_runesolver.h"
+#include "runesolver.h"
 #include "predictor.h"
-//#include "an_predictor.h"
 #include "cannode.h"
 
 #ifdef RUNNING_TIME
@@ -46,6 +44,8 @@ private:
 //        RUNE
 //    };
 
+    float sum_pitch, sum_yaw; // 绝对转动角度
+
     mutex image_buffer_mutex;
 
     ArmorDetector armor_detector;
@@ -55,8 +55,7 @@ private:
     SerialPort serial_port;
     RuneSolver rune_solver;
     CanNode can_node;
-    //有两套Predictor代码通过include可以切换,此时用的是kalman预测
-    Predictor predictor;
+//    Predictor predictor;
 
 
     vector<Mat> image_buffer;

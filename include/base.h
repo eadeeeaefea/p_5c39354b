@@ -11,7 +11,7 @@
 
 
 //#define RUNNING_TIME
-#define SHOW_IMAGE
+//#define SHOW_IMAGE
 //#define TRACKBAR    // 使用时需取消SHOW_IMAGE的注释
 
 //#define COMPILE_WITH_CUDA
@@ -24,10 +24,10 @@
 #define TEST 2    // 1-image, 2-video
 //#define IMAGE_PATH "1.jpg"
 #define VIDEO_PATH "/home/stayalive/Documents/HERO/2.avi" //1.avi 装甲板 2.avi rune
-// #define SAVE_VIDEO 2    // 1-save video and run other programs, 2-save video only
+//#define SAVE_VIDEO 2    // 1-save video and run other programs, 2-save video only
 //#define VIDEO_SAVED_PATH "1.avi"
 
-#define ENEMY_COLOR 0    // 调试时使用，比赛时必须将其注释
+#define ENEMY_COLOR 0   // 调试时使用，比赛时必须将其注释
 //#define ARMOR_ONLY
 #define RUNE_ONLY
 
@@ -39,7 +39,7 @@
 
 #define FRAME_WIDTH   640
 #define FRAME_HEIGHT  480
-#define EXPOSURE_TIME 1000
+#define EXPOSURE_TIME 500
 #define PARAM_PATH "../param/param.xml"    // 开自启时需改为绝对路径
 
 typedef struct {
