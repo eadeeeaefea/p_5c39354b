@@ -3,7 +3,7 @@
 
  Author: Wang Xiaoyan on 2019.9.20
 
-  Update: Zeng Jing on 2019.12.17.
+ Update: Zeng Jing && Bruce Hou on 2019.12.17.
 
  Detail:
  *****************************************************************************/
@@ -50,6 +50,27 @@ void AngleSolver::run(double x, double y, double z, double v,
     cout << "solve angle time: " << timer.getTime() << "ms" << endl;
     timer.stop();
 #endif
+}
+
+double AngleSolver::get_flight_time(double x, double y, double z, double v, double ptz_pitch){
+    double x_x = sqrt(x * x + z * z);
+    double y_y = y;
+    double time;
+    static const double g = 9.7988;
+    double res, res_1;
+    double delta_angle;
+    double x_bar;
+    double y_bar;
+    delta_angle = ptz_pitch * PI / 180;
+    x_bar = x_x * cos(delta_angle) + y_y * sin(delta_angle);
+    y_bar = -x_x * sin(delta_angle) + y_y * cos(delta_angle);
+    time = 2.0 * ((y_bar * g + v * v) - sqrt(pow(g * y_bar + v * v, 2.0) - (x_bar * x_bar + y_bar * y_bar) * g * g)) /
+           (g * g);
+    time = sqrt(time);
+    if(isnan(time)){
+        time = 0;
+    }
+    return time;
 }
 
 bool AngleSolver::parabolaSolve(double x, double y, double v, double &theta, double ptz_pitch) {
@@ -116,6 +137,7 @@ bool AngleSolver::parabolaSolve(double x, double y, double v, double &theta, dou
     return true;
 
 }
+
 
 double AngleSolver::get_yaw_offset() {
     return yaw_offset_;

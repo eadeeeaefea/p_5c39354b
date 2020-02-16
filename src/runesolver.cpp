@@ -17,7 +17,7 @@ RuneSolver::RuneSolver() {
     direction = DIR_DEFAULT;
     mode = MODE_DEFAULT;
     object_Points.reserve(5);
-//    writer.open("/home/stayalive/Documents/HERO/Hero2020_final/1.avi", 0, 25.0, Size(40, 40));
+//    writer.open("/home/stayalive/Documents/HERO/Hero2020_final/1.avi", 0, 25.0, Size(//));
 }
 
 RuneSolver::~RuneSolver() {
@@ -42,14 +42,14 @@ void RuneSolver::run(const Mat &image, const int enemy_color, double v, double &
     //找能量板
     if (findRuneSolver()) {
         circle(src, target_RuneSolver.center, 1, Scalar(0, 255, 0), 1);
-//        draw.drawRectangle(src, target_RuneSolver, Scalar(0, 255, 0));
+//        draw(src, target_RuneSolver);
     } else {
 //        cout << "no RuneSolver" << endl;
     }
     //找箭头
     if (findArrow()) {
         circle(src, target_arrow.center, 1, Scalar(0, 255, 0), -1);
-//        draw.drawRectangle(src, target_arrow, Scalar(0, 255, 0));
+//        draw(src, target_arrow);
     } else {
 //        cout << " no arrow" << endl;
     }
@@ -68,12 +68,14 @@ void RuneSolver::run(const Mat &image, const int enemy_color, double v, double &
     real_point.y = (translation_matrix.at<double>(1, 0) - 51.4469) / 1000;
     real_point.z = (translation_matrix.at<double>(2, 0) + 140.7033) / 1000;
     anglesolver.run(real_point.x, real_point.y, real_point.z, v, send_pitch, send_yaw, read_pitch);
+
+//    flight_time = anglesolver.get_flight_time(real_point.x, real_point.y, real_point.z, v, read_pitch);
+//    cout << "flight time: " << flight_time << endl;
+
+
     hit_angle.x = static_cast<float>(read_pitch + send_pitch);
     hit_angle.y = static_cast<float>(send_yaw + read_yaw);
     updateQueue();
-//    for(int i = 0; i < angle_set.size(); i++){
-//        cout << "angle " << i << ": " << angle_set[i] << endl;
-//    }
     if (direction == DIR_DEFAULT) {
         if (!solveDirection())
             return;
@@ -88,6 +90,8 @@ void RuneSolver::run(const Mat &image, const int enemy_color, double v, double &
                 break;
         }
     }
+//    getangularvelocity();
+//    cout << "angular_velocity:" << angular_velocity << endl;
     predict();
     send_pitch = predict_angle.x - read_pitch;
     send_yaw = predict_angle.y - read_yaw;
@@ -105,18 +109,18 @@ void RuneSolver::run(const Mat &image, const int enemy_color, double v, double &
     if (isnan(send_pitch) || isnan(send_yaw)) {
         send_pitch = send_yaw = 0;
     }
-
-//    circle(src, hit_angle, 2, Scalar(255, 0, 0), 1, -1);
-//    circle(src, predict_angle, 2, Scalar(0, 255, 0), 1, -1);
-//    imshow("src", src);
-//    writer << src(Rect(Point(90, 85), Point(130, 125)));
+#ifdef SHOW_IMAGE
+    circle(src, hit_angle, 2, Scalar(255, 0, 0), 1, -1);
+    circle(src, predict_angle, 2, Scalar(0, 255, 0), 1, -1);
+    imshow("src", src);
 //    if (waitKey(1) == 27) {
 //        exit(0);
 //    }
 //    if (waitKey(1) < 0) {
 //        waitKey();
 //    }
-    waitKey(30);
+    //    waitKey(30);
+#endif
 }
 
 float RuneSolver::getDistance(Point2f p1, Point2f p2) {
@@ -244,7 +248,7 @@ bool RuneSolver::findArrow() {
 #ifndef COMPILE_WITH_CUDA
     Mat temp_bin;
     bin.copyTo(temp_bin);
-    Mat element = getStructuringElement(MORPH_RECT, Size(1, 1));
+    Mat element = getStructuringElement(MORPH_RECT, Size(3, 3));
     dilate(temp_bin, temp_bin, element, Point(-1, -1), 2);
 #else
     cv::cuda::GpuMat temp_bin_;
@@ -320,7 +324,8 @@ void RuneSolver::solveRealPostiton(const cv::RotatedRect aim) {
     //按顺时针重新排列四个角点
     for (i = 0; i < 4; ++i)
         image_Points.emplace_back(vertices[i]);
-    dis = sqrt(pow(image_Points[0].x - image_Points[1].x, 2) + pow(image_Points[0].y - image_Points[1].y, 2));
+    dis = static_cast<float>(sqrt(
+            pow(image_Points[0].x - image_Points[1].x, 2) + pow(image_Points[0].y - image_Points[1].y, 2)));
     if (abs(dis - rect.size.height) > EXP) {
         temp = image_Points[0];
         image_Points.erase(image_Points.begin());
@@ -388,8 +393,8 @@ bool RuneSolver::calculate_ellipse() {
 //    }
 //    ellipse_Yaxis = getDistance(temp_points[0], temp_points[1]) / 2;
 //    ellipse_Xaxis = getDistance(temp_points[1], temp_points[2]) / 2;
-    cout << "ellipse_Xaxis" << ellipse_Xaxis << endl;
-    cout << "ellipse_Yaxis" << ellipse_Yaxis << endl;
+//    cout << "ellipse_Xaxis" << ellipse_Xaxis << endl;
+//    cout << "ellipse_Yaxis" << ellipse_Yaxis << endl;
     if (isnan(ellipse_Xaxis) || isnan(ellipse_Yaxis))
         return false;
     else
@@ -458,6 +463,45 @@ void RuneSolver::judgeDirection() {
 //    }
 }
 
+void RuneSolver::getangularvelocity() {
+    if (angle_set.size() < QUEUE_SIZE)
+        return;
+    angle_array.clear();
+    if (isFindCenter) {
+        for (int i = 0; i < angle_set.size(); ++i) {
+            float angle = toPolarCoordinates(angle_set[i], ellipse_center);
+            angle_array.emplace_back(angle);
+        }
+    }
+    int num = 0;
+    double delta, temp_velocity;
+    double delta_velocity = 0;
+    for (int i = 1; i < angle_set.size(); i++) {
+        delta = angle_array[i] - angle_array[i - 1];
+        if (delta < -180)
+            delta += 360;
+        else if (delta > 180)
+            delta -= 360;
+        //发生目标切换
+        if (abs(delta) > 30)
+            break;
+        temp_velocity = fabs(delta) / 0.040;
+        delta_velocity += temp_velocity;
+        num++;
+    }
+    if(direction == DIR_DEFAULT){
+        angular_velocity = 0;
+        return;
+    }else if(direction == DIR_STATIC){
+        angular_velocity = 0;
+    }else{
+        angular_velocity = delta_velocity / num;
+    }
+    if(isnan(angular_velocity)){
+        angular_velocity = 0;
+    }
+}
+
 void RuneSolver::predict() {
     if (mode == MODE_SMALL) {
         predict_angle = hit_angle;
@@ -468,22 +512,27 @@ void RuneSolver::predict() {
 //    cout << "ellipse_angle" << ellipse_angle << endl;
 //    cout << "ellipse_center:(" << ellipse_center.x << "," << ellipse_center.y << ")" << endl;
     previouspoint.x = static_cast<float>(prepoint.x * cos(ellipse_angle * PI / 180) +
-                                    prepoint.y * sin(ellipse_angle * PI / 180));
+                                         prepoint.y * sin(ellipse_angle * PI / 180));
     previouspoint.y = static_cast<float>(-prepoint.x * sin(ellipse_angle * PI / 180) +
-                                    prepoint.y * cos(ellipse_angle * PI / 180));
+                                         prepoint.y * cos(ellipse_angle * PI / 180));
 //    cout << "previouspoint:(" << previouspoint.x << ", " << previouspoint.y << ")" << endl;
     float current_angle = toPolarCoordinates(previouspoint, Point2f(0.0f, 0.0f));
     float next_angle = 0;
     float dpitch, dyaw;
+
+//    float angle_offset = 0;
+//    angle_offset = static_cast<float>(angular_velocity * flight_time);
     switch (direction) {
         case DIR_DEFAULT:
             return;
             break;
         case DIR_CW:
             next_angle = current_angle - ANGLE_OFFSET;
+//            next_angle = current_angle - angle_offset;
             break;
         case DIR_CCW:
             next_angle = current_angle + ANGLE_OFFSET;
+//            next_angle = current_angle + angle_offset;
             break;
         case DIR_STATIC:
             next_angle = current_angle;
@@ -514,4 +563,13 @@ void RuneSolver::predict() {
 //    cout << "predict_point:(" << predict_point.x << ", " << predict_point.y << ")" << endl;
 //    cout << "hit_angle:(" << hit_angle.x << ", " << hit_angle.y << ")" << endl;
 //    cout << "predict_angle:(" << predict_angle.x << ", " << predict_angle.y << ")" << endl;
+}
+
+void RuneSolver::draw(Mat &src, RotatedRect aim) {
+    Point2f pt[4];
+    aim.points(pt);
+    for (int i = 1; i < 4; i++) {
+        line(src, pt[i], pt[i - 1], Scalar(0, 255, 0), 1);
+    }
+    line(src, pt[3], pt[0], Scalar(0, 255, 0), 1);
 }

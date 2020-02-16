@@ -201,11 +201,9 @@ void Workspace::imageProcessingFunc() {
                 if (read_pack.mode == Mode::ARMOR) {
                     armor_detector.run(current_frame, read_pack.enemy_color, target_armor);
                     target_solver.run(target_armor, target);
-//                    cout << target.x << "," << target.y << "," << target.z << endl;
-//                    predictor.run(target.x, target.y, target.z);
-//                    cout << target.x << "," << target.y << "," << target.z << endl;
-                    angle_solver.run(target.x, target.y, target.z, 20, send_pack.yaw,
-                                     send_pack.pitch, read_pack.pitch);
+                    predict.run(target.x, target.y, target.z, 20, send_pack.pitch, send_pack.yaw, 0, 0);
+//                    angle_solver.run(target.x, target.y, target.z, 20, send_pack.yaw,
+//                                     send_pack.pitch, read_pack.pitch);
 //                    cout << "pitch: " << read_pack.pitch << endl;
                     send_pack.mode = 0;
 
@@ -213,7 +211,6 @@ void Workspace::imageProcessingFunc() {
                     read_pack.pitch = 0;
                     read_pack.yaw = 0;
                     rune_solver.run(current_frame, read_pack.enemy_color, 20, send_pack.pitch, send_pack.yaw, read_pack.pitch, read_pack.yaw);
-
                 } else {
                     continue;
                 }
@@ -233,11 +230,11 @@ void Workspace::imageProcessingFunc() {
                 plot_serial.sendPlot(plot_pack);
 #endif
 #ifdef ARMOR_ONLY
-                cout << "x: " << target.x << "\t"
-                     << "y: " << target.y << "\t"
-                     << "z: " << target.z << "\n"
-                     << "yaw: " << send_pack.yaw << "\t"
-                     << "pitch: " << send_pack.pitch << endl;
+//                cout << "x: " << target.x << "\t"
+//                     << "y: " << target.y << "\t"
+//                     << "z: " << target.z << "\n"
+//                     << "yaw: " << send_pack.yaw << "\t"
+//                     << "pitch: " << send_pack.pitch << endl;
 #endif
 //#ifdef RUNE_ONLY
 //                cout << "yaw: " << send_pack.yaw << "\t"
