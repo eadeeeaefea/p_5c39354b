@@ -61,17 +61,14 @@ public:
 private:
     //常量定义
     const float EXP = 0.5;
-    //拟合圆半径范围
-    static const int MIN_RADIUS = 80;
-    static const int MAX_RADIUS = 90;
     //能量板范围
     static const int MIN_RuneSolver_AREA = 600;
     static const int MAX_RuneSolver_AREA = 1500;
     const float MIN_RuneSolver_RATIO = 1.0f;
     const float MAX_RuneSolver_RATIO = 2.0f;
     //箭头范围
-    static const int MIN_ARROW_AREA = 1350;
-    static const int MAX_ARROW_AREA = 3150;
+    static const int MIN_ARROW_AREA = 1050;
+    static const int MAX_ARROW_AREA = 3550;
     const float MIN_ARROW_RATIO = 1.5f;
     const float MAX_ARROW_RATIO = 2.6f;
     //PNP解算 能量板实际尺寸
@@ -111,6 +108,8 @@ private:
     double ellipse_Yaxis;                               //拟合椭圆Y半长轴
     float ellipse_angle;                               //拟合椭圆的倾斜角度
     //
+    double flight_time;
+    double angular_velocity; //风车角速度
     Point2f hit_angle; //(sum_pitch, sum_yaw)
     vector<Point2f> angle_set; // set of angle
     //预测
@@ -153,7 +152,11 @@ private:
 
     void judgeDirection();
 
+    void getangularvelocity();
+
     void predict();
+
+    void draw(Mat &src, RotatedRect aim);
 };
 
 

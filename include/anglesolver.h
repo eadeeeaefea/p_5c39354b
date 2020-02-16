@@ -2,6 +2,7 @@
  Copyright© HITwh HERO-RoboMaster2020 Group
  Author: Ma Yuemeng & Song Haodi
  Update: Wang Xiaoyan on 2019.7.1
+ Update: Zeng Jing && Bruce Hou on 2019.12.17.
  Detail:
  *****************************************************************************/
 
@@ -21,12 +22,12 @@ private:
     double yaw_offset_, pitch_offset_,g;
     double origin_pitch;
     double origin_yaw;
-
 public:
     AngleSolver();
     ~AngleSolver();
     void init();
     void run(double x, double y, double z, double v, double &yaw, double &pitch, double ptz_pitch);
+    double get_flight_time(double x, double y, double z, double v, double ptz_pitch);
 
     void setOriginPitch(double pitch);
     void setOriginYaw(double yaw);

@@ -24,7 +24,7 @@
 #include "targetsolver.h"
 #include "anglesolver.h"
 #include "runesolver.h"
-#include "predictor.h"
+#include "predict.h"
 #include "cannode.h"
 
 #ifdef RUNNING_TIME
@@ -44,8 +44,6 @@ private:
 //        RUNE
 //    };
 
-    float sum_pitch, sum_yaw; // 绝对转动角度
-
     mutex image_buffer_mutex;
 
     ArmorDetector armor_detector;
@@ -55,7 +53,7 @@ private:
     SerialPort serial_port;
     RuneSolver rune_solver;
     CanNode can_node;
-//    Predictor predictor;
+    Predict predict;
 
 
     vector<Mat> image_buffer;
@@ -70,6 +68,7 @@ private:
     SerialPort plot_serial;
     PlotPack plot_pack;
 
+    double sum_pitch, sum_yaw;
 public:
     Workspace();
 
