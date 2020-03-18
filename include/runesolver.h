@@ -46,13 +46,6 @@ typedef enum {
     MODE_RANDOM
 } RuneMode;
 
-typedef struct RealPoint_t {
-    double x;
-    double y;
-    double z;
-} RealPoint;
-
-
 class RuneSolver {
 public:
     bool shoot;
@@ -75,7 +68,7 @@ private:
     const float RuneSolver_HALF_LENGTH = 135.0f;
     const float RuneSolver_HALF_WIDTH = 65.0f;
 
-    const int QUEUE_SIZE = 50;
+    const int QUEUE_SIZE = 30;
     //pnp变量部分
     std::vector<cv::Point3f> object_Points;     //世界坐标系矩形框下的坐标
     std::vector<cv::Point2f> image_Points;      //图像坐标系z下的坐标
@@ -95,7 +88,6 @@ private:
     VideoWriter writer;
     AngleSolver anglesolver;
     RuneMode mode;
-    RealPoint real_point;                              //当前rune的中心点的云台坐标系的坐标值
     cv::RotatedRect target_RuneSolver;                      //当前帧能量板的最小包围矩形
     cv::RotatedRect target_arrow;                          //当前帧箭头
     bool isFindRuneSolver;                                  //标志位：是否已找到当前帧中的能量板
@@ -112,11 +104,14 @@ private:
     double angular_velocity; //风车角速度
     Point2f hit_angle; //(sum_pitch, sum_yaw)
     vector<Point2f> angle_set; // set of angle
+    //show
+    int count = 0;
+    RotatedRect rect;
     //预测
     vector<float> angle_array;
     Point2f predict_angle; //(predect_pitch, predict_yaw);
     Direction direction;
-    float ANGLE_OFFSET = 90.0f;
+    float ANGLE_OFFSET = 40.0f;
 public:
     RuneSolver();
 
@@ -124,8 +119,9 @@ public:
 
     void init(const FileStorage &file_storage);
 
-    void run(const Mat &image, const int enemy_color, double v, double &send_pitch, double &send_yaw, double read_pitch,
-             double read_yaw);
+    bool run(const Mat &image, const int enemy_color, double &target_x, double &target_y, double &target_z);
+    void predict(double target_x, double target_y, double target_z, double v, double &send_pitch, double &send_yaw,
+                 double read_pitch, double read_yaw);
 
 private:
     float getDistance(Point2f p1, Point2f p2);
@@ -153,8 +149,6 @@ private:
     void judgeDirection();
 
     void getangularvelocity();
-
-    void predict();
 
     void draw(Mat &src, RotatedRect aim);
 };

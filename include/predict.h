@@ -19,6 +19,8 @@ using namespace cv;
 
 class Predict {
 private:
+    int count = 0;
+
     VideoWriter writer;
     AngleSolver anglesolver;
     vector<Point2f> object;
