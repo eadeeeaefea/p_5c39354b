@@ -210,7 +210,9 @@ void Workspace::imageProcessingFunc() {
                 } else if (read_pack.mode == Mode::RUNE) {
                     read_pack.pitch = 0;
                     read_pack.yaw = 0;
-                    rune_solver.run(current_frame, read_pack.enemy_color, 20, send_pack.pitch, send_pack.yaw, read_pack.pitch, read_pack.yaw);
+                    if(rune_solver.run(current_frame, read_pack.enemy_color, target.x, target.y, target.z)){
+                        rune_solver.predict(target.x, target.y,target.z, 20, send_pack.pitch, send_pack.yaw, read_pack.pitch, read_pack.yaw);
+                    }
                 } else {
                     continue;
                 }

@@ -8,7 +8,7 @@
 #include "predict.h"
 
 Predict::Predict() {
-    writer.open("/home/stayalive/Documents/HERO/Hero2020_final/1.avi", 0, 25.0, Size(40, 40));
+//    writer.open("/home/stayalive/Documents/HERO/Hero2020_final/1.avi", 0, 25.0, Size(40, 40));
 }
 
 Predict::~Predict() {
@@ -25,6 +25,7 @@ void Predict::run(double &x, double &y, double &z, double v, double &send_pitch,
     sum_pitch = send_pitch + read_pitch;
     sum_yaw = send_yaw + read_yaw;
     time_for_excercise = anglesolver.get_flight_time(x, y, z, v, send_pitch);
+    cout << "time_for_excercise: " << time_for_excercise * 1000 << endl;
     object_motion.x = static_cast<float>(sum_pitch);
     object_motion.y = static_cast<float>(sum_yaw);
 //    object_motion.x += 250;
@@ -36,10 +37,10 @@ void Predict::run(double &x, double &y, double &z, double v, double &send_pitch,
 
 #ifdef SHOW_IMAGE
     Mat src(500, 500, CV_8UC3, Scalar(0, 0, 0));
-//    for(int i = 0; i < object.size(); i++){
-//        circle(src, object[i], 2, Scalar(255, 0, 0), -1);
-//    }
-    circle(src, object_motion, 2, Scalar(255, 0, 0), -1);
+    for(int i = 0; i < object.size(); i++){
+        circle(src, object[i], 2, Scalar(255, 0, 0), -1);
+    }
+//    circle(src, object_motion, 2, Scalar(255, 0, 0), -1);
     circle(src, predict_object_motion, 2, Scalar(0, 255, 0), -1);
     Point2f b;
     b.x = piline.x + predict_line[0] * 100;
@@ -47,8 +48,14 @@ void Predict::run(double &x, double &y, double &z, double v, double &send_pitch,
     if (judgement()) {
 //        line(src, piline, b, Scalar(255, 0, 0), 1);
     }
-    writer << src(Rect(Point(230, 230), Point(270, 270)));
-    imshow("hello", src);
+//    writer << src(Rect(Point(230, 230), Point(270, 270)));
+//    stringstream str;
+//    str << count << ".jpg";
+//    if(count >= 96 && count <= 199){
+//        imwrite("/home/stayalive/Documents/HERO/Hero2020_final/" + str.str(), src(Rect(Point(230, 230), Point(270, 270))));
+//    }
+//    count++;
+        imshow("hello", src);
 //    if(waitKey(1) == 27){
 //        exit(0);
 //    }
@@ -97,13 +104,10 @@ void Predict::motion_prediction() {
                 prepoint = object[j];
             }
         }
-        predistance = static_cast<float>(sqrt(mulvector.x * mulvector.x + mulvector.y * mulvector.y) / 0.010 *
+        predistance = static_cast<float>(sqrt(mulvector.x * mulvector.x + mulvector.y * mulvector.y) / 0.012 *
                                                time_for_excercise);
 //        predict_object_motion = prepoint + vect * 5;
-        cosalpha = static_cast<float>(vect.x / sqrt(vect.x * vect.x + vect.y * vect.y));
-        sinalpha = static_cast<float>(vect.y / sqrt(vect.x * vect.x + vect.y * vect.y));
-        predict_object_motion.x = prepoint.x + cosalpha * predistance;
-        predict_object_motion.y = prepoint.y + sinalpha * predistance;
+        predict_object_motion = prepoint + vect * predistance;
 //        cout << "object_motion:(" << object_motion.x << ", " << object_motion.y <<")" << endl;
 //        cout << "piline:(" << piline.x << ", " << piline.y << ")" << endl;
 //        cout << "vect:" << vect.x << ", " << vect.y << ")" << endl;
@@ -181,8 +185,8 @@ void Predict::get_excercise_time(double x, double y, double v,
     double x_bar;
     double y_bar;
     delta_angle = ptz_pitch * PI / 180;
-    x_bar = x * cos(delta_angle) - y * sin(delta_angle);
-    y_bar = x * sin(delta_angle) + y * cos(delta_angle);
+    x_bar = x * cos(delta_angle) + y * sin(delta_angle);
+    y_bar = -x * sin(delta_angle) + y * cos(delta_angle);
     time_square =
             2.0 *
             ((y_bar * g + v * v) - sqrt(pow(g * y_bar + v * v, 2.0) -
