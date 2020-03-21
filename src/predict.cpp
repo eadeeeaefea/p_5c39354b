@@ -19,17 +19,17 @@ void Predict::init() {
 
 }
 
-void Predict::run(double &x, double &y, double &z, double v, double &send_pitch, double &send_yaw, double read_pitch,
-                  double read_yaw) {
-    anglesolver.run(x, y, z, v, send_pitch, send_yaw, read_pitch);
-    sum_pitch = send_pitch + read_pitch;
-    sum_yaw = send_yaw + read_yaw;
-    time_for_excercise = anglesolver.get_flight_time(x, y, z, v, send_pitch);
+void Predict::run(double &x, double &y, double &z, double v, double &send_pitch, double &send_yaw, double readpitch,
+                  double readyaw, double read_pitch, double read_yaw) {
+    anglesolver.run(x, y, z, v, send_pitch, send_yaw, readpitch);
+    sum_pitch = send_pitch + readpitch;
+    sum_yaw = send_yaw + readyaw;
+    time_for_excercise = anglesolver.get_flight_time(x, y, z, v, readpitch);
     cout << "time_for_excercise: " << time_for_excercise * 1000 << endl;
     object_motion.x = static_cast<float>(sum_pitch);
     object_motion.y = static_cast<float>(sum_yaw);
-//    object_motion.x += 250;
-//    object_motion.y += 250;
+    object_motion.x += 250;
+    object_motion.y += 250;
     update();
     motion_prediction();
     send_pitch = predict_object_motion.x - read_pitch;

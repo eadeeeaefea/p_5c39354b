@@ -92,8 +92,8 @@ void Workspace::imageReceivingFunc() {
     while (1) {
         try {
 #ifdef RUNNING_TIME
-             static Timer timer;
-             timer.start();
+            static Timer timer;
+            timer.start();
 #endif
 #ifdef SAVE_VIDEO
             mv_camera.getImage(image);
@@ -116,8 +116,8 @@ void Workspace::imageReceivingFunc() {
             }
 #endif
 #ifdef RUNNING_TIME
-             cout << "get image: " << timer.getTime() << "ms" << endl;
-             timer.stop();
+            cout << "get image: " << timer.getTime() << "ms" << endl;
+            timer.stop();
 #endif
         } catch (MVCameraException &e1) {
             cout << "Camera error." << endl;
@@ -199,9 +199,12 @@ void Workspace::imageProcessingFunc() {
                 if (current_frame.empty()) continue;
 
                 if (read_pack.mode == Mode::ARMOR) {
+                    readpitch = read_pack.pitch;
+                    readyaw = read_pack.yaw;
                     armor_detector.run(current_frame, read_pack.enemy_color, target_armor);
                     target_solver.run(target_armor, target);
-                    predict.run(target.x, target.y, target.z, 20, send_pack.pitch, send_pack.yaw, 0, 0);
+                    predict.run(target.x, target.y, target.z, 20, send_pack.pitch, send_pack.yaw, readpitch, readyaw,
+                                read_pack.pitch, read_pack.yaw);
 //                    angle_solver.run(target.x, target.y, target.z, 20, send_pack.yaw,
 //                                     send_pack.pitch, read_pack.pitch);
 //                    cout << "pitch: " << read_pack.pitch << endl;
@@ -210,8 +213,10 @@ void Workspace::imageProcessingFunc() {
                 } else if (read_pack.mode == Mode::RUNE) {
                     read_pack.pitch = 0;
                     read_pack.yaw = 0;
-                    if(rune_solver.run(current_frame, read_pack.enemy_color, target.x, target.y, target.z, read_pack.pitch, read_pack.yaw)){
-                        rune_solver.predict(target.x, target.y, target.z, 20, send_pack.pitch, send_pack.yaw, read_pack.pitch, read_pack.yaw);
+                    if (rune_solver.run(current_frame, read_pack.enemy_color, target.x, target.y, target.z,
+                                        read_pack.pitch, read_pack.yaw)) {
+                        rune_solver.predict(target.x, target.y, target.z, 20, send_pack.pitch, send_pack.yaw,
+                                            read_pack.pitch, read_pack.yaw);
                     }
                 } else {
                     continue;
@@ -220,10 +225,10 @@ void Workspace::imageProcessingFunc() {
                 serial_port.sendData(send_pack);
 #endif
 #if defined(USE_CAN) && !defined(TEST)
-//                send_pack.yaw = 1.5;
-//                send_pack.pitch = 1.3;
-                can_node.send(send_pack);
-//                cout << "sucessfully" << endl;
+                //                send_pack.yaw = 1.5;
+                //                send_pack.pitch = 1.3;
+                                can_node.send(send_pack);
+                //                cout << "sucessfully" << endl;
 #endif
 #ifdef PLOT_DATA
                 plot_pack.plot_value[0] = target.x;
@@ -232,11 +237,11 @@ void Workspace::imageProcessingFunc() {
                 plot_serial.sendPlot(plot_pack);
 #endif
 #ifdef ARMOR_ONLY
-//                cout << "x: " << target.x << "\t"
-//                     << "y: " << target.y << "\t"
-//                     << "z: " << target.z << "\n"
-//                     << "yaw: " << send_pack.yaw << "\t"
-//                     << "pitch: " << send_pack.pitch << endl;
+                //                cout << "x: " << target.x << "\t"
+                //                     << "y: " << target.y << "\t"
+                //                     << "z: " << target.z << "\n"
+                //                     << "yaw: " << send_pack.yaw << "\t"
+                //                     << "pitch: " << send_pack.pitch << endl;
 #endif
 //#ifdef RUNE_ONLY
 //                cout << "yaw: " << send_pack.yaw << "\t"
