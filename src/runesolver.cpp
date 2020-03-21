@@ -29,7 +29,8 @@ void RuneSolver::init(const FileStorage &file_storage) {
     file_storage["distortion_coeff"] >> DISTCOEFFS;
 }
 
-bool RuneSolver::run(const Mat &image, const int enemy_color, double &target_x, double &target_y, double &target_z) {
+bool RuneSolver::run(const Mat &image, const int enemy_color, double &target_x, double &target_y, double &target_z,
+                     double read_pitch, double read_yaw) {
     //    Timer clock;
     image.copyTo(src);
     shoot = false;
@@ -67,19 +68,22 @@ bool RuneSolver::run(const Mat &image, const int enemy_color, double &target_x, 
     target_x = translation_matrix.at<double>(0, 0) / 1000;
     target_y = (translation_matrix.at<double>(1, 0) - 51.4469) / 1000;
     target_z = (translation_matrix.at<double>(2, 0) + 140.7033) / 1000;
+    readpitch = read_pitch;
+    readyaw = read_yaw;
 }
 
-void RuneSolver::predict(double target_x, double target_y, double target_z, double v, double &send_pitch, double &send_yaw,
+void
+RuneSolver::predict(double target_x, double target_y, double target_z, double v, double &send_pitch, double &send_yaw,
                     double read_pitch, double read_yaw) {
 
-    anglesolver.run(target_x, target_y, target_z, v, send_pitch, send_yaw, read_pitch);
+    anglesolver.run(target_x, target_y, target_z, v, send_pitch, send_yaw, readpitch);
 
-    flight_time = anglesolver.get_flight_time(target_x, target_y, target_z, v, read_pitch);
+    flight_time = anglesolver.get_flight_time(target_x, target_y, target_z, v, readpitch);
 //    cout << "flight time: " << flight_time * 1000 << endl;
 
 
-    hit_angle.x = static_cast<float>(read_pitch + send_pitch);
-    hit_angle.y = static_cast<float>(send_yaw + read_yaw);
+    hit_angle.x = static_cast<float>(readpitch + send_pitch);
+    hit_angle.y = static_cast<float>(send_yaw + readyaw);
 
     hit_angle.x += 250;
     hit_angle.y += 250;
