@@ -68,7 +68,7 @@ private:
     SerialPort plot_serial;
     PlotPack plot_pack;
 
-    double sum_pitch, sum_yaw;
+    double readpitch, readyaw;
 public:
     Workspace();
 

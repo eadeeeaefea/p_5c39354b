@@ -23,13 +23,13 @@
 //#define USE_CAMERA 1    // use camera enable and camera id
 #define TEST 2    // 1-image, 2-video
 //#define IMAGE_PATH "1.jpg"
-#define VIDEO_PATH "/home/stayalive/Documents/HERO/2.avi" //1.avi 装甲板 2.avi rune
+#define VIDEO_PATH "/home/stayalive/Documents/HERO/1.avi" //1.avi 装甲板 2.avi rune
 //#define SAVE_VIDEO 2    // 1-save video and run other programs, 2-save video only
 //#define VIDEO_SAVED_PATH "1.avi"
 
 #define ENEMY_COLOR 0   // 调试时使用，比赛时必须将其注释
-//#define ARMOR_ONLY
-#define RUNE_ONLY
+#define ARMOR_ONLY
+//#define RUNE_ONLY
 
 //#define USE_CAN 0
 //#define USE_SERIAL

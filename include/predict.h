@@ -40,7 +40,7 @@ public:
     void init();
 
     void run(double &x, double &y, double &z, double v, double &send_pitch, double &send_yaw, double read_pitch,
-             double read_yaw);
+             double read_yaw, double readpitch, double readyaw);
 
 private:
     void update();
