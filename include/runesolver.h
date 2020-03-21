@@ -52,6 +52,7 @@ public:
     bool isLoseAllTargets;
     bool isCalibrated;
 private:
+    double readpitch, readyaw;
     //常量定义
     const float EXP = 0.5;
     //能量板范围
@@ -119,7 +120,9 @@ public:
 
     void init(const FileStorage &file_storage);
 
-    bool run(const Mat &image, const int enemy_color, double &target_x, double &target_y, double &target_z);
+    bool run(const Mat &image, const int enemy_color, double &target_x, double &target_y, double &target_z,
+             double read_pitch, double read_yaw);
+
     void predict(double target_x, double target_y, double target_z, double v, double &send_pitch, double &send_yaw,
                  double read_pitch, double read_yaw);
 
