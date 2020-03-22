@@ -165,7 +165,8 @@ RuneSolver::predict(double target_x, double target_y, double target_z, double v,
 
 
 //    cout << "angular_velocity:" << angular_velocity << endl;
-    send_pitch = predict_angle.x - read_pitch;
+//    send_pitch = predict_angle.x - read_pitch;
+    send_pitch = predict_angle.x;
     send_yaw = predict_angle.y - read_yaw;
 
     if (isnan(predict_angle.x) || isnan(predict_angle.y)) {

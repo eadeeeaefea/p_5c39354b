@@ -32,7 +32,8 @@ void Predict::run(double &x, double &y, double &z, double v, double &send_pitch,
     object_motion.y += 250;
     update();
     motion_prediction();
-    send_pitch = predict_object_motion.x - read_pitch;
+//    send_pitch = predict_object_motion.x - read_pitch;
+    send_pitch = predict_object_motion.x;
     send_yaw = predict_object_motion.y - read_yaw;
 
 #ifdef SHOW_IMAGE
@@ -69,7 +70,7 @@ void Predict::run(double &x, double &y, double &z, double v, double &send_pitch,
 void Predict::update() {
     if (object.size() >= 5) {
         object.erase(object.begin());
-    }
+    }-
     object.emplace_back(object_motion);
 }
 

@@ -32,15 +32,16 @@ void AngleSolver::run(double x, double y, double z, double v,
     Timer timer;
     timer.start();
 #endif
+    double delta_angle;
+    double x_bar, y_bar, z_bar;
+    delta_angle = ptz_pitch * PI / 180;
+    x_bar = x;
+    y_bar = -z * sin(delta_angle) + y * cos(delta_angle);
+    z_bar = z * cos(delta_angle) + y * sin(delta_angle);
 
-    if (parabolaSolve(sqrt(x * x + z * z), y, v, pitch, ptz_pitch)) {
-//        if (z > 2.5) {
-//            pitch = -pitch - 0.65;
-//            yaw = atan(x / z) / PI * 180 - 0.6;
-//        } else {
+    if (parabolaSolve(sqrt(x_bar * x_bar + z_bar * z_bar), y_bar, v, pitch, ptz_pitch)) {
             pitch = -pitch;
-            yaw = atan(x / z) / PI * 180;
-//        }
+            yaw = atan(x_bar / z_bar) / PI * 180;
     } else {
         pitch = 0.0;
         yaw = 0.0;
@@ -74,7 +75,7 @@ double AngleSolver::get_flight_time(double x, double y, double z, double v, doub
 }
 
 bool AngleSolver::parabolaSolve(double x, double y, double v, double &theta, double ptz_pitch) {
-    /**
+
     double time;
     double res, res_1;
     static const double g = 9.7988;
@@ -83,37 +84,14 @@ bool AngleSolver::parabolaSolve(double x, double y, double v, double &theta, dou
     res_1 = (y - 0.5 * g * time * time) / v / time;
     res = asin(res_1);
     theta = res * 180 / PI;
+    theta = theta + ptz_pitch;
     if(isnan(theta) || isinf(theta)){
      theta = 0;
      return false;
     }
     return true;
-    //cout << alpha << endl;
-    //cout << "(" << x << "," << y << ")" << endl;
-    **/
-/**
-    double time;
-    static const double g = 9.7988;
-    double res, res_1;
-    double delta_angle;
-    double x_bar;
-    double y_bar;
-    delta_angle = ptz_pitch * PI / 180;
-    x_bar = x * cos(delta_angle) - y * sin(delta_angle);
-    y_bar = x * sin(delta_angle) + y * cos(delta_angle);
-    time = 2.0 * ((y_bar * g + v * v) - sqrt(pow(g * y_bar + v * v, 2.0) - (x_bar * x_bar + y_bar * y_bar) * g * g)) /
-           (g * g);
-    time = sqrt(time);
-    res_1 = (y_bar - 0.5 * g * time * time) / v / time;
-    res = asin(res_1);
-    theta = res * 180 / PI;
-    theta = theta - ptz_pitch;
-    if (isnan(theta) || isinf(theta)) {
-        theta = 0;
-        return false;
-    }
-    return true;
-**/
+
+    /**
     double time;
     static const double g = 9.7988;
     double res, res_1;
@@ -135,7 +113,7 @@ bool AngleSolver::parabolaSolve(double x, double y, double v, double &theta, dou
         return false;
     }
     return true;
-
+    **/
 }
 
 
