@@ -482,7 +482,7 @@ bool SerialPort::readData(ReadPack &read_pack)
     */
 
     read_pack.mode = read_bytes[1] > 10;
-    read_pack.enemy_color = (read_bytes[1] % 10) == 0 ? Mode::ARMOR : Mode::RUNE;
+    read_pack.enemy_color = (read_bytes[1] % 10) == 0 ? 0 : 1;
     int16_t temp_pitch = (static_cast<int16_t>(read_bytes[2]) << 8) +
                          static_cast<int16_t>(read_bytes[3]);
     int16_t temp_yaw = (static_cast<int16_t>(read_bytes[4]) << 8) +
@@ -491,6 +491,10 @@ bool SerialPort::readData(ReadPack &read_pack)
     read_pack.pitch = static_cast<double>(temp_pitch) * 0.01;
     read_pack.yaw = static_cast<double>(temp_yaw) * 0.01;
     read_pack.bullet_speed = static_cast<double>(read_bytes[6]);
+
+    // printf("READ pitch:%lf yaw:%lf\n", read_pack.pitch, read_pack.yaw);
+    printf("READ mode:%d color:%d\n", read_pack.mode, read_pack.enemy_color);
+    // printf("READ speed:%d\n", read_pack.bullet_speed);
 
     return true;
 }

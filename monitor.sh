@@ -5,7 +5,7 @@
 ### Ubuntu 18.04: systemd
 
 cd HERORM2020/build
-make clean && make -j4
+make clean && make -j8
 
 count=0
 while [ true ]; do

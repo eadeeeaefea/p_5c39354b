@@ -15,11 +15,34 @@
 
 #include "base.h"
 
-using std::string;
 using std::exception;
+using std::string;
 
+typedef struct
+{
+    int mode;
+    double yaw;
+    double pitch;
+} SendPack;
 
-class SerialPort {
+typedef struct
+{
+    int enemy_color; // 0-red, 1-blue
+    int mode;
+    double pitch;
+    double yaw;
+    double bullet_speed;
+} ReadPack;
+
+typedef struct
+{
+    int plot_type;
+    int curve_num;
+    double plot_value[3];
+} PlotPack;
+
+class SerialPort
+{
 private:
     string port_name_;
     long baud_rate_;
@@ -35,20 +58,20 @@ public:
     SerialPort();
     SerialPort(const string &port_name,
                long baud_rate = 115200,
-               int byte_size = 8,        // 5: 5bits, 6: 6bits, 7: 7bits, 8: 8bits
-               int parity = 0,           // 0: none, 1: odd, 2: even
-               int stop_bit = 1,         // 1: 1bit, 2: 2bits, 3: 1.5bits
-               int flow_control = 0);    // 0: none, 1: software, 2: hardware
+               int byte_size = 8,     // 5: 5bits, 6: 6bits, 7: 7bits, 8: 8bits
+               int parity = 0,        // 0: none, 1: odd, 2: even
+               int stop_bit = 1,      // 1: 1bit, 2: 2bits, 3: 1.5bits
+               int flow_control = 0); // 0: none, 1: software, 2: hardware
 
     ~SerialPort();
 
     void open();
     void open(const string &port_name,
               long baud_rate = 115200,
-              int byte_size = 8,        // 5: 5bits, 6: 6bits, 7: 7bits, 8: 8bits
-              int parity = 0,           // 0: none, 1: odd, 2: even
-              int stop_bit = 1,         // 1: 1bit, 2: 2bits, 3: 1.5bits
-              int flow_control = 0);    // 0: none, 1: software, 2: hardware
+              int byte_size = 8,     // 5: 5bits, 6: 6bits, 7: 7bits, 8: 8bits
+              int parity = 0,        // 0: none, 1: odd, 2: even
+              int stop_bit = 1,      // 1: 1bit, 2: 2bits, 3: 1.5bits
+              int flow_control = 0); // 0: none, 1: software, 2: hardware
     bool isOpen();
     void close();
 
@@ -74,10 +97,10 @@ public:
 
 private:
     void reconfigurePort();
-
 };
 
-class SerialException : public exception {
+class SerialException : public exception
+{
 private:
     string e_what_;
 
@@ -85,11 +108,10 @@ public:
     SerialException() {}
     SerialException(const string &error) : e_what_(error) {}
     virtual ~SerialException() throw() {}
-    virtual const char *what() const throw() {
+    virtual const char *what() const throw()
+    {
         return e_what_.c_str();
     }
-
 };
-
 
 #endif // HERORM2020_SERIALPORT_H

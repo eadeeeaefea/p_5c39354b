@@ -1,21 +1,19 @@
-/******************************************************************************
- Copyright© HITwh HERO-RoboMaster2020 Group
-
- Author: Wang Xiaoyan on 2019.9.22
-
- Detail: 主函数。因多线程和线程运行函数已在workspace中实现，故这里只需对workspace中的相应
-         类进行实现，相应函数进行调用即可。
- *****************************************************************************/
-
+/**
+ * @file main.cpp
+ * @brief 
+ * @details 
+ * @author Zeng Jing
+ * @email 
+ * @update Li Haotian on 2020-05-09
+ * @version 
+ * @license 2020 HITWH HERO-Robomaster Group
+ */
 #include "workspace.h"
 
-
-int main(int argc, char **argv) {
-
+int main()
+{
     Workspace workspace;
-
     workspace.init();
-
     workspace.run();
 
     return 0;

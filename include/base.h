@@ -1,73 +1,56 @@
-/******************************************************************************
- Copyright© HITwh HERO-Robomaster2020 Group
-
- Author: Wang Xiaoyan on 2019.9.20
-
- Detail:
- *****************************************************************************/
+/**
+ * @file base.h
+ * @brief
+ * @details 
+ * @author Wang Xiaoyan on 2019.9.20
+ * @email lcyxlihaotian@126.com
+ * @update Li Haotian on 2020-05-13
+ * @version 
+ * @license 2020 HITWH HERO-Robomaster Group
+ */
 
 #ifndef HERORM2020_BASE_H
 #define HERORM2020_BASE_H
 
-// #define PLOT_DATA
-// #define RUNNING_TIME
+#define RUNNING_TIME
 #define SHOW_IMAGE
-// #define TRACKBAR    // 使用时需取消SHOW_IMAGE的注释
+//#define TRACKBAR    // 使用时需取消SHOW_IMAGE的注释
+//#define COMPILE_WITH_CUDA
+//#define DISTORTION_CORRECT
 
-#define COMPILE_WITH_CUDA
-// #define DISTORTION_CORRECT
-#define BGR // 不可与HSV同时使用
-// #define HSV    // 不可与BGR同时使用
-#define ROI_ENABLE
-
-#define USE_CAMERA
+// #define USE_CAMERA
 // #define USE_SERIAL
-#define USE_CAN 1
-// #define TEST 1    // 1-image, 2-video
-#define IMAGE_PATH "1.jpg"
-#define VIDEO_PATH "1.avi"
-// #define SAVE_VIDEO 2    // 1-save video and run other programs, 2-save video only
-#define VIDEO_SAVED_PATH "1.avi"
+// #define PLOT_DATA     // 必须开启 USE_SERIAL
+// #define USE_MISSILE   // 使用飞镖识别程序
+#define USE_ROBOT     // 使用机器人识别程序
+#define ENEMY_COLOR 0 // 调试时使用，比赛时必须将其注释 0为红色 1为蓝色
 
-#define ENEMY_COLOR 0 // 调试时使用，比赛时必须将其注释
-#define ARMOR_ONLY
-// #define RUNE_ONLY
+//#define BGR           // 不可与HSV同时使用
+#define HSV // 不可与BGR同时使用
+//#define ROI_ENABLE    //雷达站代码中使用ROI可能出问题，先不用
 
+#define TEST 2 // 1-image, 2-video
+#define IMAGE_READ_PATH ""
+#define ROBOT_VIDEO_READ_PATH "1.MOV"
+#define MISSILE_VIDEO_READ_PATH ""
+
+/* 三种色彩判定方法，运行时只能选其中一种 */
+#define CALCULATE_POINTS
+//#define CALCULATE_INTENSITY
+//#define CALCULATE_RATIO
+
+// #define SAVE_VIDEO 1 // 1-save and run others. 2-save only
+
+/* rarely changed constant variables */
+#define ROBOT_FRAME_WIDTH 640
+#define ROBOT_FRAME_HEIGHT 480
+#define ROBOT_EXPOSURE_TIME 400
+#define MISSILE_FRAME_WIDTH 640
+#define MISSILE_FRAME_HEIGHT 640
+#define MISSILE_EXPOSURE_TIME 400
 #define PI 3.141592654
-
-#define FRAME_WIDTH 640
-#define FRAME_HEIGHT 480
-#define EXPOSURE_TIME 400
-#define PARAM_PATH "../param/param.xml"
-
-typedef struct
-{
-    int mode;
-    double yaw;
-    double pitch;
-} SendPack;
-
-typedef struct
-{
-    int enemy_color; // 0-red, 1-blue
-    int mode;
-    double pitch;
-    double yaw;
-    double bullet_speed;
-} ReadPack;
-
-typedef struct
-{
-    int plot_type;
-    int curve_num;
-    double plot_value[3];
-} PlotPack;
-
-enum Mode
-{
-    ARMOR,
-    RUNE,
-    STAND_BY
-};
+#define ROBOT_VIDEO_SAVE_PATH ""
+#define MISSILE_VIDEO_SAVE_PATH ""
+#define PARAM_PATH "../param/param1.xml" // 开自启时需改为绝对路径
 
 #endif // HERORM2020_BASE_H
