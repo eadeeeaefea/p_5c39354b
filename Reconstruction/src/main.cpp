@@ -45,6 +45,7 @@ int main() {
         if (count != 3) {
             count++;
         }
+        /**
         timer.start();
         resize(oriframe, frame, Size(1280, 480), (0, 0), (0, 0), INTER_AREA);
         leftimg = frame(Rect(0, 0, 640, 480));
@@ -56,6 +57,7 @@ int main() {
 //        cout << leftimg.size() << endl;
 //        imshow("rightimg", rightimg);
         imshow("result", result);
+         **/
         setMouseCallback("result", onMouse, 0);
         if (waitKey(1) >= 0) {
             break;

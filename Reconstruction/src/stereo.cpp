@@ -1,3 +1,9 @@
+/**
+ * @file stereo.cpp
+ * @author Bruce Hou
+ * @email 402156782@qq.com
+ * @license Copyright© HITwh HERO-RoboMaster2020 Group
+ */
 #include "stereo.h"
 
 Stereo::Stereo() {
@@ -9,6 +15,9 @@ Stereo::~Stereo() {
 }
 
 void Stereo::init(const FileStorage &file_storage) {
+    /**
+     * 加载相机参数
+     */
     file_storage["LeftIntrinsicMatrix"] >> K_L;
     file_storage["RightIntrinsicMatrix"] >> K_R;
     file_storage["LeftRadialDistortion"] >> D_L;
@@ -68,19 +77,31 @@ void Stereo::pt2object(Point2f pt1, Point2f pt2, Point3f &objectpt) {
     objectpt.y = result.at<float>(1, 0);
     objectpt.z = result.at<float>(2, 0);
     **/
-
+    /**
     // 基于视差方法
     // 经过立体矫正，两者应该在一条基线上
-    Mat disp(1, 1, CV_32F);
+    Mat disp(1, 1, CV_8UC1);
     Mat xyz;
-    disp.at<float>(0, 0) = pt2.x - pt1.x;
+    disp.at<float>(0, 0) = (pt2.x - pt1.x) * 16;
     get_xyz(disp, xyz);
     objectpt.x = xyz.at<float>(1, 0);
     objectpt.y = xyz.at<float>(2, 0);
     objectpt.z = xyz.at<float>(3, 0);
+    **/
+
+    // 基于视差方法
+    // 具体参考：https://bbs.robomaster.com/thread-10188-1-1.html
+    float d; // 视差，单位像素
+    d = pt2.x - pt1.x;
+    objectpt.z = f * b / d;
+    objectpt.x = (pt1.x - ux) * objectpt.z / fx;
+    objectpt.y = (pt1.y - vy) * objectpt.z / fy;
 }
 
 void Stereo::sgbm_get(Mat leftimg, Mat rightimg, Mat &disp, Mat &xyz) {
+    /**
+     * sgbm算法立体匹配
+     */
     correct_image(leftimg, rightimg);
     int numberOfDisparities = ((leftimg.size().width / 8) + 15) & -16;
     int P1 = 8 * leftimg.channels() * SADWindowSize * SADWindowSize;
@@ -122,7 +143,9 @@ void Stereo::bm_get(Mat leftimg, Mat rightimg, Mat &disp) {
 }
 
 void Stereo::correct_image(Mat &leftimg, Mat &rightimg) {
-
+    /**
+     * 对图片进行畸变矫正
+     */
     initUndistortRectifyMap(K_L, D_L, Mat(),
                             getOptimalNewCameraMatrix(K_L, D_L, leftimg.size(), 1,
                                                       leftimg.size(), 0), leftimg.size(), CV_16SC2, lmap1, lmap2);
@@ -135,6 +158,9 @@ void Stereo::correct_image(Mat &leftimg, Mat &rightimg) {
 }
 
 void Stereo::get_xyz(Mat disp, Mat &xyz) {
+    /**
+     * 获得对应视差的真实点三维坐标
+     */
     reprojectImageTo3D(disp, xyz, Q, true);
     xyz = xyz * 16;
 }

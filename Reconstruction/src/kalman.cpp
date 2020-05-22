@@ -8,7 +8,7 @@ KF::~KF() {
 
 }
 
-void KF::run(float x) {
+void KF::run(float &x) {
     update_queue(x);
     if (target.size() < queue_size) {
         return;
@@ -16,10 +16,8 @@ void KF::run(float x) {
     if (!judgement()) {
         init_kf();
     } else {
-
+        x = fobject(x);
     }
-
-
 }
 
 void KF::init_kf() {
@@ -54,6 +52,9 @@ bool KF::judgement() {
     return true;
 }
 
-void KF::fobject() {
-
+float KF::fobject(float x) {
+    Mat predections = kf.predict();
+    measurement.at<float>(0, 0) = x;
+    measurement = kf.correct(measurement);
+    return measurement.at<float>(0, 0);
 }
