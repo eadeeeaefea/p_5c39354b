@@ -56,15 +56,15 @@ private:
     //常量定义
     const float EXP = 0.5;
     //能量板范围
-    static const int MIN_RuneSolver_AREA = 600;
-    static const int MAX_RuneSolver_AREA = 1500;
-    const float MIN_RuneSolver_RATIO = 1.0f;
-    const float MAX_RuneSolver_RATIO = 2.0f;
+    static const int MIN_RuneSolver_AREA = 300;
+    static const int MAX_RuneSolver_AREA = 950;
+    const float MIN_RuneSolver_RATIO = 1.5f;
+    const float MAX_RuneSolver_RATIO = 2.5f;
     //箭头范围
-    static const int MIN_ARROW_AREA = 1050;
-    static const int MAX_ARROW_AREA = 3550;
+    static const int MIN_ARROW_AREA = 2000;
+    static const int MAX_ARROW_AREA = 3500;
     const float MIN_ARROW_RATIO = 1.5f;
-    const float MAX_ARROW_RATIO = 2.6f;
+    const float MAX_ARROW_RATIO = 2.5f;
     //PNP解算 能量板实际尺寸
     const float RuneSolver_HALF_LENGTH = 135.0f;
     const float RuneSolver_HALF_WIDTH = 65.0f;
@@ -152,6 +152,10 @@ private:
     void judgeDirection();
 
     void getangularvelocity();
+
+    Rect get_roi(RotatedRect rect);
+
+    //以下为一些帮助调试的函数
 
     void draw(Mat &src, RotatedRect aim);
 };

@@ -68,6 +68,8 @@ private:
     SerialPort plot_serial;
     PlotPack plot_pack;
 
+    // frame alignment
+    vector<double> readpitch_, readyaw_;
     double readpitch, readyaw;
 public:
     Workspace();
