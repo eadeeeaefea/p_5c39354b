@@ -22,7 +22,7 @@ public:
 
     ~KF();
 
-    void run(float x);
+    void run(float &x);
 
 private:
     void init_kf();
@@ -31,5 +31,5 @@ private:
 
     bool judgement();
 
-    void fobject();
+    float fobject(float x);
 };
