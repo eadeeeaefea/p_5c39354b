@@ -112,6 +112,8 @@ void Workspace::imageReceivingFunc() {
 #endif  // SAVE_VIDEO
 #if defined(USE_CAMERA) && !defined(SAVE_VIDEO)
             if (image_buffer.size() < max_image_buffer_size) {
+                readpitch_.push_back(read_pack.pitch);
+                readyaw_.push_back(read_pack.yaw);
                 image_buffer.push_back(mv_camera.getImage());
             }
 #endif
@@ -172,6 +174,10 @@ void Workspace::imageProcessingFunc() {
                 image_buffer_mutex.lock();
 
                 current_frame = image_buffer.back();
+                readpitch = readpitch_.back();
+                readyaw = readyaw_.back();
+                readpitch_.clear();
+                readyaw_.clear();
                 image_buffer.clear();
 
                 image_buffer_mutex.unlock();
@@ -199,8 +205,10 @@ void Workspace::imageProcessingFunc() {
                 if (current_frame.empty()) continue;
 
                 if (read_pack.mode == Mode::ARMOR) {
-                    readpitch = read_pack.pitch;
-                    readyaw = read_pack.yaw;
+                    read_pack.pitch = 0;
+                    read_pack.yaw = 0;
+                    readpitch = 0;
+                    readyaw = 0;
                     armor_detector.run(current_frame, read_pack.enemy_color, target_armor);
                     target_solver.run(target_armor, target);
                     predict.run(target.x, target.y, target.z, 20, send_pack.pitch, send_pack.yaw, readpitch, readyaw,
@@ -213,8 +221,10 @@ void Workspace::imageProcessingFunc() {
                 } else if (read_pack.mode == Mode::RUNE) {
                     read_pack.pitch = 0;
                     read_pack.yaw = 0;
+                    readpitch = 0;
+                    readyaw = 0;
                     if (rune_solver.run(current_frame, read_pack.enemy_color, target.x, target.y, target.z,
-                                        read_pack.pitch, read_pack.yaw)) {
+                                        readpitch, readyaw)) {
                         rune_solver.predict(target.x, target.y, target.z, 20, send_pack.pitch, send_pack.yaw,
                                             read_pack.pitch, read_pack.yaw);
                     }

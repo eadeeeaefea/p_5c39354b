@@ -28,12 +28,11 @@ void Predict::run(double &x, double &y, double &z, double v, double &send_pitch,
     cout << "time_for_excercise: " << time_for_excercise * 1000 << endl;
     object_motion.x = static_cast<float>(sum_pitch);
     object_motion.y = static_cast<float>(sum_yaw);
-    object_motion.x += 250;
-    object_motion.y += 250;
+//    object_motion.x += 250;
+//    object_motion.y += 250;
     update();
     motion_prediction();
-//    send_pitch = predict_object_motion.x - read_pitch;
-    send_pitch = predict_object_motion.x;
+    send_pitch = predict_object_motion.x - read_pitch;
     send_yaw = predict_object_motion.y - read_yaw;
 
 #ifdef SHOW_IMAGE
@@ -70,7 +69,7 @@ void Predict::run(double &x, double &y, double &z, double v, double &send_pitch,
 void Predict::update() {
     if (object.size() >= 5) {
         object.erase(object.begin());
-    }-
+    }
     object.emplace_back(object_motion);
 }
 

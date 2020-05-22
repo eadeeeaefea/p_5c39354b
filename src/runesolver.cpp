@@ -39,18 +39,18 @@ bool RuneSolver::run(const Mat &image, const int enemy_color, double &target_x, 
     isFindArrow = false;
     preprocess(enemy_color);
     //找能量板
-    if (findRuneSolver()) {
-        circle(src, target_RuneSolver.center, 1, Scalar(0, 255, 0), 1);
-//        draw(src, target_RuneSolver);
-    } else {
-//        cout << "no RuneSolver" << endl;
-    }
     //找箭头
     if (findArrow()) {
         circle(src, target_arrow.center, 1, Scalar(0, 255, 0), -1);
-//        draw(src, target_arrow);
+        draw(src, target_arrow);
     } else {
-//        cout << " no arrow" << endl;
+        cout << " no arrow" << endl;
+    }
+    if (findRuneSolver()) {
+        circle(src, target_RuneSolver.center, 1, Scalar(0, 255, 0), 1);
+        draw(src, target_RuneSolver);
+    } else {
+        cout << "no RuneSolver" << endl;
     }
     if (!isFindRuneSolver || !isFindArrow) {
         isLoseAllTargets = true;
@@ -70,10 +70,17 @@ bool RuneSolver::run(const Mat &image, const int enemy_color, double &target_x, 
     target_z = (translation_matrix.at<double>(2, 0) + 140.7033) / 1000;
     readpitch = read_pitch;
     readyaw = read_yaw;
+#ifdef SHOW_IMAGE
+    imshow("src", src);
+    if(waitKey(1) == 27){
+        exit(0);
+    }else if (waitKey(1) < 0){
+        waitKey(0);
+    }
+#endif
 }
 
-void
-RuneSolver::predict(double target_x, double target_y, double target_z, double v, double &send_pitch, double &send_yaw,
+void RuneSolver::predict(double target_x, double target_y, double target_z, double v, double &send_pitch, double &send_yaw,
                     double read_pitch, double read_yaw) {
 
     anglesolver.run(target_x, target_y, target_z, v, send_pitch, send_yaw, readpitch);
@@ -165,8 +172,7 @@ RuneSolver::predict(double target_x, double target_y, double target_z, double v,
 
 
 //    cout << "angular_velocity:" << angular_velocity << endl;
-//    send_pitch = predict_angle.x - read_pitch;
-    send_pitch = predict_angle.x;
+    send_pitch = predict_angle.x - read_pitch;
     send_yaw = predict_angle.y - read_yaw;
 
     if (isnan(predict_angle.x) || isnan(predict_angle.y)) {
@@ -235,6 +241,7 @@ void RuneSolver::preprocess(const int enemy_color) {
 }
 
 bool RuneSolver::findRuneSolver() {
+/**
     isFindRuneSolver = false;
     double area;
     float ratio;
@@ -262,7 +269,7 @@ bool RuneSolver::findRuneSolver() {
     cv::cuda::GpuMat temp_bin_;
     cv::Mat temp_bin;
     temp_bin_.upload(bin);
-    Mat element = getStructuringElement(MORPH_RECT, Size(1, 1));
+    Mat element = getStructuringElement(MORPH_RECT, Size(3, 3));
     Ptr<cv::cuda::Filter> dilateFilter = cv::cuda::createMorphologyFilter(MORPH_DILATE, CV_8U, element, Point(-1, -1),
                                                                           2);
     dilateFilter->apply(temp_bin_, temp_bin_);
@@ -275,7 +282,7 @@ bool RuneSolver::findRuneSolver() {
     imshow("填充后", temp_bin);
 #endif
     temp_bin_.upload(temp_bin);
-    element = getStructuringElement(MORPH_RECT, Size(5, 5));
+    element = getStructuringElement(MORPH_RECT, Size(3, 3));
     Ptr<cv::cuda::Filter> erodeFilter = cv::cuda::createMorphologyFilter(MORPH_ERODE, CV_8U, element, Point(-1, -1), 2);
     erodeFilter->apply(temp_bin_, temp_bin_);
     temp_bin_.download(temp_bin);
@@ -322,6 +329,68 @@ bool RuneSolver::findRuneSolver() {
         break;
     }
     return isFindRuneSolver;
+**/
+
+    isFindRuneSolver = false;
+    Rect roi = get_roi(target_arrow);
+    double area;
+    RotatedRect temp_rect;
+    double ratio;
+    Mat temp_bin;
+    bin(roi).copyTo(temp_bin);
+//#ifndef COMPILE_WITH_CUDA
+//    Mat element = getStructuringElement(MORPH_RECT, Size(3, 3));
+//    dilate(temp_bin, temp_bin, element, Point(-1, -1), 2);
+//    erode(temp_bin, temp_bin, element, Point(-1, -1), 2);
+//#else
+//    cv::cuda::GpuMat temp_bin_;
+//    temp_bin_.upload(temp_bin);
+//    Mat element = getStructuringElement(MORPH_RECT, Size(3, 3));
+//    Ptr<cv::cuda::Filter> dilateFilter = cv::cuda::createMorphologyFilter(MORPH_DILATE, CV_8U, element, Point(-1, -1),
+//                                                                          2);
+//    Ptr<cv::cuda::Filter> erodeFilter = cv::cuda::createMorphologyFilter(MORPH_ERODE, CV_8U, element, Point(-1, -1), 2);
+//    dilateFilter->apply(temp_bin_, temp_bin_);
+//    erodeFilter->apply(temp_bin_, temp_bin_);
+//    temp_bin_.download(temp_bin);
+//#endif
+    imshow("arrow_roi", temp_bin);
+    vector<vector<Point>> contours;
+    vector<Point> target_contour;       //目标轮廓
+    findContours(temp_bin, contours, RETR_CCOMP, CHAIN_APPROX_NONE, roi.tl());
+    for(size_t i = 0; i < contours.size(); i++){
+        area = contourArea(contours[i]);
+//        cout<<"能量板面积:  "<<area<<'\n';
+        //根据面积筛选
+        if (area < MIN_RuneSolver_AREA || area > MAX_RuneSolver_AREA)
+            continue;
+        target_contour = contours[i];
+//        cout << "target_contour's size" << target_contour.size() << endl;
+        if (target_contour.size() <= 5)
+            continue;
+        temp_rect = fitEllipse(target_contour);
+        //按宽高比筛选
+        float width, height;
+        width = max(temp_rect.size.width, temp_rect.size.height);
+        height = min(temp_rect.size.width, temp_rect.size.height);
+        ratio = width / height;
+//        cout<<"能量板比例："<<ratio<<'\n';
+        if (ratio < MIN_RuneSolver_RATIO || ratio > MAX_RuneSolver_RATIO)
+            continue;
+        //统一样式
+        if (temp_rect.size.width > temp_rect.size.height) {
+            temp_rect.size = Size2f(height, width);
+            temp_rect.angle += 90;
+        }
+//        Point2f roi_center = roi.tl();
+//        target_RuneSolver.center = temp_rect.center + roi_center;
+//        target_RuneSolver.size = temp_rect.size;
+//        target_RuneSolver.angle = temp_rect.angle;
+        target_RuneSolver = temp_rect;
+        isFindRuneSolver = true;
+        break;
+    }
+    return isFindRuneSolver;
+
 }
 
 bool RuneSolver::findArrow() {
@@ -338,7 +407,7 @@ bool RuneSolver::findArrow() {
     cv::cuda::GpuMat temp_bin_;
     cv::Mat temp_bin;
     temp_bin_.upload(bin);
-    Mat element = getStructuringElement(MORPH_RECT, Size(1, 1));
+    Mat element = getStructuringElement(MORPH_RECT, Size(3, 3));
     Ptr<cv::cuda::Filter> dilateFilter = cv::cuda::createMorphologyFilter(MORPH_DILATE, CV_8U, element, Point(-1, -1),
                                                                           2);
     dilateFilter->apply(temp_bin_, temp_bin_);
@@ -572,7 +641,7 @@ void RuneSolver::getangularvelocity() {
         //发生目标切换
         if (abs(delta) > 30)
             break;
-        temp_velocity = fabs(delta) / 0.032; //求多个角速度之后求平均角速度
+        temp_velocity = fabs(delta) / 0.032; //求多个角速度之后求平均角速度，调节参数。
         delta_velocity += temp_velocity;
         num++;
     }
@@ -589,6 +658,18 @@ void RuneSolver::getangularvelocity() {
     }
 }
 
+Rect RuneSolver::get_roi(RotatedRect rect) {
+    Point2f pt[4];
+    vector<Point2f> point;
+    Rect roi;
+    rect.points(pt);
+    point.clear();
+    for(int i=0; i<4; i++){
+        point.emplace_back(pt[i]);
+    }
+    roi = boundingRect(point);
+    return roi;
+}
 
 void RuneSolver::draw(Mat &src, RotatedRect aim) {
     Point2f pt[4];
