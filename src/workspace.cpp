@@ -164,7 +164,7 @@ void Workspace::imageProcessingFunc() {
 #ifdef USE_CAMERA
             if (!image_buffer.empty()) {
 #else
-            if (1) {
+                if (1) {
 #endif  // USE_CAMERA
 #ifdef USE_CAMERA
 #ifdef RUNNING_TIME
@@ -205,10 +205,6 @@ void Workspace::imageProcessingFunc() {
                 if (current_frame.empty()) continue;
 
                 if (read_pack.mode == Mode::ARMOR) {
-                    read_pack.pitch = 0;
-                    read_pack.yaw = 0;
-                    readpitch = 0;
-                    readyaw = 0;
                     armor_detector.run(current_frame, read_pack.enemy_color, target_armor);
                     target_solver.run(target_armor, target);
                     predict.run(target.x, target.y, target.z, 20, send_pack.pitch, send_pack.yaw, readpitch, readyaw,
@@ -219,40 +215,36 @@ void Workspace::imageProcessingFunc() {
                     send_pack.mode = 0;
 
                 } else if (read_pack.mode == Mode::RUNE) {
-                    read_pack.pitch = 0;
-                    read_pack.yaw = 0;
-                    readpitch = 0;
-                    readyaw = 0;
                     if (rune_solver.run(current_frame, read_pack.enemy_color, target.x, target.y, target.z,
                                         readpitch, readyaw)) {
                         rune_solver.predict(target.x, target.y, target.z, 20, send_pack.pitch, send_pack.yaw,
                                             read_pack.pitch, read_pack.yaw);
                     }
+                    send_pack.mode = 1; // 给电控发送我们的步兵运行模式
                 } else {
                     continue;
                 }
 #if defined(USE_SERIAL) && !defined(TEST)
                 serial_port.sendData(send_pack);
 #endif
+
 #if defined(USE_CAN) && !defined(TEST)
-                //                send_pack.yaw = 1.5;
-                //                send_pack.pitch = 1.3;
-                                can_node.send(send_pack);
-                //                cout << "sucessfully" << endl;
+                can_node.send(send_pack);
 #endif
+
 #ifdef PLOT_DATA
                 plot_pack.plot_value[0] = target.x;
                 plot_pack.plot_value[1] = target.y;
                 plot_pack.plot_value[2] = target.z;
                 plot_serial.sendPlot(plot_pack);
-#endif
+#endif // PLOT_DATA
 #ifdef ARMOR_ONLY
                 //                cout << "x: " << target.x << "\t"
                 //                     << "y: " << target.y << "\t"
                 //                     << "z: " << target.z << "\n"
                 //                     << "yaw: " << send_pack.yaw << "\t"
                 //                     << "pitch: " << send_pack.pitch << endl;
-#endif
+#endif // ARMOR_ONLY
 //#ifdef RUNE_ONLY
 //                cout << "yaw: " << send_pack.yaw << "\t"
 //                     << "pitch: " << send_pack.pitch << endl;
@@ -290,17 +282,17 @@ void Workspace::imageProcessingFunc() {
                 imshow("current_frame", src);
 #ifdef USE_CAMERA
                 if (waitKey(1) == 27) exit(0);
-#endif
+#endif // USE_CAMERA
 #if TEST == 1
                 if (waitKey(0) == 27)     exit(0);
 #elif TEST == 2
                 if (waitKey(30) == 27) break;
-#endif
+#endif // TEST
 #endif  // SHOW_IMAGE
 #ifdef RUNNING_TIME
                 cout << "total time: " << total_timer.getTime() << "ms" << endl;
                 total_timer.stop();
-#endif
+#endif // RUNNING_TIME
             } else {
                 continue;
             }
@@ -354,22 +346,21 @@ void Workspace::messageCommunicatingFunc() {
             // }
         }
     }
-#endif
+#endif // USE_SERIAL
 #ifdef USE_CAN
 #ifdef ARMOR_ONLY
     while (true) {
         can_node.receive(read_pack);
     }
-#endif
+#endif // ARMOR_ONLY
 #ifdef RUNE_ONLY
     while (true) {
         can_node.receive(read_pack);
-        if(read_pack.yaw > 180)
+        if (read_pack.yaw > 180)
             read_pack.yaw = read_pack.yaw - 360;
     }
-#endif
-#endif
-
+#endif // RUNE_ONLY
+#endif //USE_CAN
 }
 
 void Workspace::openSerialPort() {

@@ -19,27 +19,41 @@ void Predict::init() {
 
 }
 
+// 调用接口
 void Predict::run(double &x, double &y, double &z, double v, double &send_pitch, double &send_yaw, double readpitch,
                   double readyaw, double read_pitch, double read_yaw) {
-    anglesolver.run(x, y, z, v, send_pitch, send_yaw, readpitch);
-    sum_pitch = send_pitch + readpitch;
-    sum_yaw = send_yaw + readyaw;
-    time_for_excercise = anglesolver.get_flight_time(x, y, z, v, readpitch);
-    cout << "time_for_excercise: " << time_for_excercise * 1000 << endl;
+    anglesolver.run(x, y, z, v, send_pitch, send_yaw, readpitch); // 求解打击角度
+//    if(send_pitch == 0 && send_yaw == 0){
+//        cout << "没有目标" << endl;
+//        return;
+//    }
+    sum_pitch = send_pitch + readpitch; // 求得其绝对pitch
+    sum_yaw = send_yaw + readyaw; // 求得其绝对yaw
+    time_for_excercise = anglesolver.get_flight_time(x, y, z, v, readpitch); // 获取子弹飞行速度
+//    cout << "time_for_excercise: " << time_for_excercise * 1000 << endl;
+
+    // 将云台绝对角度映射到笛卡尔坐标系
     object_motion.x = static_cast<float>(sum_pitch);
     object_motion.y = static_cast<float>(sum_yaw);
 //    object_motion.x += 250;
 //    object_motion.y += 250;
+    // 更新云台角度队列
     update();
+    // 预测
     motion_prediction();
+    // 获得预测后的pitch和yaw
     send_pitch = predict_object_motion.x - read_pitch;
     send_yaw = predict_object_motion.y - read_yaw;
 
 #ifdef SHOW_IMAGE
+//    ap.emplace_back(object_motion);
     Mat src(500, 500, CV_8UC3, Scalar(0, 0, 0));
     for(int i = 0; i < object.size(); i++){
         circle(src, object[i], 2, Scalar(255, 0, 0), -1);
     }
+//    for(int i = 0; i < ap.size(); i++){
+//        circle(src, ap[i], 1, Scalar(255, 0, 0), -1);
+//    }
 //    circle(src, object_motion, 2, Scalar(255, 0, 0), -1);
     circle(src, predict_object_motion, 2, Scalar(0, 255, 0), -1);
     Point2f b;
@@ -67,43 +81,46 @@ void Predict::run(double &x, double &y, double &z, double v, double &send_pitch,
 }
 
 void Predict::update() {
+    // 队列长度为5
     if (object.size() >= 5) {
         object.erase(object.begin());
     }
+    if(flight_time.size() >= 5){
+        flight_time.erase(flight_time.begin());
+    }
     object.emplace_back(object_motion);
+    flight_time.emplace_back(time_for_excercise);
 }
 
 void Predict::motion_prediction() {
     if (judgement()) {
         float multiplication;
-        Point2f mulvector;
+        Point2f mulvector; // 云台实际运动方向向量
         Point2f prepoint;
         float predistance;
         float cosalpha, sinalpha;
         fitLine(object, predict_line, DIST_FAIR, 0, 0.01, 0.01);
+        // 获得预测直线上的坐标点和方向向量
         piline.x = predict_line[2];
         piline.y = predict_line[3];
         vect.x = predict_line[0];
         vect.y = predict_line[1];
         for (int i = (int) (d_object.size() - 1); i >= 0; i--) {
-            if (fabs(d_object[i].x) <= 0.001 || fabs(d_object[i].y) <= 0.001) {
+            // 寻找云台角度队列中最后停止运动的点
+            if (fabs(d_object[i].x) <= 0.01 || fabs(d_object[i].y) <= 0.01) {
                 continue;
             } else {
                 mulvector = d_object[i];
+                prepoint = object[i+1];
             }
         }
+        // 判断预测的方向与云台实际运动方向是否相同
         multiplication = mulvector.x * vect.x + mulvector.y * vect.y;
 //        cout << "multiplication: " << multiplication << endl;
         if (multiplication < 0) {
             vect = -vect;
         }
-        for (int j = (int) object.size(); j >= 0; j--) {
-            if (object[j] == Point2f(0.0, 0.0)) {
-                continue;
-            } else {
-                prepoint = object[j];
-            }
-        }
+        // 获取运动向量大小，其决定预测超前量
         predistance = static_cast<float>(sqrt(mulvector.x * mulvector.x + mulvector.y * mulvector.y) / 0.012 *
                                                time_for_excercise);
 //        predict_object_motion = prepoint + vect * 5;
@@ -118,9 +135,10 @@ void Predict::motion_prediction() {
     }
 }
 
-
+// 判断队列中数据是否达到预测标准
 bool Predict::judgement() {
     int count = 0;
+    int fcount = 0;
     Point2f d_point;
     d_object.clear();
     for (int i = 1; i < object.size(); i++) {
@@ -128,11 +146,19 @@ bool Predict::judgement() {
         d_object.emplace_back(d_point);
     }
     for (int i = 0; i < d_object.size(); i++) {
+        // 如果两次云台差距过小，就记一次数
         if (fabs(d_object[i].x) < 0.08 && fabs(d_object[i].y) < 0.08) {
             count++;
         }
     }
-    if (count >= 2) {
+    // 检测掉帧次数
+    for(int j=0; j<flight_time.size(); j++) {
+        if(flight_time[j] <= 0.001){
+            fcount++;
+        }
+    }
+    // 云台没有运动无法预测
+    if (count >= 2 || fcount >=3) {
         return false;
     }
     return true;

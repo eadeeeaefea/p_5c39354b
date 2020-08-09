@@ -85,16 +85,17 @@ void RuneSolver::predict(double target_x, double target_y, double target_z, doub
 
     anglesolver.run(target_x, target_y, target_z, v, send_pitch, send_yaw, readpitch);
 
+    // 获取子弹飞行时间，作为主要延迟
     flight_time = anglesolver.get_flight_time(target_x, target_y, target_z, v, readpitch);
 //    cout << "flight time: " << flight_time * 1000 << endl;
 
-
+    // 无提前击打点的pitch和yaw坐标
     hit_angle.x = static_cast<float>(readpitch + send_pitch);
     hit_angle.y = static_cast<float>(send_yaw + readyaw);
 
-    hit_angle.x += 250;
-    hit_angle.y += 250;
-
+//    hit_angle.x += 250;
+//    hit_angle.y += 250;
+    // 更新angle_set队列
     updateQueue();
     if (direction == DIR_DEFAULT) {
         if (!solveDirection())
@@ -127,7 +128,7 @@ void RuneSolver::predict(double target_x, double target_y, double target_z, doub
     float dpitch, dyaw;
 
     float angle_offset = 0;
-    angle_offset = static_cast<float>(angular_velocity * flight_time);
+    angle_offset = static_cast<float>(angular_velocity * flight_time); // 参数调节660行
     switch (direction) {
         case DIR_DEFAULT:
             return;
@@ -332,6 +333,7 @@ bool RuneSolver::findRuneSolver() {
 **/
 
     isFindRuneSolver = false;
+    // 获取最小外接矩形
     Rect roi = get_roi(target_arrow);
     double area;
     RotatedRect temp_rect;
@@ -353,14 +355,16 @@ bool RuneSolver::findRuneSolver() {
 //    erodeFilter->apply(temp_bin_, temp_bin_);
 //    temp_bin_.download(temp_bin);
 //#endif
+#ifdef SHOW_IMAGE
     imshow("arrow_roi", temp_bin);
+#endif
     vector<vector<Point>> contours;
     vector<Point> target_contour;       //目标轮廓
     findContours(temp_bin, contours, RETR_CCOMP, CHAIN_APPROX_NONE, roi.tl());
     for(size_t i = 0; i < contours.size(); i++){
         area = contourArea(contours[i]);
 //        cout<<"能量板面积:  "<<area<<'\n';
-        //根据面积筛选
+        //根据面积筛选，参数需要调整，并非自动化参数
         if (area < MIN_RuneSolver_AREA || area > MAX_RuneSolver_AREA)
             continue;
         target_contour = contours[i];
@@ -374,6 +378,7 @@ bool RuneSolver::findRuneSolver() {
         height = min(temp_rect.size.width, temp_rect.size.height);
         ratio = width / height;
 //        cout<<"能量板比例："<<ratio<<'\n';
+        // 根据宽高比筛选，参数需要调整，并非自动化参数
         if (ratio < MIN_RuneSolver_RATIO || ratio > MAX_RuneSolver_RATIO)
             continue;
         //统一样式
@@ -423,22 +428,25 @@ bool RuneSolver::findArrow() {
     //筛选目标的箭头区域
     for (size_t i = 0; i < contours.size(); ++i) {
 //        drawContours(src, contours, i, Scalar(200, 100, 0), 1);
-        area = contourArea(contours[i]);
+        area = contourArea(contours[i]); // 计算箭头面积
 //        cout << "箭头面积: " << area << '\n';
-        //根据面积筛选
+        //根据面积筛选，其中这两个参数有待调整，并非自动化参数
         if (area < MIN_ARROW_AREA || area > MAX_ARROW_AREA)
             continue;
 
         target_contour = contours[i];
 //        drawContours(src, contours, i, Scalar(200, 100, 0), 1);
+        // 获取轮廓矩形
         temp_rect = fitEllipse(target_contour);
 
         float width, height;
+        // 计算宽高比
         width = max(temp_rect.size.width, temp_rect.size.height);
         height = min(temp_rect.size.width, temp_rect.size.height);
         ratio = width / height;
 
 //        cout << "箭头比例：" << ratio << '\n';
+        // 根据宽高比进行筛选，参数有待调整，并非自动化参数
         if (ratio < MIN_ARROW_RATIO || ratio > MAX_ARROW_RATIO)
             continue;
 
@@ -447,6 +455,7 @@ bool RuneSolver::findArrow() {
             temp_rect.size = Size2f(height, width);
             temp_rect.angle += 90;
         }
+        // 此时的轮廓已经时需要找到的轮廓
         target_arrow = temp_rect;
 //        target_arrow.center = total;
         isFindArrow = true;
@@ -458,12 +467,14 @@ bool RuneSolver::findArrow() {
 
 bool RuneSolver::match() {
     vector<Point2f> intersection;
+    // 判断识别的两个矩形框是否为包含关系
     if (rotatedRectangleIntersection(target_arrow, target_RuneSolver, intersection) > 0)
         return true;
     else
         return false;
 }
 
+// Pnp算法求解目标三维坐标
 void RuneSolver::solveRealPostiton(const cv::RotatedRect aim) {
     int i, j;
     RotatedRect rect = aim;
@@ -506,6 +517,7 @@ void RuneSolver::solveRealPostiton(const cv::RotatedRect aim) {
 //    cout << rotated_vector << "\n" << translation_matrix << "\n";
 }
 
+// 更新队列
 void RuneSolver::updateQueue() {
     if (angle_set.size() >= QUEUE_SIZE) {
         angle_set.erase(angle_set.begin());
@@ -513,6 +525,7 @@ void RuneSolver::updateQueue() {
     angle_set.emplace_back(hit_angle);
 }
 
+// 通过椭圆拟合
 bool RuneSolver::findCenter() {
     if (angle_set.size() < QUEUE_SIZE) {
         return false;
@@ -533,9 +546,8 @@ bool RuneSolver::calculate_ellipse() {
     ellipse_angle = fit_rect.angle;
     ellipse_Xaxis = fit_rect.size.width / 2.0;
     ellipse_Yaxis = fit_rect.size.height / 2.0;
-
+    // 拟合矩形
     rect = fit_rect;
-
 //    Point2f vertices[4];
 //    vector<Point2f> temp_points;
 //    Point2f temp_point;
@@ -557,19 +569,21 @@ bool RuneSolver::calculate_ellipse() {
         return true;
 }
 
-//返回极坐标下的角度,角度制
+//返回极坐标下的角度,角度制，返回的角度值与数学中的定义一致
 float RuneSolver::toPolarCoordinates(Point2f temp_point, Point2f origin_point) {
     float angle, rad;
     //x轴从左向右，y轴从下到上
     Point2f new_point = Point2f(temp_point.x - origin_point.x, temp_point.y - origin_point.y);
     rad = getDistance(temp_point, origin_point);
     if (new_point.y >= 0)
+
         angle = static_cast<float>(acos(new_point.x / rad) * 180 / PI);
     else
         angle = static_cast<float>(360 - acos(new_point.x / rad) * 180 / PI);
     return angle;
 }
 
+// 求解风车转动方向
 bool RuneSolver::solveDirection() {
     int i;
     if (angle_set.size() < QUEUE_SIZE)
@@ -589,6 +603,7 @@ bool RuneSolver::solveDirection() {
         return true;
 }
 
+// 判断云台旋转方向
 void RuneSolver::judgeDirection() {
     double total = 0;
     int num = 0;
@@ -619,6 +634,7 @@ void RuneSolver::judgeDirection() {
 //    }
 }
 
+// 求解转动角速度
 void RuneSolver::getangularvelocity() {
     if (angle_set.size() < QUEUE_SIZE)
         return;
@@ -658,6 +674,7 @@ void RuneSolver::getangularvelocity() {
     }
 }
 
+// 获取旋转矩形的会小包围矩形
 Rect RuneSolver::get_roi(RotatedRect rect) {
     Point2f pt[4];
     vector<Point2f> point;
@@ -671,11 +688,11 @@ Rect RuneSolver::get_roi(RotatedRect rect) {
     return roi;
 }
 
+// 在图像上绘画旋转矩形
 void RuneSolver::draw(Mat &src, RotatedRect aim) {
     Point2f pt[4];
     aim.points(pt);
-    for (int i = 1; i < 4; i++) {
-        line(src, pt[i], pt[i - 1], Scalar(0, 255, 0), 1);
+    for (int i = 0; i < 3; i++) {
+        line(src, pt[i], pt[(i + 1) % 4], Scalar(0, 255, 0), 1);
     }
-    line(src, pt[3], pt[0], Scalar(0, 255, 0), 1);
 }
