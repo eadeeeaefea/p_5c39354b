@@ -118,17 +118,22 @@ public:
 
     ~RuneSolver();
 
+    // 读入相机参数
     void init(const FileStorage &file_storage);
 
+    // 获取能量机关目标中心三维点
     bool run(const Mat &image, const int enemy_color, double &target_x, double &target_y, double &target_z,
              double read_pitch, double read_yaw);
 
+    // 对获取的三维点队列进行预测，需要与run()函数配合使用
     void predict(double target_x, double target_y, double target_z, double v, double &send_pitch, double &send_yaw,
                  double read_pitch, double read_yaw);
 
 private:
+    // 获取图像中两点的距离
     float getDistance(Point2f p1, Point2f p2);
 
+    // 预处理图像
     void preprocess(const int enemy_color);
 
     bool findRuneSolver();
@@ -151,12 +156,13 @@ private:
 
     void judgeDirection();
 
-    void getangularvelocity();
+    void getangularvelocity(); // 获取风车转动角速度
 
     Rect get_roi(RotatedRect rect);
 
     //以下为一些帮助调试的函数
 
+    // 绘画矩形框，颜色为绿色
     void draw(Mat &src, RotatedRect aim);
 };
 
