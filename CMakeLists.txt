@@ -29,12 +29,13 @@ add_executable(HERORM2020
         src/runesolver.cpp
         include/workspace.h
         src/workspace.cpp
-#        src/predictor.cpp
-#        include/predictor.h
+        src/predict.cpp
+        include/predict.h
         src/cannode.cpp
         include/cannode.h
-        include/universal_prediction.h
-        src/universal_prediction.cpp
+        src/generalfunction.cpp
+        include/generalfunction.h
+
         )
 
 target_link_libraries(HERORM2020
